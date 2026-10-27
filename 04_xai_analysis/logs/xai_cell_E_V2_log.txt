@@ -1,0 +1,932 @@
+输出目录: 0924/xai_cell_E_V2/
+设备: cuda
+任务: Label randomization sanity check（独立流程）
+依赖: 原始数据 + 固定checkpoint；不读取A/B/C/D结果文件
+范围: 5个数据集 × 3种RNN = 15个模型
+原则: 架构匹配原checkpoint；train/val标签分别随机置换；真实test标签保持不变
+IG比较: 同一样本、同一training-mean baseline、同一原模型固定target
+注意: 本Cell采用统一sanity重训练协议，不宣称复制原训练optimizer超参数
+--------------------
+数据集: Medical-1
+步骤1：数据准备与审计
+Medical-1: 数据目录=XAI_cn/datasets/processed/dataset1_A_grade
+Medical-1: train=(38820, 60, 13), val=(7168, 60, 13), test=(6583, 60, 13)
+字段数: 13
+字段: dayofyear, day, volume_ratio, close_to_ma5, vol, low, close_open_range, macd_signal, close_to_ma20, roc_20, high_low_range, turnover_rate, amount
+训练样本: 38820, 验证样本: 7168, 测试样本: 6583
+训练缺失值: 0, 验证缺失值: 0, 测试缺失值: 0
+训练标签分布: {0: 12857, 1: 13106, 2: 12857}
+验证标签分布: {0: 2361, 1: 2866, 2: 1941}
+测试标签分布: {0: 1878, 1: 2546, 2: 2159}
+数据审计: 通过
+--------------------
+Medical-1 / GRU
+步骤2：读取原模型并复核架构
+Medical-1-GRU: XAI_cn/models_XAI/rnn_enhanced_dataset2/gru_dataset1_SELECTED_13_seed42.pt | input=13, hidden=64, layers=2
+架构: input=13, hidden=64, layers=2, direction=unidirectional
+原模型复核: Macro-F1=0.413231, Accuracy=0.423211
+原模型审计: 通过
+步骤3：构造随机标签
+训练标签原分布: {0: 12857, 1: 13106, 2: 12857}
+训练标签随机化后分布: {0: 12857, 1: 13106, 2: 12857}
+验证标签原分布: {0: 2361, 1: 2866, 2: 1941}
+验证标签随机化后分布: {0: 2361, 1: 2866, 2: 1941}
+训练标签位置改变比例: 0.667233
+验证标签位置改变比例: 0.650949
+步骤4：随机标签模型重训练
+训练协议: batch=256, lr=0.001, weight_decay=1e-05, max_epochs=20, patience=5
+Epoch 01: train_loss=1.099525, perm_val_loss=1.094605, perm_val_acc=0.399693
+Epoch 02: train_loss=1.099008, perm_val_loss=1.095809, perm_val_acc=0.385742
+Epoch 03: train_loss=1.098881, perm_val_loss=1.094613, perm_val_acc=0.383231
+Epoch 04: train_loss=1.098737, perm_val_loss=1.098976, perm_val_acc=0.289342
+Epoch 05: train_loss=1.098710, perm_val_loss=1.097930, perm_val_acc=0.378209
+Epoch 06: train_loss=1.098621, perm_val_loss=1.099870, perm_val_acc=0.278041
+早停: 连续5轮无改善
+实际训练轮数: 6
+最佳随机验证loss: 1.094605
+步骤5：真实测试集预测能力检查
+原模型: Macro-F1=0.413231, Accuracy=0.423211, TrueProb=0.354251
+随机标签模型: Macro-F1=0.186738, Accuracy=0.387058, TrueProb=0.334109
+变化: ΔF1=-0.226493, ΔAcc=-0.036154
+步骤6：原模型 vs 随机标签模型 IG
+固定IG样本数: 200
+IG steps: 32
+固定target分布: {0: 56, 1: 84, 2: 60}
+归因相关: Mapρ=0.527749 (p=3.81887e-57), Featureρ=0.203297 (p=0.505315), Temporalρ=0.043846 (p=0.739405)
+原模型IG Top5:
+1. high_low_range | 0.00469708
+2. dayofyear | 0.00429304
+3. day | 0.00263099
+4. volume_ratio | 0.00177249
+5. turnover_rate | 0.00096168
+随机标签模型IG Top5:
+1. dayofyear | 0.00010328
+2. day | 0.00002322
+3. vol | 0.00000455
+4. amount | 0.00000352
+5. turnover_rate | 0.00000230
+当前模型最终结果:
+  Dataset Model  RandomLabel_MacroF1  RandomLabel_Accuracy  Map_Spearman  Feature_Spearman  Temporal_Spearman
+Medical-1   GRU             0.186738              0.387058      0.527749          0.203297           0.043846
+Label randomization: 完成
+--------------------
+Medical-1 / BiLSTM
+步骤2：读取原模型并复核架构
+Medical-1-BiLSTM: XAI_cn/models_XAI/rnn_enhanced_dataset2/bilstm_dataset1_SELECTED_13_seed42.pt | input=13, hidden=64, layers=2
+架构: input=13, hidden=64, layers=2, direction=bidirectional
+原模型复核: Macro-F1=0.403506, Accuracy=0.407261
+原模型审计: 通过
+步骤3：构造随机标签
+训练标签原分布: {0: 12857, 1: 13106, 2: 12857}
+训练标签随机化后分布: {0: 12857, 1: 13106, 2: 12857}
+验证标签原分布: {0: 2361, 1: 2866, 2: 1941}
+验证标签随机化后分布: {0: 2361, 1: 2866, 2: 1941}
+训练标签位置改变比例: 0.667233
+验证标签位置改变比例: 0.650949
+步骤4：随机标签模型重训练
+训练协议: batch=256, lr=0.001, weight_decay=1e-05, max_epochs=20, patience=5
+Epoch 01: train_loss=1.098911, perm_val_loss=1.096883, perm_val_acc=0.399833
+Epoch 02: train_loss=1.098707, perm_val_loss=1.096630, perm_val_acc=0.399833
+Epoch 03: train_loss=1.098633, perm_val_loss=1.097505, perm_val_acc=0.389230
+Epoch 04: train_loss=1.098646, perm_val_loss=1.097589, perm_val_acc=0.399833
+Epoch 05: train_loss=1.098607, perm_val_loss=1.097770, perm_val_acc=0.397461
+Epoch 06: train_loss=1.098649, perm_val_loss=1.098753, perm_val_acc=0.282506
+Epoch 07: train_loss=1.098629, perm_val_loss=1.097888, perm_val_acc=0.399972
+早停: 连续5轮无改善
+实际训练轮数: 7
+最佳随机验证loss: 1.096630
+步骤5：真实测试集预测能力检查
+原模型: Macro-F1=0.403506, Accuracy=0.407261, TrueProb=0.352342
+随机标签模型: Macro-F1=0.187770, Accuracy=0.387209, TrueProb=0.333518
+变化: ΔF1=-0.215736, ΔAcc=-0.020052
+步骤6：原模型 vs 随机标签模型 IG
+固定IG样本数: 200
+IG steps: 32
+固定target分布: {0: 59, 1: 70, 2: 71}
+归因相关: Mapρ=0.559831 (p=1.52078e-65), Featureρ=0.824176 (p=0.000530223), Temporalρ=0.095527 (p=0.467813)
+原模型IG Top5:
+1. dayofyear | 0.00487185
+2. high_low_range | 0.00375085
+3. day | 0.00220175
+4. close_open_range | 0.00117367
+5. turnover_rate | 0.00100180
+随机标签模型IG Top5:
+1. dayofyear | 0.00002794
+2. day | 0.00000446
+3. vol | 0.00000175
+4. amount | 0.00000115
+5. turnover_rate | 0.00000058
+当前模型最终结果:
+  Dataset  Model  RandomLabel_MacroF1  RandomLabel_Accuracy  Map_Spearman  Feature_Spearman  Temporal_Spearman
+Medical-1 BiLSTM              0.18777              0.387209      0.559831          0.824176           0.095527
+Label randomization: 完成
+--------------------
+Medical-1 / LSTM
+步骤2：读取原模型并复核架构
+Medical-1-LSTM: XAI_cn/models_XAI/lstm_enhanced/lstm_dataset1_SELECTED_13_seed42.pt | input=13, hidden=64, layers=2
+架构: input=13, hidden=64, layers=2, direction=unidirectional
+原模型复核: Macro-F1=0.412939, Accuracy=0.427617
+原模型审计: 通过
+步骤3：构造随机标签
+训练标签原分布: {0: 12857, 1: 13106, 2: 12857}
+训练标签随机化后分布: {0: 12857, 1: 13106, 2: 12857}
+验证标签原分布: {0: 2361, 1: 2866, 2: 1941}
+验证标签随机化后分布: {0: 2361, 1: 2866, 2: 1941}
+训练标签位置改变比例: 0.667233
+验证标签位置改变比例: 0.650949
+步骤4：随机标签模型重训练
+训练协议: batch=256, lr=0.001, weight_decay=1e-05, max_epochs=20, patience=5
+Epoch 01: train_loss=1.098965, perm_val_loss=1.098123, perm_val_acc=0.329381
+Epoch 02: train_loss=1.098607, perm_val_loss=1.098854, perm_val_acc=0.322126
+Epoch 03: train_loss=1.098792, perm_val_loss=1.099520, perm_val_acc=0.278878
+Epoch 04: train_loss=1.098846, perm_val_loss=1.097600, perm_val_acc=0.378627
+Epoch 05: train_loss=1.098717, perm_val_loss=1.099600, perm_val_acc=0.329381
+Epoch 06: train_loss=1.098686, perm_val_loss=1.098889, perm_val_acc=0.329520
+Epoch 07: train_loss=1.098746, perm_val_loss=1.098536, perm_val_acc=0.353934
+Epoch 08: train_loss=1.098558, perm_val_loss=1.099279, perm_val_acc=0.282087
+Epoch 09: train_loss=1.098550, perm_val_loss=1.099796, perm_val_acc=0.277623
+早停: 连续5轮无改善
+实际训练轮数: 9
+最佳随机验证loss: 1.097600
+步骤5：真实测试集预测能力检查
+原模型: Macro-F1=0.412939, Accuracy=0.427617, TrueProb=0.357167
+随机标签模型: Macro-F1=0.248008, Accuracy=0.353334, TrueProb=0.333532
+变化: ΔF1=-0.164931, ΔAcc=-0.074282
+步骤6：原模型 vs 随机标签模型 IG
+固定IG样本数: 200
+IG steps: 32
+固定target分布: {0: 52, 1: 84, 2: 64}
+归因相关: Mapρ=0.561298 (p=5.96882e-66), Featureρ=0.489011 (p=0.0899131), Temporalρ=0.412837 (p=0.0010451)
+原模型IG Top5:
+1. high_low_range | 0.00359731
+2. dayofyear | 0.00321016
+3. day | 0.00138191
+4. volume_ratio | 0.00133194
+5. vol | 0.00080509
+随机标签模型IG Top5:
+1. dayofyear | 0.00006608
+2. day | 0.00001726
+3. vol | 0.00000197
+4. turnover_rate | 0.00000162
+5. amount | 0.00000151
+当前模型最终结果:
+  Dataset Model  RandomLabel_MacroF1  RandomLabel_Accuracy  Map_Spearman  Feature_Spearman  Temporal_Spearman
+Medical-1  LSTM             0.248008              0.353334      0.561298          0.489011           0.412837
+Label randomization: 完成
+--------------------
+数据集: Medical-2
+步骤1：数据准备与审计
+Medical-2: 数据目录=XAI_cn/datasets/processed/dataset2_AB_grade
+Medical-2: train=(138900, 60, 14), val=(23608, 60, 14), test=(21647, 60, 14)
+字段数: 14
+字段: high_low_range, turnover_rate, amount, bb_width, roc_10, roc_5, close_to_ma20, close_to_ma5, close_open_range, atr, volume_ratio, roc_20, dayofyear_cos, year
+训练样本: 138900, 验证样本: 23608, 测试样本: 21647
+训练缺失值: 0, 验证缺失值: 0, 测试缺失值: 0
+训练标签分布: {0: 46001, 1: 47018, 2: 45881}
+验证标签分布: {0: 7932, 1: 9261, 2: 6415}
+测试标签分布: {0: 6202, 1: 8722, 2: 6723}
+数据审计: 通过
+--------------------
+Medical-2 / GRU
+步骤2：读取原模型并复核架构
+Medical-2-GRU: XAI_cn/models_XAI/rnn_enhanced_dataset2/gru_dataset2_SELECTED_14_seed42.pt | input=14, hidden=256, layers=2
+架构: input=14, hidden=256, layers=2, direction=unidirectional
+原模型复核: Macro-F1=0.412268, Accuracy=0.429667
+原模型审计: 通过
+步骤3：构造随机标签
+训练标签原分布: {0: 46001, 1: 47018, 2: 45881}
+训练标签随机化后分布: {0: 46001, 1: 47018, 2: 45881}
+验证标签原分布: {0: 7932, 1: 9261, 2: 6415}
+验证标签随机化后分布: {0: 7932, 1: 9261, 2: 6415}
+训练标签位置改变比例: 0.664284
+验证标签位置改变比例: 0.654990
+步骤4：随机标签模型重训练
+训练协议: batch=256, lr=0.001, weight_decay=1e-05, max_epochs=20, patience=5
+Epoch 01: train_loss=1.099537, perm_val_loss=1.100391, perm_val_acc=0.271730
+Epoch 02: train_loss=1.098809, perm_val_loss=1.096053, perm_val_acc=0.392282
+Epoch 03: train_loss=1.098691, perm_val_loss=1.096626, perm_val_acc=0.392282
+Epoch 04: train_loss=1.098611, perm_val_loss=1.097162, perm_val_acc=0.392282
+Epoch 05: train_loss=1.098577, perm_val_loss=1.096529, perm_val_acc=0.392282
+Epoch 06: train_loss=1.098643, perm_val_loss=1.097046, perm_val_acc=0.392282
+Epoch 07: train_loss=1.098586, perm_val_loss=1.097601, perm_val_acc=0.392282
+早停: 连续5轮无改善
+实际训练轮数: 7
+最佳随机验证loss: 1.096053
+步骤5：真实测试集预测能力检查
+原模型: Macro-F1=0.412268, Accuracy=0.429667, TrueProb=0.356366
+随机标签模型: Macro-F1=0.191467, Accuracy=0.402920, TrueProb=0.334583
+变化: ΔF1=-0.220801, ΔAcc=-0.026747
+步骤6：原模型 vs 随机标签模型 IG
+固定IG样本数: 200
+IG steps: 32
+固定target分布: {0: 67, 1: 86, 2: 47}
+归因相关: Mapρ=-0.622579 (p=2.58024e-91), Featureρ=-0.665934 (p=0.009323), Temporalρ=-0.064407 (p=0.624908)
+原模型IG Top5:
+1. high_low_range | 0.00763749
+2. close_open_range | 0.00469748
+3. close_to_ma5 | 0.00237770
+4. roc_5 | 0.00188706
+5. volume_ratio | 0.00176743
+随机标签模型IG Top5:
+1. year | 0.00000000
+2. atr | 0.00000000
+3. amount | 0.00000000
+4. turnover_rate | 0.00000000
+5. close_to_ma20 | 0.00000000
+当前模型最终结果:
+  Dataset Model  RandomLabel_MacroF1  RandomLabel_Accuracy  Map_Spearman  Feature_Spearman  Temporal_Spearman
+Medical-2   GRU             0.191467               0.40292     -0.622579         -0.665934          -0.064407
+Label randomization: 完成
+--------------------
+Medical-2 / BiLSTM
+步骤2：读取原模型并复核架构
+Medical-2-BiLSTM: XAI_cn/models_XAI/rnn_enhanced_dataset2/bilstm_dataset2_SELECTED_14_seed42.pt | input=14, hidden=128, layers=2
+架构: input=14, hidden=128, layers=2, direction=bidirectional
+原模型复核: Macro-F1=0.419882, Accuracy=0.437474
+原模型审计: 通过
+步骤3：构造随机标签
+训练标签原分布: {0: 46001, 1: 47018, 2: 45881}
+训练标签随机化后分布: {0: 46001, 1: 47018, 2: 45881}
+验证标签原分布: {0: 7932, 1: 9261, 2: 6415}
+验证标签随机化后分布: {0: 7932, 1: 9261, 2: 6415}
+训练标签位置改变比例: 0.664284
+验证标签位置改变比例: 0.654990
+步骤4：随机标签模型重训练
+训练协议: batch=256, lr=0.001, weight_decay=1e-05, max_epochs=20, patience=5
+Epoch 01: train_loss=1.098801, perm_val_loss=1.098277, perm_val_acc=0.392282
+Epoch 02: train_loss=1.098661, perm_val_loss=1.098555, perm_val_acc=0.392282
+Epoch 03: train_loss=1.098621, perm_val_loss=1.097088, perm_val_acc=0.392282
+Epoch 04: train_loss=1.098618, perm_val_loss=1.096463, perm_val_acc=0.392282
+Epoch 05: train_loss=1.098605, perm_val_loss=1.097255, perm_val_acc=0.392282
+Epoch 06: train_loss=1.098604, perm_val_loss=1.096041, perm_val_acc=0.392282
+Epoch 07: train_loss=1.098587, perm_val_loss=1.097421, perm_val_acc=0.392282
+Epoch 08: train_loss=1.098599, perm_val_loss=1.096735, perm_val_acc=0.392282
+Epoch 09: train_loss=1.098604, perm_val_loss=1.096584, perm_val_acc=0.392282
+Epoch 10: train_loss=1.098610, perm_val_loss=1.097271, perm_val_acc=0.392282
+Epoch 11: train_loss=1.098590, perm_val_loss=1.097507, perm_val_acc=0.392282
+早停: 连续5轮无改善
+实际训练轮数: 11
+最佳随机验证loss: 1.096041
+步骤5：真实测试集预测能力检查
+原模型: Macro-F1=0.419882, Accuracy=0.437474, TrueProb=0.354315
+随机标签模型: Macro-F1=0.191467, Accuracy=0.402920, TrueProb=0.334247
+变化: ΔF1=-0.228415, ΔAcc=-0.034554
+步骤6：原模型 vs 随机标签模型 IG
+固定IG样本数: 200
+IG steps: 32
+固定target分布: {0: 55, 1: 86, 2: 59}
+归因相关: Mapρ=0.018242 (p=0.59753), Featureρ=-0.635165 (p=0.0146579), Temporalρ=0.696860 (p=6.24056e-10)
+原模型IG Top5:
+1. high_low_range | 0.00304563
+2. bb_width | 0.00128309
+3. turnover_rate | 0.00087653
+4. volume_ratio | 0.00081580
+5. close_open_range | 0.00034178
+随机标签模型IG Top5:
+1. year | 0.00000000
+2. amount | 0.00000000
+3. atr | 0.00000000
+4. roc_5 | 0.00000000
+5. roc_10 | 0.00000000
+当前模型最终结果:
+  Dataset  Model  RandomLabel_MacroF1  RandomLabel_Accuracy  Map_Spearman  Feature_Spearman  Temporal_Spearman
+Medical-2 BiLSTM             0.191467               0.40292      0.018242         -0.635165            0.69686
+Label randomization: 完成
+--------------------
+Medical-2 / LSTM
+步骤2：读取原模型并复核架构
+Medical-2-LSTM: XAI_cn/models_XAI/lstm_enhanced/lstm_dataset2_SELECTED_14_seed42.pt | input=14, hidden=128, layers=2
+架构: input=14, hidden=128, layers=2, direction=unidirectional
+原模型复核: Macro-F1=0.412224, Accuracy=0.427265
+原模型审计: 通过
+步骤3：构造随机标签
+训练标签原分布: {0: 46001, 1: 47018, 2: 45881}
+训练标签随机化后分布: {0: 46001, 1: 47018, 2: 45881}
+验证标签原分布: {0: 7932, 1: 9261, 2: 6415}
+验证标签随机化后分布: {0: 7932, 1: 9261, 2: 6415}
+训练标签位置改变比例: 0.664284
+验证标签位置改变比例: 0.654990
+步骤4：随机标签模型重训练
+训练协议: batch=256, lr=0.001, weight_decay=1e-05, max_epochs=20, patience=5
+Epoch 01: train_loss=1.098816, perm_val_loss=1.098160, perm_val_acc=0.335988
+Epoch 02: train_loss=1.098675, perm_val_loss=1.098149, perm_val_acc=0.335988
+Epoch 03: train_loss=1.098700, perm_val_loss=1.099014, perm_val_acc=0.271730
+Epoch 04: train_loss=1.098623, perm_val_loss=1.098598, perm_val_acc=0.392282
+Epoch 05: train_loss=1.098640, perm_val_loss=1.097245, perm_val_acc=0.392282
+Epoch 06: train_loss=1.098632, perm_val_loss=1.095698, perm_val_acc=0.392282
+Epoch 07: train_loss=1.098616, perm_val_loss=1.096208, perm_val_acc=0.392282
+Epoch 08: train_loss=1.098620, perm_val_loss=1.095655, perm_val_acc=0.392282
+Epoch 09: train_loss=1.098612, perm_val_loss=1.097452, perm_val_acc=0.392282
+Epoch 10: train_loss=1.098615, perm_val_loss=1.098124, perm_val_acc=0.392282
+Epoch 11: train_loss=1.098605, perm_val_loss=1.097889, perm_val_acc=0.392282
+Epoch 12: train_loss=1.098611, perm_val_loss=1.096805, perm_val_acc=0.392282
+Epoch 13: train_loss=1.098596, perm_val_loss=1.097139, perm_val_acc=0.392282
+早停: 连续5轮无改善
+实际训练轮数: 13
+最佳随机验证loss: 1.095655
+步骤5：真实测试集预测能力检查
+原模型: Macro-F1=0.412224, Accuracy=0.427265, TrueProb=0.356074
+随机标签模型: Macro-F1=0.191467, Accuracy=0.402920, TrueProb=0.334197
+变化: ΔF1=-0.220756, ΔAcc=-0.024345
+步骤6：原模型 vs 随机标签模型 IG
+固定IG样本数: 200
+IG steps: 32
+固定target分布: {0: 47, 1: 87, 2: 66}
+归因相关: Mapρ=0.277382 (p=2.64435e-16), Featureρ=-0.200000 (p=0.493004), Temporalρ=0.962490 (p=1.50039e-34)
+原模型IG Top5:
+1. high_low_range | 0.00415843
+2. bb_width | 0.00130615
+3. volume_ratio | 0.00110935
+4. close_open_range | 0.00110013
+5. turnover_rate | 0.00071630
+随机标签模型IG Top5:
+1. year | 0.00000000
+2. turnover_rate | 0.00000000
+3. roc_5 | 0.00000000
+4. amount | 0.00000000
+5. close_to_ma5 | 0.00000000
+当前模型最终结果:
+  Dataset Model  RandomLabel_MacroF1  RandomLabel_Accuracy  Map_Spearman  Feature_Spearman  Temporal_Spearman
+Medical-2  LSTM             0.191467               0.40292      0.277382              -0.2            0.96249
+Label randomization: 完成
+--------------------
+数据集: Power
+步骤1：数据准备与审计
+Power: 数据目录=XAI_cn/e3/datasets/processed/dataset2_AB_grade
+Power: train=(74093, 60, 12), val=(8969, 60, 12), test=(8543, 60, 12)
+字段数: 12
+字段: dayofyear, atr, roc_5, high_low_range, turnover_rate, macd_signal, close, macd, month, close_to_ma5, roc_10, amount
+训练样本: 74093, 验证样本: 8969, 测试样本: 8543
+训练缺失值: 0, 验证缺失值: 0, 测试缺失值: 0
+训练标签分布: {0: 24644, 1: 24902, 2: 24547}
+验证标签分布: {0: 2951, 1: 3395, 2: 2623}
+测试标签分布: {0: 2570, 1: 3321, 2: 2652}
+数据审计: 通过
+--------------------
+Power / GRU
+步骤2：读取原模型并复核架构
+Power-GRU: XAI_cn/e3/models_XAI/rnn_enhanced_dataset2/gru_dataset2_SELECTED_12_seed42.pt | input=12, hidden=128, layers=2
+架构: input=12, hidden=128, layers=2, direction=unidirectional
+原模型复核: Macro-F1=0.410313, Accuracy=0.416598
+原模型审计: 通过
+步骤3：构造随机标签
+训练标签原分布: {0: 24644, 1: 24902, 2: 24547}
+训练标签随机化后分布: {0: 24644, 1: 24902, 2: 24547}
+验证标签原分布: {0: 2951, 1: 3395, 2: 2623}
+验证标签随机化后分布: {0: 2951, 1: 3395, 2: 2623}
+训练标签位置改变比例: 0.665259
+验证标签位置改变比例: 0.663173
+步骤4：随机标签模型重训练
+训练协议: batch=256, lr=0.001, weight_decay=1e-05, max_epochs=20, patience=5
+Epoch 01: train_loss=1.099489, perm_val_loss=1.099042, perm_val_acc=0.319880
+Epoch 02: train_loss=1.098734, perm_val_loss=1.098087, perm_val_acc=0.378080
+Epoch 03: train_loss=1.098631, perm_val_loss=1.098067, perm_val_acc=0.328799
+Epoch 04: train_loss=1.098643, perm_val_loss=1.097968, perm_val_acc=0.378526
+Epoch 05: train_loss=1.098649, perm_val_loss=1.098041, perm_val_acc=0.378526
+Epoch 06: train_loss=1.098620, perm_val_loss=1.098219, perm_val_acc=0.378638
+Epoch 07: train_loss=1.098612, perm_val_loss=1.095625, perm_val_acc=0.378526
+Epoch 08: train_loss=1.098765, perm_val_loss=1.097272, perm_val_acc=0.329134
+Epoch 09: train_loss=1.098676, perm_val_loss=1.098038, perm_val_acc=0.330695
+Epoch 10: train_loss=1.098703, perm_val_loss=1.098453, perm_val_acc=0.374178
+Epoch 11: train_loss=1.098634, perm_val_loss=1.098028, perm_val_acc=0.378526
+Epoch 12: train_loss=1.098605, perm_val_loss=1.097974, perm_val_acc=0.378526
+早停: 连续5轮无改善
+实际训练轮数: 12
+最佳随机验证loss: 1.095625
+步骤5：真实测试集预测能力检查
+原模型: Macro-F1=0.410313, Accuracy=0.416598, TrueProb=0.362910
+随机标签模型: Macro-F1=0.186615, Accuracy=0.388739, TrueProb=0.334897
+变化: ΔF1=-0.223698, ΔAcc=-0.027859
+步骤6：原模型 vs 随机标签模型 IG
+固定IG样本数: 200
+IG steps: 32
+固定target分布: {0: 57, 1: 76, 2: 67}
+归因相关: Mapρ=0.544428 (p=8.43287e-57), Featureρ=0.657343 (p=0.0201855), Temporalρ=0.218338 (p=0.0937475)
+原模型IG Top5:
+1. high_low_range | 0.00565944
+2. dayofyear | 0.00236698
+3. atr | 0.00143432
+4. amount | 0.00075636
+5. month | 0.00072863
+随机标签模型IG Top5:
+1. dayofyear | 0.00015671
+2. amount | 0.00001176
+3. month | 0.00000598
+4. close | 0.00000482
+5. atr | 0.00000470
+当前模型最终结果:
+Dataset Model  RandomLabel_MacroF1  RandomLabel_Accuracy  Map_Spearman  Feature_Spearman  Temporal_Spearman
+  Power   GRU             0.186615              0.388739      0.544428          0.657343           0.218338
+Label randomization: 完成
+--------------------
+Power / BiLSTM
+步骤2：读取原模型并复核架构
+Power-BiLSTM: XAI_cn/e3/models_XAI/rnn_enhanced_dataset2/bilstm_dataset2_SELECTED_12_seed42.pt | input=12, hidden=128, layers=2
+架构: input=12, hidden=128, layers=2, direction=bidirectional
+原模型复核: Macro-F1=0.412120, Accuracy=0.423153
+原模型审计: 通过
+步骤3：构造随机标签
+训练标签原分布: {0: 24644, 1: 24902, 2: 24547}
+训练标签随机化后分布: {0: 24644, 1: 24902, 2: 24547}
+验证标签原分布: {0: 2951, 1: 3395, 2: 2623}
+验证标签随机化后分布: {0: 2951, 1: 3395, 2: 2623}
+训练标签位置改变比例: 0.665259
+验证标签位置改变比例: 0.663173
+步骤4：随机标签模型重训练
+训练协议: batch=256, lr=0.001, weight_decay=1e-05, max_epochs=20, patience=5
+Epoch 01: train_loss=1.098914, perm_val_loss=1.097942, perm_val_acc=0.333816
+Epoch 02: train_loss=1.098659, perm_val_loss=1.096388, perm_val_acc=0.378526
+Epoch 03: train_loss=1.098698, perm_val_loss=1.098228, perm_val_acc=0.373843
+Epoch 04: train_loss=1.098723, perm_val_loss=1.097802, perm_val_acc=0.378526
+Epoch 05: train_loss=1.098658, perm_val_loss=1.098746, perm_val_acc=0.307058
+Epoch 06: train_loss=1.098630, perm_val_loss=1.097485, perm_val_acc=0.378526
+Epoch 07: train_loss=1.098682, perm_val_loss=1.097670, perm_val_acc=0.378526
+早停: 连续5轮无改善
+实际训练轮数: 7
+最佳随机验证loss: 1.096388
+步骤5：真实测试集预测能力检查
+原模型: Macro-F1=0.412120, Accuracy=0.423153, TrueProb=0.365354
+随机标签模型: Macro-F1=0.186615, Accuracy=0.388739, TrueProb=0.334275
+变化: ΔF1=-0.225505, ΔAcc=-0.034414
+步骤6：原模型 vs 随机标签模型 IG
+固定IG样本数: 200
+IG steps: 32
+固定target分布: {0: 48, 1: 77, 2: 75}
+归因相关: Mapρ=0.714850 (p=1.19532e-113), Featureρ=0.363636 (p=0.245265), Temporalρ=0.523979 (p=1.73447e-05)
+原模型IG Top5:
+1. high_low_range | 0.00476974
+2. dayofyear | 0.00446290
+3. month | 0.00379727
+4. atr | 0.00277503
+5. close | 0.00140104
+随机标签模型IG Top5:
+1. dayofyear | 0.00001689
+2. amount | 0.00000090
+3. month | 0.00000071
+4. turnover_rate | 0.00000038
+5. close | 0.00000035
+当前模型最终结果:
+Dataset  Model  RandomLabel_MacroF1  RandomLabel_Accuracy  Map_Spearman  Feature_Spearman  Temporal_Spearman
+  Power BiLSTM             0.186615              0.388739       0.71485          0.363636           0.523979
+Label randomization: 完成
+--------------------
+Power / LSTM
+步骤2：读取原模型并复核架构
+Power-LSTM: XAI_cn/e3/models_XAI/lstm_enhanced/lstm_dataset2_SELECTED_12_seed42.pt | input=12, hidden=96, layers=2
+架构: input=12, hidden=96, layers=2, direction=unidirectional
+原模型复核: Macro-F1=0.402199, Accuracy=0.410277
+原模型审计: 通过
+步骤3：构造随机标签
+训练标签原分布: {0: 24644, 1: 24902, 2: 24547}
+训练标签随机化后分布: {0: 24644, 1: 24902, 2: 24547}
+验证标签原分布: {0: 2951, 1: 3395, 2: 2623}
+验证标签随机化后分布: {0: 2951, 1: 3395, 2: 2623}
+训练标签位置改变比例: 0.665259
+验证标签位置改变比例: 0.663173
+步骤4：随机标签模型重训练
+训练协议: batch=256, lr=0.001, weight_decay=1e-05, max_epochs=20, patience=5
+Epoch 01: train_loss=1.098900, perm_val_loss=1.098514, perm_val_acc=0.358568
+Epoch 02: train_loss=1.098761, perm_val_loss=1.098322, perm_val_acc=0.377857
+Epoch 03: train_loss=1.098655, perm_val_loss=1.098517, perm_val_acc=0.346415
+Epoch 04: train_loss=1.098640, perm_val_loss=1.099315, perm_val_acc=0.329914
+Epoch 05: train_loss=1.098640, perm_val_loss=1.098418, perm_val_acc=0.366596
+Epoch 06: train_loss=1.098674, perm_val_loss=1.097783, perm_val_acc=0.334820
+Epoch 07: train_loss=1.098655, perm_val_loss=1.098518, perm_val_acc=0.354109
+Epoch 08: train_loss=1.098611, perm_val_loss=1.098819, perm_val_acc=0.300033
+Epoch 09: train_loss=1.098566, perm_val_loss=1.098271, perm_val_acc=0.352213
+Epoch 10: train_loss=1.098565, perm_val_loss=1.097983, perm_val_acc=0.362136
+Epoch 11: train_loss=1.098580, perm_val_loss=1.098196, perm_val_acc=0.357453
+早停: 连续5轮无改善
+实际训练轮数: 11
+最佳随机验证loss: 1.097783
+步骤5：真实测试集预测能力检查
+原模型: Macro-F1=0.402199, Accuracy=0.410277, TrueProb=0.363268
+随机标签模型: Macro-F1=0.203379, Accuracy=0.305045, TrueProb=0.333493
+变化: ΔF1=-0.198821, ΔAcc=-0.105232
+步骤6：原模型 vs 随机标签模型 IG
+固定IG样本数: 200
+IG steps: 32
+固定target分布: {0: 67, 1: 76, 2: 57}
+归因相关: Mapρ=0.301838 (p=1.24278e-16), Featureρ=0.000000 (p=1), Temporalρ=-0.262128 (p=0.043047)
+原模型IG Top5:
+1. high_low_range | 0.00540763
+2. dayofyear | 0.00437651
+3. month | 0.00233596
+4. atr | 0.00212771
+5. roc_10 | 0.00122254
+随机标签模型IG Top5:
+1. dayofyear | 0.00004838
+2. amount | 0.00000250
+3. month | 0.00000194
+4. macd_signal | 0.00000075
+5. macd | 0.00000071
+当前模型最终结果:
+Dataset Model  RandomLabel_MacroF1  RandomLabel_Accuracy  Map_Spearman  Feature_Spearman  Temporal_Spearman
+  Power  LSTM             0.203379              0.305045      0.301838               0.0          -0.262128
+Label randomization: 完成
+--------------------
+数据集: US-Med
+步骤1：数据准备与审计
+US-Med: 数据目录=xai_us/datasets/processed/dataset4_m
+US-Med: train=(63061, 60, 13), val=(6280, 60, 13), test=(5720, 60, 13)
+字段数: 13
+字段: roc_5, low, close_to_ma20, roc_20, high_low_range, rsi, dayofweek, macd, dayofyear_sin, bb_width, bb_position, macd_signal, dayofyear
+训练样本: 63061, 验证样本: 6280, 测试样本: 5720
+训练缺失值: 0, 验证缺失值: 0, 测试缺失值: 0
+训练标签分布: {0: 21012, 1: 21006, 2: 21043}
+验证标签分布: {0: 2051, 1: 2311, 2: 1918}
+测试标签分布: {0: 2009, 1: 1720, 2: 1991}
+数据审计: 通过
+--------------------
+US-Med / GRU
+步骤2：读取原模型并复核架构
+US-Med-GRU: xai_us/models_XAI/rnn_models_us/gru_dataset4_m_SELECTED_13_seed42.pt | input=13, hidden=128, layers=3
+架构: input=13, hidden=128, layers=3, direction=unidirectional
+原模型复核: Macro-F1=0.356312, Accuracy=0.363636
+原模型审计: 通过
+步骤3：构造随机标签
+训练标签原分布: {0: 21012, 1: 21006, 2: 21043}
+训练标签随机化后分布: {0: 21012, 1: 21006, 2: 21043}
+验证标签原分布: {0: 2051, 1: 2311, 2: 1918}
+验证标签随机化后分布: {0: 2051, 1: 2311, 2: 1918}
+训练标签位置改变比例: 0.665007
+验证标签位置改变比例: 0.666401
+步骤4：随机标签模型重训练
+训练协议: batch=256, lr=0.001, weight_decay=1e-05, max_epochs=20, patience=5
+Epoch 01: train_loss=1.099603, perm_val_loss=1.096996, perm_val_acc=0.367994
+Epoch 02: train_loss=1.099104, perm_val_loss=1.097965, perm_val_acc=0.367994
+Epoch 03: train_loss=1.099076, perm_val_loss=1.097320, perm_val_acc=0.367994
+Epoch 04: train_loss=1.098667, perm_val_loss=1.099071, perm_val_acc=0.305414
+Epoch 05: train_loss=1.098640, perm_val_loss=1.098354, perm_val_acc=0.367834
+Epoch 06: train_loss=1.098648, perm_val_loss=1.098728, perm_val_acc=0.326911
+早停: 连续5轮无改善
+实际训练轮数: 6
+最佳随机验证loss: 1.096996
+步骤5：真实测试集预测能力检查
+原模型: Macro-F1=0.356312, Accuracy=0.363636, TrueProb=0.340472
+随机标签模型: Macro-F1=0.154122, Accuracy=0.300699, TrueProb=0.332544
+变化: ΔF1=-0.202190, ΔAcc=-0.062937
+步骤6：原模型 vs 随机标签模型 IG
+固定IG样本数: 200
+IG steps: 32
+固定target分布: {0: 52, 1: 83, 2: 65}
+归因相关: Mapρ=0.627739 (p=1.05638e-86), Featureρ=0.703297 (p=0.00731857), Temporalρ=0.703306 (p=3.70272e-10)
+原模型IG Top5:
+1. high_low_range | 0.00413599
+2. dayofyear | 0.00298701
+3. macd | 0.00088013
+4. low | 0.00068985
+5. macd_signal | 0.00066152
+随机标签模型IG Top5:
+1. dayofyear | 0.00023877
+2. macd | 0.00000471
+3. low | 0.00000368
+4. macd_signal | 0.00000291
+5. dayofweek | 0.00000194
+当前模型最终结果:
+Dataset Model  RandomLabel_MacroF1  RandomLabel_Accuracy  Map_Spearman  Feature_Spearman  Temporal_Spearman
+ US-Med   GRU             0.154122              0.300699      0.627739          0.703297           0.703306
+Label randomization: 完成
+--------------------
+US-Med / BiLSTM
+步骤2：读取原模型并复核架构
+US-Med-BiLSTM: xai_us/models_XAI/rnn_bilstm_us_60/bilstm_dataset4_m_SELECTED_13_seed42.pt | input=13, hidden=128, layers=3
+架构: input=13, hidden=128, layers=3, direction=bidirectional
+原模型复核: Macro-F1=0.358022, Accuracy=0.366783
+原模型审计: 通过
+步骤3：构造随机标签
+训练标签原分布: {0: 21012, 1: 21006, 2: 21043}
+训练标签随机化后分布: {0: 21012, 1: 21006, 2: 21043}
+验证标签原分布: {0: 2051, 1: 2311, 2: 1918}
+验证标签随机化后分布: {0: 2051, 1: 2311, 2: 1918}
+训练标签位置改变比例: 0.665007
+验证标签位置改变比例: 0.666401
+步骤4：随机标签模型重训练
+训练协议: batch=256, lr=0.001, weight_decay=1e-05, max_epochs=20, patience=5
+Epoch 01: train_loss=1.098867, perm_val_loss=1.098184, perm_val_acc=0.326592
+Epoch 02: train_loss=1.098777, perm_val_loss=1.098053, perm_val_acc=0.367994
+Epoch 03: train_loss=1.098771, perm_val_loss=1.098976, perm_val_acc=0.305414
+Epoch 04: train_loss=1.098707, perm_val_loss=1.098237, perm_val_acc=0.367994
+Epoch 05: train_loss=1.098681, perm_val_loss=1.098436, perm_val_acc=0.326592
+Epoch 06: train_loss=1.098696, perm_val_loss=1.098003, perm_val_acc=0.367994
+Epoch 07: train_loss=1.098687, perm_val_loss=1.098348, perm_val_acc=0.367994
+Epoch 08: train_loss=1.098688, perm_val_loss=1.098745, perm_val_acc=0.305414
+Epoch 09: train_loss=1.098700, perm_val_loss=1.098705, perm_val_acc=0.305414
+Epoch 10: train_loss=1.098663, perm_val_loss=1.098178, perm_val_acc=0.367994
+Epoch 11: train_loss=1.098681, perm_val_loss=1.098423, perm_val_acc=0.367994
+早停: 连续5轮无改善
+实际训练轮数: 11
+最佳随机验证loss: 1.098003
+步骤5：真实测试集预测能力检查
+原模型: Macro-F1=0.358022, Accuracy=0.366783, TrueProb=0.341704
+随机标签模型: Macro-F1=0.154122, Accuracy=0.300699, TrueProb=0.333191
+变化: ΔF1=-0.203900, ΔAcc=-0.066084
+步骤6：原模型 vs 随机标签模型 IG
+固定IG样本数: 200
+IG steps: 32
+固定target分布: {0: 90, 1: 37, 2: 73}
+归因相关: Mapρ=0.306895 (p=1.78882e-18), Featureρ=0.032967 (p=0.914856), Temporalρ=0.604335 (p=3.17207e-07)
+原模型IG Top5:
+1. high_low_range | 0.00344998
+2. dayofyear | 0.00303539
+3. roc_5 | 0.00129937
+4. roc_20 | 0.00093958
+5. dayofweek | 0.00080342
+随机标签模型IG Top5:
+1. dayofyear | 0.00000076
+2. macd | 0.00000004
+3. macd_signal | 0.00000004
+4. low | 0.00000002
+5. dayofweek | 0.00000001
+当前模型最终结果:
+Dataset  Model  RandomLabel_MacroF1  RandomLabel_Accuracy  Map_Spearman  Feature_Spearman  Temporal_Spearman
+ US-Med BiLSTM             0.154122              0.300699      0.306895          0.032967           0.604335
+Label randomization: 完成
+--------------------
+US-Med / LSTM
+步骤2：读取原模型并复核架构
+US-Med-LSTM: xai_us/models_XAI/lstm_us_60/lstm_dataset4_m_SELECTED_13_seed42.pt | input=13, hidden=128, layers=3
+架构: input=13, hidden=128, layers=3, direction=unidirectional
+原模型复核: Macro-F1=0.363922, Accuracy=0.373252
+原模型审计: 通过
+步骤3：构造随机标签
+训练标签原分布: {0: 21012, 1: 21006, 2: 21043}
+训练标签随机化后分布: {0: 21012, 1: 21006, 2: 21043}
+验证标签原分布: {0: 2051, 1: 2311, 2: 1918}
+验证标签随机化后分布: {0: 2051, 1: 2311, 2: 1918}
+训练标签位置改变比例: 0.665007
+验证标签位置改变比例: 0.666401
+步骤4：随机标签模型重训练
+训练协议: batch=256, lr=0.001, weight_decay=1e-05, max_epochs=20, patience=5
+Epoch 01: train_loss=1.098895, perm_val_loss=1.098223, perm_val_acc=0.346178
+Epoch 02: train_loss=1.098748, perm_val_loss=1.098683, perm_val_acc=0.305414
+Epoch 03: train_loss=1.098726, perm_val_loss=1.098036, perm_val_acc=0.367994
+Epoch 04: train_loss=1.098697, perm_val_loss=1.099263, perm_val_acc=0.326592
+Epoch 05: train_loss=1.098719, perm_val_loss=1.098572, perm_val_acc=0.326592
+Epoch 06: train_loss=1.098698, perm_val_loss=1.099162, perm_val_acc=0.305414
+Epoch 07: train_loss=1.098644, perm_val_loss=1.098716, perm_val_acc=0.305414
+Epoch 08: train_loss=1.098688, perm_val_loss=1.099066, perm_val_acc=0.305414
+早停: 连续5轮无改善
+实际训练轮数: 8
+最佳随机验证loss: 1.098036
+步骤5：真实测试集预测能力检查
+原模型: Macro-F1=0.363922, Accuracy=0.373252, TrueProb=0.341539
+随机标签模型: Macro-F1=0.154122, Accuracy=0.300699, TrueProb=0.333097
+变化: ΔF1=-0.209800, ΔAcc=-0.072552
+步骤6：原模型 vs 随机标签模型 IG
+固定IG样本数: 200
+IG steps: 32
+固定target分布: {0: 87, 1: 29, 2: 84}
+归因相关: Mapρ=0.694997 (p=1.42777e-113), Featureρ=0.417582 (p=0.155675), Temporalρ=0.932148 (p=2.87279e-27)
+原模型IG Top5:
+1. high_low_range | 0.00247157
+2. dayofyear | 0.00218173
+3. macd_signal | 0.00103489
+4. macd | 0.00095989
+5. dayofweek | 0.00083331
+随机标签模型IG Top5:
+1. dayofyear | 0.00000749
+2. macd_signal | 0.00000166
+3. roc_5 | 0.00000034
+4. macd | 0.00000027
+5. bb_width | 0.00000024
+当前模型最终结果:
+Dataset Model  RandomLabel_MacroF1  RandomLabel_Accuracy  Map_Spearman  Feature_Spearman  Temporal_Spearman
+ US-Med  LSTM             0.154122              0.300699      0.694997          0.417582           0.932148
+Label randomization: 完成
+--------------------
+数据集: US-Pow
+步骤1：数据准备与审计
+US-Pow: 数据目录=xai_us/datasets/processed/dataset5_p
+US-Pow: train=(63799, 60, 12), val=(6280, 60, 12), test=(5720, 60, 12)
+字段数: 12
+字段: roc_5, dayofyear_sin, macd_signal, ma10, macd, dayofyear, close, high_low_range, low, close_to_ma20, roc_20, pre_close
+训练样本: 63799, 验证样本: 6280, 测试样本: 5720
+训练缺失值: 0, 验证缺失值: 0, 测试缺失值: 0
+训练标签分布: {0: 21306, 1: 21223, 2: 21270}
+验证标签分布: {0: 2311, 1: 1928, 2: 2041}
+测试标签分布: {0: 1972, 1: 1693, 2: 2055}
+数据审计: 通过
+--------------------
+US-Pow / GRU
+步骤2：读取原模型并复核架构
+US-Pow-GRU: xai_us/models_XAI/rnn_models_us/gru_dataset5_p_SELECTED_12_seed42.pt | input=12, hidden=128, layers=3
+架构: input=12, hidden=128, layers=3, direction=unidirectional
+原模型复核: Macro-F1=0.327094, Accuracy=0.328322
+原模型审计: 通过
+步骤3：构造随机标签
+训练标签原分布: {0: 21306, 1: 21223, 2: 21270}
+训练标签随机化后分布: {0: 21306, 1: 21223, 2: 21270}
+验证标签原分布: {0: 2311, 1: 1928, 2: 2041}
+验证标签随机化后分布: {0: 2311, 1: 1928, 2: 2041}
+训练标签位置改变比例: 0.662565
+验证标签位置改变比例: 0.667038
+步骤4：随机标签模型重训练
+训练协议: batch=256, lr=0.001, weight_decay=1e-05, max_epochs=20, patience=5
+Epoch 01: train_loss=1.099774, perm_val_loss=1.097715, perm_val_acc=0.346019
+Epoch 02: train_loss=1.098904, perm_val_loss=1.098524, perm_val_acc=0.326433
+Epoch 03: train_loss=1.098795, perm_val_loss=1.096865, perm_val_acc=0.365446
+Epoch 04: train_loss=1.098845, perm_val_loss=1.098205, perm_val_acc=0.363217
+Epoch 05: train_loss=1.098672, perm_val_loss=1.099139, perm_val_acc=0.307006
+Epoch 06: train_loss=1.098679, perm_val_loss=1.098850, perm_val_acc=0.313854
+Epoch 07: train_loss=1.098669, perm_val_loss=1.097340, perm_val_acc=0.367038
+Epoch 08: train_loss=1.098639, perm_val_loss=1.098662, perm_val_acc=0.326115
+早停: 连续5轮无改善
+实际训练轮数: 8
+最佳随机验证loss: 1.096865
+步骤5：真实测试集预测能力检查
+原模型: Macro-F1=0.327094, Accuracy=0.328322, TrueProb=0.335617
+随机标签模型: Macro-F1=0.194227, Accuracy=0.343531, TrueProb=0.333480
+变化: ΔF1=-0.132867, ΔAcc=0.015210
+步骤6：原模型 vs 随机标签模型 IG
+固定IG样本数: 200
+IG steps: 32
+固定target分布: {0: 56, 1: 74, 2: 70}
+归因相关: Mapρ=0.544257 (p=9.27564e-57), Featureρ=0.237762 (p=0.456801), Temporalρ=0.052570 (p=0.689955)
+原模型IG Top5:
+1. high_low_range | 0.00272430
+2. dayofyear | 0.00190179
+3. close | 0.00065325
+4. pre_close | 0.00054365
+5. macd_signal | 0.00051319
+随机标签模型IG Top5:
+1. dayofyear | 0.00014206
+2. macd_signal | 0.00000321
+3. low | 0.00000281
+4. high_low_range | 0.00000275
+5. macd | 0.00000211
+当前模型最终结果:
+Dataset Model  RandomLabel_MacroF1  RandomLabel_Accuracy  Map_Spearman  Feature_Spearman  Temporal_Spearman
+ US-Pow   GRU             0.194227              0.343531      0.544257          0.237762            0.05257
+Label randomization: 完成
+--------------------
+US-Pow / BiLSTM
+步骤2：读取原模型并复核架构
+US-Pow-BiLSTM: xai_us/models_XAI/rnn_bilstm_us_60/bilstm_dataset5_p_SELECTED_12_seed42.pt | input=12, hidden=128, layers=3
+架构: input=12, hidden=128, layers=3, direction=bidirectional
+原模型复核: Macro-F1=0.365106, Accuracy=0.366608
+原模型审计: 通过
+步骤3：构造随机标签
+训练标签原分布: {0: 21306, 1: 21223, 2: 21270}
+训练标签随机化后分布: {0: 21306, 1: 21223, 2: 21270}
+验证标签原分布: {0: 2311, 1: 1928, 2: 2041}
+验证标签随机化后分布: {0: 2311, 1: 1928, 2: 2041}
+训练标签位置改变比例: 0.662565
+验证标签位置改变比例: 0.667038
+步骤4：随机标签模型重训练
+训练协议: batch=256, lr=0.001, weight_decay=1e-05, max_epochs=20, patience=5
+Epoch 01: train_loss=1.098857, perm_val_loss=1.098513, perm_val_acc=0.325000
+Epoch 02: train_loss=1.098675, perm_val_loss=1.098493, perm_val_acc=0.325000
+Epoch 03: train_loss=1.098677, perm_val_loss=1.098807, perm_val_acc=0.318471
+Epoch 04: train_loss=1.098706, perm_val_loss=1.098756, perm_val_acc=0.307006
+Epoch 05: train_loss=1.098675, perm_val_loss=1.098920, perm_val_acc=0.325796
+Epoch 06: train_loss=1.098631, perm_val_loss=1.098664, perm_val_acc=0.325000
+Epoch 07: train_loss=1.098630, perm_val_loss=1.098417, perm_val_acc=0.367834
+Epoch 08: train_loss=1.098639, perm_val_loss=1.098487, perm_val_acc=0.366720
+Epoch 09: train_loss=1.098624, perm_val_loss=1.098353, perm_val_acc=0.363376
+Epoch 10: train_loss=1.098614, perm_val_loss=1.098202, perm_val_acc=0.365446
+Epoch 11: train_loss=1.098616, perm_val_loss=1.098395, perm_val_acc=0.365127
+Epoch 12: train_loss=1.098570, perm_val_loss=1.098284, perm_val_acc=0.325000
+Epoch 13: train_loss=1.098558, perm_val_loss=1.098442, perm_val_acc=0.365287
+Epoch 14: train_loss=1.098546, perm_val_loss=1.098148, perm_val_acc=0.366879
+Epoch 15: train_loss=1.098521, perm_val_loss=1.098168, perm_val_acc=0.364172
+Epoch 16: train_loss=1.098590, perm_val_loss=1.098004, perm_val_acc=0.369427
+Epoch 17: train_loss=1.098569, perm_val_loss=1.097919, perm_val_acc=0.367994
+Epoch 18: train_loss=1.098576, perm_val_loss=1.098079, perm_val_acc=0.366720
+Epoch 19: train_loss=1.098540, perm_val_loss=1.097734, perm_val_acc=0.366561
+Epoch 20: train_loss=1.098537, perm_val_loss=1.098714, perm_val_acc=0.325000
+实际训练轮数: 20
+最佳随机验证loss: 1.097734
+步骤5：真实测试集预测能力检查
+原模型: Macro-F1=0.365106, Accuracy=0.366608, TrueProb=0.339489
+随机标签模型: Macro-F1=0.188581, Accuracy=0.349126, TrueProb=0.333785
+变化: ΔF1=-0.176525, ΔAcc=-0.017483
+步骤6：原模型 vs 随机标签模型 IG
+固定IG样本数: 200
+IG steps: 32
+固定target分布: {0: 90, 1: 58, 2: 52}
+归因相关: Mapρ=0.315637 (p=4.04511e-18), Featureρ=0.125874 (p=0.696683), Temporalρ=0.820895 (p=9.75067e-16)
+原模型IG Top5:
+1. high_low_range | 0.00343830
+2. dayofyear | 0.00287856
+3. ma10 | 0.00261937
+4. low | 0.00209660
+5. macd_signal | 0.00207893
+随机标签模型IG Top5:
+1. dayofyear | 0.00001235
+2. macd_signal | 0.00000042
+3. macd | 0.00000035
+4. roc_20 | 0.00000019
+5. close_to_ma20 | 0.00000012
+当前模型最终结果:
+Dataset  Model  RandomLabel_MacroF1  RandomLabel_Accuracy  Map_Spearman  Feature_Spearman  Temporal_Spearman
+ US-Pow BiLSTM             0.188581              0.349126      0.315637          0.125874           0.820895
+Label randomization: 完成
+--------------------
+US-Pow / LSTM
+步骤2：读取原模型并复核架构
+US-Pow-LSTM: xai_us/models_XAI/lstm_us_60/lstm_dataset5_p_SELECTED_12_seed42.pt | input=12, hidden=128, layers=3
+架构: input=12, hidden=128, layers=3, direction=unidirectional
+原模型复核: Macro-F1=0.332670, Accuracy=0.347727
+原模型审计: 通过
+步骤3：构造随机标签
+训练标签原分布: {0: 21306, 1: 21223, 2: 21270}
+训练标签随机化后分布: {0: 21306, 1: 21223, 2: 21270}
+验证标签原分布: {0: 2311, 1: 1928, 2: 2041}
+验证标签随机化后分布: {0: 2311, 1: 1928, 2: 2041}
+训练标签位置改变比例: 0.662565
+验证标签位置改变比例: 0.667038
+步骤4：随机标签模型重训练
+训练协议: batch=256, lr=0.001, weight_decay=1e-05, max_epochs=20, patience=5
+Epoch 01: train_loss=1.098826, perm_val_loss=1.097113, perm_val_acc=0.363694
+Epoch 02: train_loss=1.098731, perm_val_loss=1.099214, perm_val_acc=0.325000
+Epoch 03: train_loss=1.098705, perm_val_loss=1.099526, perm_val_acc=0.320541
+Epoch 04: train_loss=1.098701, perm_val_loss=1.098652, perm_val_acc=0.309076
+Epoch 05: train_loss=1.098695, perm_val_loss=1.099090, perm_val_acc=0.325000
+Epoch 06: train_loss=1.098666, perm_val_loss=1.098958, perm_val_acc=0.325000
+早停: 连续5轮无改善
+实际训练轮数: 6
+最佳随机验证loss: 1.097113
+步骤5：真实测试集预测能力检查
+原模型: Macro-F1=0.332670, Accuracy=0.347727, TrueProb=0.336909
+随机标签模型: Macro-F1=0.203257, Accuracy=0.341084, TrueProb=0.333436
+变化: ΔF1=-0.129413, ΔAcc=-0.006643
+步骤6：原模型 vs 随机标签模型 IG
+固定IG样本数: 200
+IG steps: 32
+固定target分布: {0: 103, 1: 39, 2: 58}
+归因相关: Mapρ=0.474927 (p=8.75957e-42), Featureρ=0.391608 (p=0.208063), Temporalρ=0.341595 (p=0.00755824)
+原模型IG Top5:
+1. dayofyear | 0.00426315
+2. high_low_range | 0.00328365
+3. close_to_ma20 | 0.00099663
+4. roc_5 | 0.00091555
+5. macd | 0.00084661
+随机标签模型IG Top5:
+1. dayofyear | 0.00010390
+2. macd_signal | 0.00000072
+3. macd | 0.00000070
+4. low | 0.00000052
+5. roc_5 | 0.00000047
+当前模型最终结果:
+Dataset Model  RandomLabel_MacroF1  RandomLabel_Accuracy  Map_Spearman  Feature_Spearman  Temporal_Spearman
+ US-Pow  LSTM             0.203257              0.341084      0.474927          0.391608           0.341595
+Label randomization: 完成
+--------------------
+步骤7：保存结果并最终汇总
+Sanity结果行数: 15
+训练历史行数: 142
+异常记录数: 0
+--------------------
+最终汇总1：随机标签模型真实测试表现
+  Dataset  Model  Original_MacroF1  RandomLabel_MacroF1  Delta_MacroF1  Original_Accuracy  RandomLabel_Accuracy  Delta_Accuracy
+Medical-1 BiLSTM          0.403506             0.187770      -0.215736           0.407261              0.387209       -0.020052
+Medical-1    GRU          0.413231             0.186738      -0.226493           0.423211              0.387058       -0.036154
+Medical-1   LSTM          0.412939             0.248008      -0.164931           0.427617              0.353334       -0.074282
+Medical-2 BiLSTM          0.419882             0.191467      -0.228415           0.437474              0.402920       -0.034554
+Medical-2    GRU          0.412268             0.191467      -0.220801           0.429667              0.402920       -0.026747
+Medical-2   LSTM          0.412224             0.191467      -0.220756           0.427265              0.402920       -0.024345
+    Power BiLSTM          0.412120             0.186615      -0.225505           0.423153              0.388739       -0.034414
+    Power    GRU          0.410313             0.186615      -0.223698           0.416598              0.388739       -0.027859
+    Power   LSTM          0.402199             0.203379      -0.198821           0.410277              0.305045       -0.105232
+   US-Med BiLSTM          0.358022             0.154122      -0.203900           0.366783              0.300699       -0.066084
+   US-Med    GRU          0.356312             0.154122      -0.202190           0.363636              0.300699       -0.062937
+   US-Med   LSTM          0.363922             0.154122      -0.209800           0.373252              0.300699       -0.072552
+   US-Pow BiLSTM          0.365106             0.188581      -0.176525           0.366608              0.349126       -0.017483
+   US-Pow    GRU          0.327094             0.194227      -0.132867           0.328322              0.343531        0.015210
+   US-Pow   LSTM          0.332670             0.203257      -0.129413           0.347727              0.341084       -0.006643
+--------------------
+最终汇总2：原模型 vs 随机标签模型归因相关
+  Dataset  Model  Map_Spearman         Map_p  Feature_Spearman  Feature_p  Temporal_Spearman   Temporal_p
+Medical-1 BiLSTM      0.559831  1.520779e-65          0.824176   0.000530           0.095527 4.678126e-01
+Medical-1    GRU      0.527749  3.818866e-57          0.203297   0.505315           0.043846 7.394049e-01
+Medical-1   LSTM      0.561298  5.968815e-66          0.489011   0.089913           0.412837 1.045103e-03
+Medical-2 BiLSTM      0.018242  5.975302e-01         -0.635165   0.014658           0.696860 6.240556e-10
+Medical-2    GRU     -0.622579  2.580239e-91         -0.665934   0.009323          -0.064407 6.249081e-01
+Medical-2   LSTM      0.277382  2.644354e-16         -0.200000   0.493004           0.962490 1.500389e-34
+    Power BiLSTM      0.714850 1.195319e-113          0.363636   0.245265           0.523979 1.734469e-05
+    Power    GRU      0.544428  8.432869e-57          0.657343   0.020185           0.218338 9.374748e-02
+    Power   LSTM      0.301838  1.242783e-16          0.000000   1.000000          -0.262128 4.304696e-02
+   US-Med BiLSTM      0.306895  1.788818e-18          0.032967   0.914856           0.604335 3.172068e-07
+   US-Med    GRU      0.627739  1.056376e-86          0.703297   0.007319           0.703306 3.702720e-10
+   US-Med   LSTM      0.694997 1.427771e-113          0.417582   0.155675           0.932148 2.872794e-27
+   US-Pow BiLSTM      0.315637  4.045115e-18          0.125874   0.696683           0.820895 9.750669e-16
+   US-Pow    GRU      0.544257  9.275641e-57          0.237762   0.456801           0.052570 6.899546e-01
+   US-Pow   LSTM      0.474927  8.759574e-42          0.391608   0.208063           0.341595 7.558242e-03
+--------------------
+最终汇总3：跨模型统计
+              Metric     Mean       Min      Max
+ RandomLabel_MacroF1 0.188130  0.154122 0.248008
+RandomLabel_Accuracy 0.356982  0.300699 0.402920
+        Map_Spearman 0.389833 -0.622579 0.714850
+    Feature_Spearman 0.196364 -0.665934 0.824176
+   Temporal_Spearman 0.405479 -0.262128 0.962490
+--------------------
+最终汇总4：异常
+异常: 0，全部步骤运行完成
+--------------------
+xai_cell_E_V2 完成
+结果目录: 0924/xai_cell_E_V2/
+
+
+

@@ -1,0 +1,207 @@
+输出目录: 0924/xai_cell_C_V3/
+任务: 预测基线类别权重敏感性
+比较: Logistic / Extra Trees 各自 unweighted 与 balanced
+Naive Momentum保持不变
+RNN结果读取: 成功，行数=15, 缺失值=0
+--------------------
+数据集: Medical-1
+步骤1：数据准备与审计
+字段数: 13
+训练样本: 38820, 验证样本: 7168, 测试样本: 6583
+训练缺失值: 0, 验证缺失值: 0, 测试缺失值: 0
+训练标签分布: {0: 12857, 1: 13106, 2: 12857}
+测试标签分布: {0: 1878, 1: 2546, 2: 2159}
+数据审计: 通过
+步骤2：Naive Momentum
+结果: Macro-F1=0.351313, Accuracy=0.358043
+步骤3：Logistic Regression / Unweighted
+结果: Macro-F1=0.366126, Accuracy=0.389792
+步骤3：Logistic Regression / Balanced
+结果: Macro-F1=0.365049, Accuracy=0.387209
+步骤3：Extra Trees / Unweighted
+结果: Macro-F1=0.382671, Accuracy=0.404223
+步骤3：Extra Trees / Balanced
+结果: Macro-F1=0.390459, Accuracy=0.410147
+步骤4：当前数据集敏感性比较
+  Dataset            Baseline  Weighting  Accuracy  Macro_F1
+Medical-1         Extra Trees   Balanced  0.410147  0.390459
+Medical-1         Extra Trees Unweighted  0.404223  0.382671
+Medical-1 Logistic Regression   Balanced  0.387209  0.365049
+Medical-1 Logistic Regression Unweighted  0.389792  0.366126
+Medical-1      Naive Momentum        N/A  0.358043  0.351313
+Logistic Regression: Balanced-Unweighted ΔF1=-0.001078, ΔAcc=-0.002582
+Extra Trees: Balanced-Unweighted ΔF1=0.007788, ΔAcc=0.005924
+--------------------
+数据集: Medical-2
+步骤1：数据准备与审计
+字段数: 14
+训练样本: 138900, 验证样本: 23608, 测试样本: 21647
+训练缺失值: 0, 验证缺失值: 0, 测试缺失值: 0
+训练标签分布: {0: 46001, 1: 47018, 2: 45881}
+测试标签分布: {0: 6202, 1: 8722, 2: 6723}
+数据审计: 通过
+步骤2：Naive Momentum
+结果: Macro-F1=0.359161, Accuracy=0.368458
+步骤3：Logistic Regression / Unweighted
+结果: Macro-F1=0.374620, Accuracy=0.426618
+步骤3：Logistic Regression / Balanced
+结果: Macro-F1=0.377716, Accuracy=0.426156
+步骤3：Extra Trees / Unweighted
+结果: Macro-F1=0.375911, Accuracy=0.396637
+步骤3：Extra Trees / Balanced
+结果: Macro-F1=0.373432, Accuracy=0.396314
+步骤4：当前数据集敏感性比较
+  Dataset            Baseline  Weighting  Accuracy  Macro_F1
+Medical-2         Extra Trees   Balanced  0.396314  0.373432
+Medical-2         Extra Trees Unweighted  0.396637  0.375911
+Medical-2 Logistic Regression   Balanced  0.426156  0.377716
+Medical-2 Logistic Regression Unweighted  0.426618  0.374620
+Medical-2      Naive Momentum        N/A  0.368458  0.359161
+Logistic Regression: Balanced-Unweighted ΔF1=0.003096, ΔAcc=-0.000462
+Extra Trees: Balanced-Unweighted ΔF1=-0.002478, ΔAcc=-0.000323
+--------------------
+数据集: Power
+步骤1：数据准备与审计
+字段数: 12
+训练样本: 74093, 验证样本: 8969, 测试样本: 8543
+训练缺失值: 0, 验证缺失值: 0, 测试缺失值: 0
+训练标签分布: {0: 24644, 1: 24902, 2: 24547}
+测试标签分布: {0: 2570, 1: 3321, 2: 2652}
+数据审计: 通过
+步骤2：Naive Momentum
+结果: Macro-F1=0.354266, Accuracy=0.362285
+步骤3：Logistic Regression / Unweighted
+结果: Macro-F1=0.389180, Accuracy=0.422919
+步骤3：Logistic Regression / Balanced
+结果: Macro-F1=0.390969, Accuracy=0.423388
+步骤3：Extra Trees / Unweighted
+结果: Macro-F1=0.398032, Accuracy=0.417769
+步骤3：Extra Trees / Balanced
+结果: Macro-F1=0.395244, Accuracy=0.414726
+步骤4：当前数据集敏感性比较
+Dataset            Baseline  Weighting  Accuracy  Macro_F1
+  Power         Extra Trees   Balanced  0.414726  0.395244
+  Power         Extra Trees Unweighted  0.417769  0.398032
+  Power Logistic Regression   Balanced  0.423388  0.390969
+  Power Logistic Regression Unweighted  0.422919  0.389180
+  Power      Naive Momentum        N/A  0.362285  0.354266
+Logistic Regression: Balanced-Unweighted ΔF1=0.001788, ΔAcc=0.000468
+Extra Trees: Balanced-Unweighted ΔF1=-0.002788, ΔAcc=-0.003043
+--------------------
+数据集: US-Med
+步骤1：数据准备与审计
+字段数: 13
+训练样本: 63061, 验证样本: 6280, 测试样本: 5720
+训练缺失值: 0, 验证缺失值: 0, 测试缺失值: 0
+训练标签分布: {0: 21012, 1: 21006, 2: 21043}
+测试标签分布: {0: 2009, 1: 1720, 2: 1991}
+数据审计: 通过
+步骤2：Naive Momentum
+结果: Macro-F1=0.341819, Accuracy=0.342308
+步骤3：Logistic Regression / Unweighted
+结果: Macro-F1=0.346610, Accuracy=0.353322
+步骤3：Logistic Regression / Balanced
+结果: Macro-F1=0.344667, Accuracy=0.350699
+步骤3：Extra Trees / Unweighted
+结果: Macro-F1=0.358631, Accuracy=0.372378
+步骤3：Extra Trees / Balanced
+结果: Macro-F1=0.359013, Accuracy=0.372727
+步骤4：当前数据集敏感性比较
+Dataset            Baseline  Weighting  Accuracy  Macro_F1
+ US-Med         Extra Trees   Balanced  0.372727  0.359013
+ US-Med         Extra Trees Unweighted  0.372378  0.358631
+ US-Med Logistic Regression   Balanced  0.350699  0.344667
+ US-Med Logistic Regression Unweighted  0.353322  0.346610
+ US-Med      Naive Momentum        N/A  0.342308  0.341819
+Logistic Regression: Balanced-Unweighted ΔF1=-0.001943, ΔAcc=-0.002622
+Extra Trees: Balanced-Unweighted ΔF1=0.000382, ΔAcc=0.000350
+--------------------
+数据集: US-Pow
+步骤1：数据准备与审计
+字段数: 12
+训练样本: 63799, 验证样本: 6280, 测试样本: 5720
+训练缺失值: 0, 验证缺失值: 0, 测试缺失值: 0
+训练标签分布: {0: 21306, 1: 21223, 2: 21270}
+测试标签分布: {0: 1972, 1: 1693, 2: 2055}
+数据审计: 通过
+步骤2：Naive Momentum
+结果: Macro-F1=0.335729, Accuracy=0.337937
+步骤3：Logistic Regression / Unweighted
+结果: Macro-F1=0.356558, Accuracy=0.362587
+步骤3：Logistic Regression / Balanced
+结果: Macro-F1=0.355681, Accuracy=0.361189
+步骤3：Extra Trees / Unweighted
+结果: Macro-F1=0.344559, Accuracy=0.346154
+步骤3：Extra Trees / Balanced
+结果: Macro-F1=0.345658, Accuracy=0.346853
+步骤4：当前数据集敏感性比较
+Dataset            Baseline  Weighting  Accuracy  Macro_F1
+ US-Pow         Extra Trees   Balanced  0.346853  0.345658
+ US-Pow         Extra Trees Unweighted  0.346154  0.344559
+ US-Pow Logistic Regression   Balanced  0.361189  0.355681
+ US-Pow Logistic Regression Unweighted  0.362587  0.356558
+ US-Pow      Naive Momentum        N/A  0.337937  0.335729
+Logistic Regression: Balanced-Unweighted ΔF1=-0.000878, ΔAcc=-0.001399
+Extra Trees: Balanced-Unweighted ΔF1=0.001098, ΔAcc=0.000699
+--------------------
+步骤5：保存与最终汇总
+结果行数: 25
+异常记录数: 0
+--------------------
+最终汇总1：全部结果
+  Dataset            Baseline  Weighting  Accuracy  Macro_F1
+Medical-1         Extra Trees   Balanced  0.410147  0.390459
+Medical-1         Extra Trees Unweighted  0.404223  0.382671
+Medical-1 Logistic Regression   Balanced  0.387209  0.365049
+Medical-1 Logistic Regression Unweighted  0.389792  0.366126
+Medical-1      Naive Momentum        N/A  0.358043  0.351313
+Medical-2         Extra Trees   Balanced  0.396314  0.373432
+Medical-2         Extra Trees Unweighted  0.396637  0.375911
+Medical-2 Logistic Regression   Balanced  0.426156  0.377716
+Medical-2 Logistic Regression Unweighted  0.426618  0.374620
+Medical-2      Naive Momentum        N/A  0.368458  0.359161
+    Power         Extra Trees   Balanced  0.414726  0.395244
+    Power         Extra Trees Unweighted  0.417769  0.398032
+    Power Logistic Regression   Balanced  0.423388  0.390969
+    Power Logistic Regression Unweighted  0.422919  0.389180
+    Power      Naive Momentum        N/A  0.362285  0.354266
+   US-Med         Extra Trees   Balanced  0.372727  0.359013
+   US-Med         Extra Trees Unweighted  0.372378  0.358631
+   US-Med Logistic Regression   Balanced  0.350699  0.344667
+   US-Med Logistic Regression Unweighted  0.353322  0.346610
+   US-Med      Naive Momentum        N/A  0.342308  0.341819
+   US-Pow         Extra Trees   Balanced  0.346853  0.345658
+   US-Pow         Extra Trees Unweighted  0.346154  0.344559
+   US-Pow Logistic Regression   Balanced  0.361189  0.355681
+   US-Pow Logistic Regression Unweighted  0.362587  0.356558
+   US-Pow      Naive Momentum        N/A  0.337937  0.335729
+--------------------
+最终汇总2：权重敏感性
+  Dataset            Baseline  Unweighted_F1  Balanced_F1  Delta_F1  Unweighted_Accuracy  Balanced_Accuracy  Delta_Accuracy
+Medical-1 Logistic Regression       0.366126     0.365049 -0.001078             0.389792           0.387209       -0.002582
+Medical-1         Extra Trees       0.382671     0.390459  0.007788             0.404223           0.410147        0.005924
+Medical-2 Logistic Regression       0.374620     0.377716  0.003096             0.426618           0.426156       -0.000462
+Medical-2         Extra Trees       0.375911     0.373432 -0.002478             0.396637           0.396314       -0.000323
+    Power Logistic Regression       0.389180     0.390969  0.001788             0.422919           0.423388        0.000468
+    Power         Extra Trees       0.398032     0.395244 -0.002788             0.417769           0.414726       -0.003043
+   US-Med Logistic Regression       0.346610     0.344667 -0.001943             0.353322           0.350699       -0.002622
+   US-Med         Extra Trees       0.358631     0.359013  0.000382             0.372378           0.372727        0.000350
+   US-Pow Logistic Regression       0.356558     0.355681 -0.000878             0.362587           0.361189       -0.001399
+   US-Pow         Extra Trees       0.344559     0.345658  0.001098             0.346154           0.346853        0.000699
+--------------------
+最终汇总3：每个数据集最佳baseline vs 最佳RNN
+  Dataset       Best_Baseline  Weighting  Baseline_Macro_F1 Best_RNN  RNN_Macro_F1  RNN_minus_Baseline_F1  Baseline_Accuracy  RNN_Accuracy  RNN_minus_Baseline_Acc
+Medical-1         Extra Trees   Balanced           0.390459      GRU      0.413231               0.022771           0.410147      0.423211                0.013064
+Medical-2 Logistic Regression   Balanced           0.377716   BiLSTM      0.419882               0.042166           0.426156      0.437474                0.011318
+    Power         Extra Trees Unweighted           0.398032   BiLSTM      0.412120               0.014088           0.417769      0.423153                0.005385
+   US-Med         Extra Trees   Balanced           0.359013     LSTM      0.363922               0.004909           0.372727      0.373252                0.000524
+   US-Pow Logistic Regression Unweighted           0.356558   BiLSTM      0.365106               0.008548           0.362587      0.366608                0.004021
+--------------------
+最终汇总4：异常
+异常: 0，全部步骤运行完成
+--------------------
+xai_cell_C_V3 完成
+结果目录: 0924/xai_cell_C_V3/
+
+
+

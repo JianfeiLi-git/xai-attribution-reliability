@@ -1,0 +1,1071 @@
+输出目录: xai_cell_J_V2/
+设备: cuda
+随机种子: [42, 123, 777, 0, 2024]
+IG样本数: 500
+IG步数: 64
+--------------------
+任务: multi-seed prediction + IG stability
+--------------------
+US-Med-GRU原学习率: 5.0e-05
+来源: xai_us/results_XAI/rnn_results_us_60/history_gru_dataset4_m_SELECTED_13_seed42.json
+US-Pow-GRU原学习率: 5.0e-05
+来源: xai_us/results_XAI/rnn_results_us_60/history_gru_dataset5_p_SELECTED_12_seed42.json
+--------------------
+数据集: Medical-1
+步骤1：数据准备与审计
+Medical-1: train=(38820, 60, 13), val=(7168, 60, 13), test=(6583, 60, 13)
+train: NaN=0, Inf=0
+val: NaN=0, Inf=0
+test: NaN=0, Inf=0
+固定IG样本数: 500
+字段数: 13
+数据审计: 通过
+--------------------
+Medical-1 / GRU
+步骤2：seed42原模型复核
+seed42复核: Macro-F1=0.413231, Accuracy=0.423211
+seed42模型: XAI_cn/models_XAI/rnn_enhanced_dataset2/gru_dataset1_SELECTED_13_seed42.pt
+步骤3：seed42参考IG
+--------------------
+Seed=42
+结果: F1=0.413231, Acc=0.423211
+稳定性: PredAgree=1.0000, Featureρ=1.0000, Temporalρ=1.0000
+近期性: Last10=0.5784, Last10/First10=9.8618, Top5Overlap=1.00
+--------------------
+Seed=123
+复用已存在模型: xai_cell_J_V1/models/Medical-1_GRU_seed123.pt
+步骤5：固定target IG
+结果: F1=0.406507, Acc=0.419414
+稳定性: PredAgree=0.8267, Featureρ=0.9560, Temporalρ=0.9793
+近期性: Last10=0.6244, Last10/First10=13.5953, Top5Overlap=1.00
+--------------------
+Seed=777
+复用已存在模型: xai_cell_J_V1/models/Medical-1_GRU_seed777.pt
+步骤5：固定target IG
+结果: F1=0.412111, Acc=0.422452
+稳定性: PredAgree=0.8602, Featureρ=0.9670, Temporalρ=0.9647
+近期性: Last10=0.5110, Last10/First10=7.8540, Top5Overlap=0.80
+--------------------
+Seed=0
+复用已存在模型: xai_cell_J_V1/models/Medical-1_GRU_seed0.pt
+步骤5：固定target IG
+结果: F1=0.411806, Acc=0.426098
+稳定性: PredAgree=0.8642, Featureρ=0.9780, Temporalρ=0.9455
+近期性: Last10=0.5798, Last10/First10=8.8980, Top5Overlap=1.00
+--------------------
+Seed=2024
+复用已存在模型: xai_cell_J_V1/models/Medical-1_GRU_seed2024.pt
+步骤5：固定target IG
+结果: F1=0.404107, Acc=0.416527
+稳定性: PredAgree=0.8048, Featureρ=0.8407, Temporalρ=0.9159
+近期性: Last10=0.5193, Last10/First10=6.6281, Top5Overlap=1.00
+--------------------
+Medical-1 / BiLSTM
+步骤2：seed42原模型复核
+seed42复核: Macro-F1=0.403506, Accuracy=0.407261
+seed42模型: XAI_cn/models_XAI/rnn_enhanced_dataset2/bilstm_dataset1_SELECTED_13_seed42.pt
+步骤3：seed42参考IG
+--------------------
+Seed=42
+结果: F1=0.403506, Acc=0.407261
+稳定性: PredAgree=1.0000, Featureρ=1.0000, Temporalρ=1.0000
+近期性: Last10=0.5748, Last10/First10=8.6265, Top5Overlap=1.00
+--------------------
+Seed=123
+步骤4：训练新seed模型
+训练配置: hidden=64, layers=2, dropout=0.05, lr=1.0e-04, batch=256, weights=[1.1, 0.95, 1.25]
+Epoch 001: Loss=1.0950, ValF1=0.1663, LR=1.00e-04
+Epoch 020: Loss=1.0623, ValF1=0.3900, LR=1.00e-04
+Epoch 040: Loss=1.0565, ValF1=0.3971, LR=1.00e-04
+Epoch 060: Loss=1.0492, ValF1=0.3917, LR=1.00e-04
+Epoch 080: Loss=1.0399, ValF1=0.3908, LR=7.00e-05
+Epoch 100: Loss=1.0340, ValF1=0.3973, LR=4.90e-05
+Epoch 120: Loss=1.0288, ValF1=0.4033, LR=4.90e-05
+Epoch 140: Loss=1.0245, ValF1=0.3953, LR=2.40e-05
+Early stopping: epoch=156
+模型保存: xai_cell_J_V2/models/Medical-1_BiLSTM_seed123.pt
+步骤5：固定target IG
+结果: F1=0.395408, Acc=0.400273
+稳定性: PredAgree=0.6965, Featureρ=0.9396, Temporalρ=0.8620
+近期性: Last10=0.4370, Last10/First10=6.0507, Top5Overlap=0.80
+--------------------
+Seed=777
+步骤4：训练新seed模型
+训练配置: hidden=64, layers=2, dropout=0.05, lr=1.0e-04, batch=256, weights=[1.1, 0.95, 1.25]
+Epoch 001: Loss=1.0918, ValF1=0.1421, LR=1.00e-04
+Epoch 020: Loss=1.0634, ValF1=0.3831, LR=1.00e-04
+Epoch 040: Loss=1.0576, ValF1=0.3893, LR=1.00e-04
+Epoch 060: Loss=1.0512, ValF1=0.3703, LR=4.90e-05
+Early stopping: epoch=76
+模型保存: xai_cell_J_V2/models/Medical-1_BiLSTM_seed777.pt
+步骤5：固定target IG
+结果: F1=0.396895, Acc=0.407413
+稳定性: PredAgree=0.6928, Featureρ=0.8187, Temporalρ=0.9310
+近期性: Last10=0.6689, Last10/First10=18.5338, Top5Overlap=0.80
+--------------------
+Seed=0
+步骤4：训练新seed模型
+训练配置: hidden=64, layers=2, dropout=0.05, lr=1.0e-04, batch=256, weights=[1.1, 0.95, 1.25]
+Epoch 001: Loss=1.0918, ValF1=0.1421, LR=1.00e-04
+Epoch 020: Loss=1.0627, ValF1=0.3754, LR=1.00e-04
+Epoch 040: Loss=1.0566, ValF1=0.3911, LR=7.00e-05
+Epoch 060: Loss=1.0514, ValF1=0.3829, LR=4.90e-05
+Early stopping: epoch=66
+模型保存: xai_cell_J_V2/models/Medical-1_BiLSTM_seed0.pt
+步骤5：固定target IG
+结果: F1=0.400283, Acc=0.403463
+稳定性: PredAgree=0.6860, Featureρ=0.8791, Temporalρ=0.8744
+近期性: Last10=0.7436, Last10/First10=51.2125, Top5Overlap=0.80
+--------------------
+Seed=2024
+步骤4：训练新seed模型
+训练配置: hidden=64, layers=2, dropout=0.05, lr=1.0e-04, batch=256, weights=[1.1, 0.95, 1.25]
+Epoch 001: Loss=1.0923, ValF1=0.1421, LR=1.00e-04
+Epoch 020: Loss=1.0639, ValF1=0.3761, LR=1.00e-04
+Epoch 040: Loss=1.0571, ValF1=0.3664, LR=7.00e-05
+Epoch 060: Loss=1.0518, ValF1=0.3796, LR=4.90e-05
+Epoch 080: Loss=1.0479, ValF1=0.3682, LR=3.43e-05
+Early stopping: epoch=89
+模型保存: xai_cell_J_V2/models/Medical-1_BiLSTM_seed2024.pt
+步骤5：固定target IG
+结果: F1=0.400617, Acc=0.404679
+稳定性: PredAgree=0.7071, Featureρ=0.9451, Temporalρ=0.9337
+近期性: Last10=0.5971, Last10/First10=12.0294, Top5Overlap=0.80
+--------------------
+Medical-1 / LSTM
+步骤2：seed42原模型复核
+seed42复核: Macro-F1=0.412939, Accuracy=0.427617
+seed42模型: XAI_cn/models_XAI/lstm_enhanced/lstm_dataset1_SELECTED_13_seed42.pt
+步骤3：seed42参考IG
+--------------------
+Seed=42
+结果: F1=0.412939, Acc=0.427617
+稳定性: PredAgree=1.0000, Featureρ=1.0000, Temporalρ=1.0000
+近期性: Last10=0.5136, Last10/First10=6.7793, Top5Overlap=1.00
+--------------------
+Seed=123
+复用已存在模型: xai_cell_J_V1/models/Medical-1_LSTM_seed123.pt
+步骤5：固定target IG
+结果: F1=0.405228, Acc=0.427313
+稳定性: PredAgree=0.7746, Featureρ=0.9066, Temporalρ=0.9723
+近期性: Last10=0.5795, Last10/First10=9.6590, Top5Overlap=1.00
+--------------------
+Seed=777
+复用已存在模型: xai_cell_J_V1/models/Medical-1_LSTM_seed777.pt
+步骤5：固定target IG
+结果: F1=0.401634, Acc=0.413945
+稳定性: PredAgree=0.7342, Featureρ=0.7857, Temporalρ=0.9091
+近期性: Last10=0.6011, Last10/First10=16.0820, Top5Overlap=0.80
+--------------------
+Seed=0
+复用已存在模型: xai_cell_J_V1/models/Medical-1_LSTM_seed0.pt
+步骤5：固定target IG
+结果: F1=0.407789, Acc=0.419717
+稳定性: PredAgree=0.7931, Featureρ=0.9286, Temporalρ=0.9021
+近期性: Last10=0.6689, Last10/First10=24.5452, Top5Overlap=1.00
+--------------------
+Seed=2024
+复用已存在模型: xai_cell_J_V1/models/Medical-1_LSTM_seed2024.pt
+步骤5：固定target IG
+结果: F1=0.405054, Acc=0.427465
+稳定性: PredAgree=0.7557, Featureρ=0.8022, Temporalρ=0.9095
+近期性: Last10=0.5410, Last10/First10=8.3453, Top5Overlap=1.00
+--------------------
+数据集: Medical-2
+步骤1：数据准备与审计
+Medical-2: train=(138900, 60, 14), val=(23608, 60, 14), test=(21647, 60, 14)
+train: NaN=0, Inf=0
+val: NaN=0, Inf=0
+test: NaN=0, Inf=0
+固定IG样本数: 500
+字段数: 14
+数据审计: 通过
+--------------------
+Medical-2 / GRU
+跳过: 原训练脚本缺失，交由 xai_cell_K_V1 单独处理
+--------------------
+Medical-2 / BiLSTM
+步骤2：seed42原模型复核
+seed42复核: Macro-F1=0.419882, Accuracy=0.437474
+seed42模型: XAI_cn/models_XAI/rnn_enhanced_dataset2/bilstm_dataset2_SELECTED_14_seed42.pt
+步骤3：seed42参考IG
+--------------------
+Seed=42
+结果: F1=0.419882, Acc=0.437474
+稳定性: PredAgree=1.0000, Featureρ=1.0000, Temporalρ=1.0000
+近期性: Last10=0.6537, Last10/First10=18.4992, Top5Overlap=1.00
+--------------------
+Seed=123
+步骤4：训练新seed模型
+训练配置: hidden=128, layers=2, dropout=0.1, lr=1.0e-04, batch=512, weights=[1.15, 1.0, 1.15]
+Epoch 001: Loss=1.0959, ValF1=0.2938, LR=1.00e-04
+Epoch 020: Loss=1.0780, ValF1=0.3242, LR=1.00e-04
+Epoch 040: Loss=1.0752, ValF1=0.3544, LR=1.00e-04
+Epoch 060: Loss=1.0737, ValF1=0.3692, LR=7.00e-05
+Early stopping: epoch=79
+模型保存: xai_cell_J_V2/models/Medical-2_BiLSTM_seed123.pt
+步骤5：固定target IG
+结果: F1=0.394768, Acc=0.397330
+稳定性: PredAgree=0.6460, Featureρ=0.9824, Temporalρ=0.9995
+近期性: Last10=0.7194, Last10/First10=36.4288, Top5Overlap=0.80
+--------------------
+Seed=777
+步骤4：训练新seed模型
+训练配置: hidden=128, layers=2, dropout=0.1, lr=1.0e-04, batch=512, weights=[1.15, 1.0, 1.15]
+Epoch 001: Loss=1.0973, ValF1=0.1677, LR=1.00e-04
+Epoch 020: Loss=1.0761, ValF1=0.3479, LR=1.00e-04
+Epoch 040: Loss=1.0751, ValF1=0.3583, LR=7.00e-05
+Epoch 060: Loss=1.0730, ValF1=0.3593, LR=7.00e-05
+Epoch 080: Loss=1.0720, ValF1=0.3874, LR=4.90e-05
+Epoch 100: Loss=1.0714, ValF1=0.3854, LR=3.43e-05
+Early stopping: epoch=103
+模型保存: xai_cell_J_V2/models/Medical-2_BiLSTM_seed777.pt
+步骤5：固定target IG
+结果: F1=0.395015, Acc=0.411604
+稳定性: PredAgree=0.6886, Featureρ=0.9692, Temporalρ=0.9850
+近期性: Last10=0.6701, Last10/First10=15.2594, Top5Overlap=1.00
+--------------------
+Seed=0
+步骤4：训练新seed模型
+训练配置: hidden=128, layers=2, dropout=0.1, lr=1.0e-04, batch=512, weights=[1.15, 1.0, 1.15]
+Epoch 001: Loss=1.0959, ValF1=0.1720, LR=1.00e-04
+Epoch 020: Loss=1.0787, ValF1=0.3516, LR=1.00e-04
+Epoch 040: Loss=1.0748, ValF1=0.3394, LR=7.00e-05
+Epoch 060: Loss=1.0727, ValF1=0.3875, LR=7.00e-05
+Epoch 080: Loss=1.0723, ValF1=0.3900, LR=4.90e-05
+Epoch 100: Loss=1.0712, ValF1=0.3667, LR=3.43e-05
+Early stopping: epoch=102
+模型保存: xai_cell_J_V2/models/Medical-2_BiLSTM_seed0.pt
+步骤5：固定target IG
+结果: F1=0.396238, Acc=0.415901
+稳定性: PredAgree=0.7181, Featureρ=0.7143, Temporalρ=0.9994
+近期性: Last10=0.6541, Last10/First10=25.5917, Top5Overlap=1.00
+--------------------
+Seed=2024
+步骤4：训练新seed模型
+训练配置: hidden=128, layers=2, dropout=0.1, lr=1.0e-04, batch=512, weights=[1.15, 1.0, 1.15]
+Epoch 001: Loss=1.0938, ValF1=0.3064, LR=1.00e-04
+Epoch 020: Loss=1.0808, ValF1=0.3257, LR=1.00e-04
+Epoch 040: Loss=1.0782, ValF1=0.3254, LR=1.00e-04
+Epoch 060: Loss=1.0777, ValF1=0.3350, LR=7.00e-05
+Early stopping: epoch=79
+模型保存: xai_cell_J_V2/models/Medical-2_BiLSTM_seed2024.pt
+步骤5：固定target IG
+结果: F1=0.407210, Acc=0.417333
+稳定性: PredAgree=0.7601, Featureρ=0.8022, Temporalρ=0.9993
+近期性: Last10=0.9029, Last10/First10=4732.4554, Top5Overlap=0.80
+--------------------
+Medical-2 / LSTM
+步骤2：seed42原模型复核
+seed42复核: Macro-F1=0.412224, Accuracy=0.427265
+seed42模型: XAI_cn/models_XAI/lstm_enhanced/lstm_dataset2_SELECTED_14_seed42.pt
+步骤3：seed42参考IG
+--------------------
+Seed=42
+结果: F1=0.412224, Acc=0.427265
+稳定性: PredAgree=1.0000, Featureρ=1.0000, Temporalρ=1.0000
+近期性: Last10=0.6587, Last10/First10=24.7050, Top5Overlap=1.00
+--------------------
+Seed=123
+步骤4：训练新seed模型
+训练配置: hidden=128, layers=2, dropout=0.0, lr=1.0e-04, batch=512, weights=[1.3, 1.0, 1.3]
+Epoch 001: Loss=1.0934, ValF1=0.1424, LR=1.00e-04
+Epoch 020: Loss=1.0738, ValF1=0.3166, LR=1.00e-04
+Epoch 040: Loss=1.0712, ValF1=0.3648, LR=7.00e-05
+Epoch 060: Loss=1.0716, ValF1=0.3653, LR=7.00e-05
+Epoch 080: Loss=1.0697, ValF1=0.3906, LR=4.90e-05
+Epoch 100: Loss=1.0685, ValF1=0.3717, LR=4.90e-05
+Epoch 120: Loss=1.0679, ValF1=0.3803, LR=3.43e-05
+Early stopping: epoch=139
+模型保存: xai_cell_J_V2/models/Medical-2_LSTM_seed123.pt
+步骤5：固定target IG
+结果: F1=0.404228, Acc=0.419920
+稳定性: PredAgree=0.7844, Featureρ=0.8154, Temporalρ=0.9998
+近期性: Last10=0.6812, Last10/First10=38.4186, Top5Overlap=1.00
+--------------------
+Seed=777
+步骤4：训练新seed模型
+训练配置: hidden=128, layers=2, dropout=0.0, lr=1.0e-04, batch=512, weights=[1.3, 1.0, 1.3]
+Epoch 001: Loss=1.0924, ValF1=0.1677, LR=1.00e-04
+Epoch 020: Loss=1.0726, ValF1=0.3624, LR=7.00e-05
+Epoch 040: Loss=1.0709, ValF1=0.3699, LR=7.00e-05
+Epoch 060: Loss=1.0694, ValF1=0.3788, LR=4.90e-05
+Epoch 080: Loss=1.0683, ValF1=0.3792, LR=3.43e-05
+Early stopping: epoch=85
+模型保存: xai_cell_J_V2/models/Medical-2_LSTM_seed777.pt
+步骤5：固定target IG
+结果: F1=0.391279, Acc=0.398346
+稳定性: PredAgree=0.6672, Featureρ=0.7978, Temporalρ=0.6713
+近期性: Last10=0.6597, Last10/First10=10.2226, Top5Overlap=1.00
+--------------------
+Seed=0
+步骤4：训练新seed模型
+训练配置: hidden=128, layers=2, dropout=0.0, lr=1.0e-04, batch=512, weights=[1.3, 1.0, 1.3]
+Epoch 001: Loss=1.0928, ValF1=0.1883, LR=1.00e-04
+Epoch 020: Loss=1.0729, ValF1=0.3185, LR=1.00e-04
+Epoch 040: Loss=1.0712, ValF1=0.3332, LR=7.00e-05
+Epoch 060: Loss=1.0694, ValF1=0.3794, LR=7.00e-05
+Epoch 080: Loss=1.0683, ValF1=0.3768, LR=4.90e-05
+Epoch 100: Loss=1.0673, ValF1=0.3828, LR=3.43e-05
+Early stopping: epoch=102
+模型保存: xai_cell_J_V2/models/Medical-2_LSTM_seed0.pt
+步骤5：固定target IG
+结果: F1=0.393103, Acc=0.413776
+稳定性: PredAgree=0.7470, Featureρ=0.7495, Temporalρ=0.9996
+近期性: Last10=0.6567, Last10/First10=33.7362, Top5Overlap=1.00
+--------------------
+Seed=2024
+步骤4：训练新seed模型
+训练配置: hidden=128, layers=2, dropout=0.0, lr=1.0e-04, batch=512, weights=[1.3, 1.0, 1.3]
+Epoch 001: Loss=1.0933, ValF1=0.1938, LR=1.00e-04
+Epoch 020: Loss=1.0766, ValF1=0.3596, LR=1.00e-04
+Epoch 040: Loss=1.0744, ValF1=0.3662, LR=1.00e-04
+Epoch 060: Loss=1.0724, ValF1=0.3675, LR=7.00e-05
+Epoch 080: Loss=1.0705, ValF1=0.3534, LR=4.90e-05
+Early stopping: epoch=85
+模型保存: xai_cell_J_V2/models/Medical-2_LSTM_seed2024.pt
+步骤5：固定target IG
+结果: F1=0.396890, Acc=0.405784
+稳定性: PredAgree=0.6801, Featureρ=0.7275, Temporalρ=0.9997
+近期性: Last10=0.6488, Last10/First10=50.2199, Top5Overlap=1.00
+--------------------
+数据集: Power
+步骤1：数据准备与审计
+Power: train=(74093, 60, 12), val=(8969, 60, 12), test=(8543, 60, 12)
+train: NaN=0, Inf=0
+val: NaN=0, Inf=0
+test: NaN=0, Inf=0
+固定IG样本数: 500
+字段数: 12
+数据审计: 通过
+--------------------
+Power / GRU
+步骤2：seed42原模型复核
+seed42复核: Macro-F1=0.410313, Accuracy=0.416598
+seed42模型: XAI_cn/e3/models_XAI/rnn_enhanced_dataset2/gru_dataset2_SELECTED_12_seed42.pt
+步骤3：seed42参考IG
+--------------------
+Seed=42
+结果: F1=0.410313, Acc=0.416598
+稳定性: PredAgree=1.0000, Featureρ=1.0000, Temporalρ=1.0000
+近期性: Last10=0.6386, Last10/First10=14.0288, Top5Overlap=1.00
+--------------------
+Seed=123
+步骤4：训练新seed模型
+训练配置: hidden=128, layers=2, dropout=0.3, lr=5.0e-05, batch=512, weights=[1.1, 0.9, 1.2]
+Epoch 001: Loss=1.0941, ValF1=0.1723, LR=5.00e-05
+Epoch 020: Loss=1.0625, ValF1=0.3794, LR=5.00e-05
+Epoch 040: Loss=1.0591, ValF1=0.3917, LR=2.50e-05
+Epoch 060: Loss=1.0577, ValF1=0.3972, LR=1.25e-05
+Epoch 080: Loss=1.0575, ValF1=0.3976, LR=6.25e-06
+Epoch 100: Loss=1.0569, ValF1=0.3992, LR=3.13e-06
+Epoch 120: Loss=1.0564, ValF1=0.3997, LR=3.13e-06
+Epoch 140: Loss=1.0562, ValF1=0.4020, LR=1.56e-06
+Epoch 160: Loss=1.0570, ValF1=0.4016, LR=7.81e-07
+Epoch 180: Loss=1.0562, ValF1=0.4018, LR=7.81e-07
+Epoch 200: Loss=1.0565, ValF1=0.4030, LR=1.95e-07
+Epoch 220: Loss=1.0565, ValF1=0.4021, LR=4.88e-08
+Early stopping: epoch=234
+模型保存: xai_cell_J_V2/models/Power_GRU_seed123.pt
+步骤5：固定target IG
+结果: F1=0.416288, Acc=0.422685
+稳定性: PredAgree=0.8421, Featureρ=0.9580, Temporalρ=0.9853
+近期性: Last10=0.6898, Last10/First10=17.0783, Top5Overlap=0.80
+--------------------
+Seed=777
+步骤4：训练新seed模型
+训练配置: hidden=128, layers=2, dropout=0.3, lr=5.0e-05, batch=512, weights=[1.1, 0.9, 1.2]
+Epoch 001: Loss=1.0958, ValF1=0.1702, LR=5.00e-05
+Epoch 020: Loss=1.0640, ValF1=0.3799, LR=5.00e-05
+Epoch 040: Loss=1.0600, ValF1=0.3934, LR=5.00e-05
+Epoch 060: Loss=1.0586, ValF1=0.3917, LR=2.50e-05
+Epoch 080: Loss=1.0570, ValF1=0.3995, LR=1.25e-05
+Epoch 100: Loss=1.0566, ValF1=0.3997, LR=6.25e-06
+Epoch 120: Loss=1.0556, ValF1=0.4022, LR=1.56e-06
+Early stopping: epoch=138
+模型保存: xai_cell_J_V2/models/Power_GRU_seed777.pt
+步骤5：固定target IG
+结果: F1=0.411380, Acc=0.414374
+稳定性: PredAgree=0.8446, Featureρ=0.9161, Temporalρ=0.9917
+近期性: Last10=0.7091, Last10/First10=18.2973, Top5Overlap=0.60
+--------------------
+Seed=0
+步骤4：训练新seed模型
+训练配置: hidden=128, layers=2, dropout=0.3, lr=5.0e-05, batch=512, weights=[1.1, 0.9, 1.2]
+Epoch 001: Loss=1.0942, ValF1=0.1575, LR=5.00e-05
+Epoch 020: Loss=1.0635, ValF1=0.3580, LR=5.00e-05
+Epoch 040: Loss=1.0597, ValF1=0.3981, LR=5.00e-05
+Epoch 060: Loss=1.0575, ValF1=0.3937, LR=2.50e-05
+Epoch 080: Loss=1.0563, ValF1=0.3979, LR=1.25e-05
+Epoch 100: Loss=1.0564, ValF1=0.4026, LR=6.25e-06
+Epoch 120: Loss=1.0555, ValF1=0.4026, LR=1.56e-06
+Early stopping: epoch=127
+模型保存: xai_cell_J_V2/models/Power_GRU_seed0.pt
+步骤5：固定target IG
+结果: F1=0.408294, Acc=0.409926
+稳定性: PredAgree=0.7891, Featureρ=0.9091, Temporalρ=0.8709
+近期性: Last10=0.6235, Last10/First10=9.7280, Top5Overlap=0.60
+--------------------
+Seed=2024
+步骤4：训练新seed模型
+训练配置: hidden=128, layers=2, dropout=0.3, lr=5.0e-05, batch=512, weights=[1.1, 0.9, 1.2]
+Epoch 001: Loss=1.0916, ValF1=0.1516, LR=5.00e-05
+Epoch 020: Loss=1.0615, ValF1=0.3861, LR=5.00e-05
+Epoch 040: Loss=1.0590, ValF1=0.3969, LR=5.00e-05
+Epoch 060: Loss=1.0573, ValF1=0.4074, LR=2.50e-05
+Epoch 080: Loss=1.0559, ValF1=0.4056, LR=1.25e-05
+Epoch 100: Loss=1.0553, ValF1=0.4060, LR=6.25e-06
+Epoch 120: Loss=1.0551, ValF1=0.4074, LR=1.56e-06
+Early stopping: epoch=127
+模型保存: xai_cell_J_V2/models/Power_GRU_seed2024.pt
+步骤5：固定target IG
+结果: F1=0.407613, Acc=0.412501
+稳定性: PredAgree=0.8537, Featureρ=0.9231, Temporalρ=0.9987
+近期性: Last10=0.7141, Last10/First10=19.2706, Top5Overlap=0.80
+--------------------
+Power / BiLSTM
+步骤2：seed42原模型复核
+seed42复核: Macro-F1=0.412120, Accuracy=0.423153
+seed42模型: XAI_cn/e3/models_XAI/rnn_enhanced_dataset2/bilstm_dataset2_SELECTED_12_seed42.pt
+步骤3：seed42参考IG
+--------------------
+Seed=42
+结果: F1=0.412120, Acc=0.423153
+稳定性: PredAgree=1.0000, Featureρ=1.0000, Temporalρ=1.0000
+近期性: Last10=0.5776, Last10/First10=11.4003, Top5Overlap=1.00
+--------------------
+Seed=123
+步骤4：训练新seed模型
+训练配置: hidden=128, layers=2, dropout=0.35, lr=5.0e-05, batch=512, weights=[1.1, 1.0, 1.25]
+Epoch 001: Loss=1.0947, ValF1=0.1524, LR=5.00e-05
+Epoch 020: Loss=1.0631, ValF1=0.3383, LR=5.00e-05
+Epoch 040: Loss=1.0595, ValF1=0.3742, LR=5.00e-05
+Epoch 060: Loss=1.0565, ValF1=0.3937, LR=5.00e-05
+Epoch 080: Loss=1.0534, ValF1=0.3951, LR=1.25e-05
+Epoch 100: Loss=1.0525, ValF1=0.3973, LR=3.13e-06
+Epoch 120: Loss=1.0521, ValF1=0.3996, LR=1.56e-06
+Early stopping: epoch=125
+模型保存: xai_cell_J_V2/models/Power_BiLSTM_seed123.pt
+步骤5：固定target IG
+结果: F1=0.402935, Acc=0.411682
+稳定性: PredAgree=0.8092, Featureρ=0.9091, Temporalρ=0.9837
+近期性: Last10=0.7108, Last10/First10=30.9178, Top5Overlap=1.00
+--------------------
+Seed=777
+步骤4：训练新seed模型
+训练配置: hidden=128, layers=2, dropout=0.35, lr=5.0e-05, batch=512, weights=[1.1, 1.0, 1.25]
+Epoch 001: Loss=1.0953, ValF1=0.1532, LR=5.00e-05
+Epoch 020: Loss=1.0627, ValF1=0.3711, LR=5.00e-05
+Epoch 040: Loss=1.0577, ValF1=0.3873, LR=5.00e-05
+Epoch 060: Loss=1.0552, ValF1=0.3930, LR=2.50e-05
+Epoch 080: Loss=1.0532, ValF1=0.3935, LR=1.25e-05
+Epoch 100: Loss=1.0525, ValF1=0.3935, LR=3.13e-06
+Epoch 120: Loss=1.0521, ValF1=0.3958, LR=7.81e-07
+Early stopping: epoch=129
+模型保存: xai_cell_J_V2/models/Power_BiLSTM_seed777.pt
+步骤5：固定target IG
+结果: F1=0.399027, Acc=0.409575
+稳定性: PredAgree=0.7936, Featureρ=0.9021, Temporalρ=0.9752
+近期性: Last10=0.6301, Last10/First10=14.8533, Top5Overlap=1.00
+--------------------
+Seed=0
+步骤4：训练新seed模型
+训练配置: hidden=128, layers=2, dropout=0.35, lr=5.0e-05, batch=512, weights=[1.1, 1.0, 1.25]
+Epoch 001: Loss=1.0944, ValF1=0.1583, LR=5.00e-05
+Epoch 020: Loss=1.0624, ValF1=0.3676, LR=5.00e-05
+Epoch 040: Loss=1.0591, ValF1=0.3856, LR=5.00e-05
+Epoch 060: Loss=1.0554, ValF1=0.3891, LR=1.25e-05
+Epoch 080: Loss=1.0544, ValF1=0.3914, LR=6.25e-06
+Epoch 100: Loss=1.0541, ValF1=0.3928, LR=1.56e-06
+Epoch 120: Loss=1.0541, ValF1=0.3950, LR=3.91e-07
+Early stopping: epoch=135
+模型保存: xai_cell_J_V2/models/Power_BiLSTM_seed0.pt
+步骤5：固定target IG
+结果: F1=0.415923, Acc=0.425963
+稳定性: PredAgree=0.8461, Featureρ=0.7972, Temporalρ=0.9745
+近期性: Last10=0.5579, Last10/First10=8.6069, Top5Overlap=1.00
+--------------------
+Seed=2024
+步骤4：训练新seed模型
+训练配置: hidden=128, layers=2, dropout=0.35, lr=5.0e-05, batch=512, weights=[1.1, 1.0, 1.25]
+Epoch 001: Loss=1.0946, ValF1=0.1509, LR=5.00e-05
+Epoch 020: Loss=1.0612, ValF1=0.3807, LR=5.00e-05
+Epoch 040: Loss=1.0582, ValF1=0.3706, LR=5.00e-05
+Epoch 060: Loss=1.0548, ValF1=0.3825, LR=2.50e-05
+Epoch 080: Loss=1.0530, ValF1=0.3980, LR=1.25e-05
+Epoch 100: Loss=1.0512, ValF1=0.4012, LR=6.25e-06
+Epoch 120: Loss=1.0507, ValF1=0.3989, LR=1.56e-06
+Early stopping: epoch=128
+模型保存: xai_cell_J_V2/models/Power_BiLSTM_seed2024.pt
+步骤5：固定target IG
+结果: F1=0.410690, Acc=0.414374
+稳定性: PredAgree=0.8180, Featureρ=0.8392, Temporalρ=0.9872
+近期性: Last10=0.6567, Last10/First10=26.4296, Top5Overlap=1.00
+--------------------
+Power / LSTM
+步骤2：seed42原模型复核
+seed42复核: Macro-F1=0.402199, Accuracy=0.410277
+seed42模型: XAI_cn/e3/models_XAI/lstm_enhanced/lstm_dataset2_SELECTED_12_seed42.pt
+步骤3：seed42参考IG
+--------------------
+Seed=42
+结果: F1=0.402199, Acc=0.410277
+稳定性: PredAgree=1.0000, Featureρ=1.0000, Temporalρ=1.0000
+近期性: Last10=0.5468, Last10/First10=8.9281, Top5Overlap=1.00
+--------------------
+Seed=123
+步骤4：训练新seed模型
+训练配置: hidden=96, layers=2, dropout=0.25, lr=1.0e-04, batch=512, weights=[1.2, 1.0, 1.35]
+Epoch 001: Loss=1.0931, ValF1=0.1509, LR=1.00e-04
+Epoch 020: Loss=1.0615, ValF1=0.3687, LR=1.00e-04
+Epoch 040: Loss=1.0581, ValF1=0.3890, LR=1.00e-04
+Epoch 060: Loss=1.0553, ValF1=0.3855, LR=5.00e-05
+Epoch 080: Loss=1.0536, ValF1=0.3944, LR=5.00e-05
+Epoch 100: Loss=1.0521, ValF1=0.3980, LR=2.50e-05
+Epoch 120: Loss=1.0517, ValF1=0.3936, LR=6.25e-06
+Early stopping: epoch=131
+模型保存: xai_cell_J_V2/models/Power_LSTM_seed123.pt
+步骤5：固定target IG
+结果: F1=0.398600, Acc=0.406532
+稳定性: PredAgree=0.7667, Featureρ=0.6503, Temporalρ=0.9649
+近期性: Last10=0.6824, Last10/First10=21.2981, Top5Overlap=0.60
+--------------------
+Seed=777
+步骤4：训练新seed模型
+训练配置: hidden=96, layers=2, dropout=0.25, lr=1.0e-04, batch=512, weights=[1.2, 1.0, 1.35]
+Epoch 001: Loss=1.0934, ValF1=0.1510, LR=1.00e-04
+Epoch 020: Loss=1.0599, ValF1=0.3345, LR=1.00e-04
+Epoch 040: Loss=1.0554, ValF1=0.4009, LR=1.00e-04
+Epoch 060: Loss=1.0522, ValF1=0.4041, LR=5.00e-05
+Epoch 080: Loss=1.0495, ValF1=0.3962, LR=2.50e-05
+Epoch 100: Loss=1.0490, ValF1=0.3976, LR=1.25e-05
+Early stopping: epoch=117
+模型保存: xai_cell_J_V2/models/Power_LSTM_seed777.pt
+步骤5：固定target IG
+结果: F1=0.405007, Acc=0.406649
+稳定性: PredAgree=0.7948, Featureρ=0.7902, Temporalρ=0.8669
+近期性: Last10=0.5713, Last10/First10=7.6197, Top5Overlap=0.80
+--------------------
+Seed=0
+步骤4：训练新seed模型
+训练配置: hidden=96, layers=2, dropout=0.25, lr=1.0e-04, batch=512, weights=[1.2, 1.0, 1.35]
+Epoch 001: Loss=1.0937, ValF1=0.1760, LR=1.00e-04
+Epoch 020: Loss=1.0610, ValF1=0.3682, LR=1.00e-04
+Epoch 040: Loss=1.0576, ValF1=0.4004, LR=1.00e-04
+Epoch 060: Loss=1.0537, ValF1=0.3959, LR=5.00e-05
+Epoch 080: Loss=1.0519, ValF1=0.3997, LR=5.00e-05
+Epoch 100: Loss=1.0496, ValF1=0.4038, LR=5.00e-05
+Epoch 120: Loss=1.0477, ValF1=0.4028, LR=2.50e-05
+Epoch 140: Loss=1.0472, ValF1=0.4014, LR=6.25e-06
+Early stopping: epoch=149
+模型保存: xai_cell_J_V2/models/Power_LSTM_seed0.pt
+步骤5：固定target IG
+结果: F1=0.415091, Acc=0.421632
+稳定性: PredAgree=0.7959, Featureρ=0.8601, Temporalρ=0.9843
+近期性: Last10=0.5432, Last10/First10=9.8073, Top5Overlap=0.80
+--------------------
+Seed=2024
+步骤4：训练新seed模型
+训练配置: hidden=96, layers=2, dropout=0.25, lr=1.0e-04, batch=512, weights=[1.2, 1.0, 1.35]
+Epoch 001: Loss=1.0927, ValF1=0.1509, LR=1.00e-04
+Epoch 020: Loss=1.0615, ValF1=0.3662, LR=1.00e-04
+Epoch 040: Loss=1.0561, ValF1=0.3879, LR=5.00e-05
+Epoch 060: Loss=1.0544, ValF1=0.3866, LR=5.00e-05
+Epoch 080: Loss=1.0531, ValF1=0.3960, LR=2.50e-05
+Epoch 100: Loss=1.0524, ValF1=0.3939, LR=1.25e-05
+Epoch 120: Loss=1.0513, ValF1=0.3943, LR=3.13e-06
+Early stopping: epoch=128
+模型保存: xai_cell_J_V2/models/Power_LSTM_seed2024.pt
+步骤5：固定target IG
+结果: F1=0.410931, Acc=0.419759
+稳定性: PredAgree=0.8145, Featureρ=0.6993, Temporalρ=0.9896
+近期性: Last10=0.6237, Last10/First10=14.8851, Top5Overlap=0.80
+--------------------
+数据集: US-Med
+步骤1：数据准备与审计
+US-Med: train=(63061, 60, 13), val=(6280, 60, 13), test=(5720, 60, 13)
+train: NaN=0, Inf=0
+val: NaN=0, Inf=0
+test: NaN=0, Inf=0
+固定IG样本数: 500
+字段数: 13
+数据审计: 通过
+--------------------
+US-Med / GRU
+步骤2：seed42原模型复核
+seed42复核: Macro-F1=0.356312, Accuracy=0.363636
+seed42模型: xai_us/models_XAI/rnn_models_us/gru_dataset4_m_SELECTED_13_seed42.pt
+步骤3：seed42参考IG
+--------------------
+Seed=42
+结果: F1=0.356312, Acc=0.363636
+稳定性: PredAgree=1.0000, Featureρ=1.0000, Temporalρ=1.0000
+近期性: Last10=0.6301, Last10/First10=10.9887, Top5Overlap=1.00
+--------------------
+Seed=123
+步骤4：训练新seed模型
+训练配置: hidden=128, layers=3, dropout=0.1, lr=5.0e-05, batch=512, weights=[1.0, 1.0, 1.0]
+Epoch 001: Loss=1.0984, ValF1=0.2768, LR=5.00e-05
+Epoch 020: Loss=1.0786, ValF1=0.3323, LR=5.00e-05
+Epoch 040: Loss=1.0756, ValF1=0.3102, LR=2.50e-05
+Epoch 060: Loss=1.0751, ValF1=0.3338, LR=6.25e-06
+Epoch 080: Loss=1.0746, ValF1=0.3477, LR=3.13e-06
+Epoch 100: Loss=1.0750, ValF1=0.3442, LR=1.56e-06
+Epoch 120: Loss=1.0745, ValF1=0.3420, LR=3.91e-07
+Epoch 140: Loss=1.0748, ValF1=0.3418, LR=9.77e-08
+Early stopping: epoch=158
+模型保存: xai_cell_J_V2/models/US-Med_GRU_seed123.pt
+步骤5：固定target IG
+结果: F1=0.360899, Acc=0.370105
+稳定性: PredAgree=0.6273, Featureρ=0.6319, Temporalρ=0.9380
+近期性: Last10=0.5937, Last10/First10=9.6997, Top5Overlap=0.60
+--------------------
+Seed=777
+步骤4：训练新seed模型
+训练配置: hidden=128, layers=3, dropout=0.1, lr=5.0e-05, batch=512, weights=[1.0, 1.0, 1.0]
+Epoch 001: Loss=1.0992, ValF1=0.2698, LR=5.00e-05
+Epoch 020: Loss=1.0774, ValF1=0.3301, LR=2.50e-05
+Epoch 040: Loss=1.0758, ValF1=0.3268, LR=1.25e-05
+Epoch 060: Loss=1.0754, ValF1=0.3332, LR=3.13e-06
+Epoch 080: Loss=1.0756, ValF1=0.3342, LR=7.81e-07
+Early stopping: epoch=88
+模型保存: xai_cell_J_V2/models/US-Med_GRU_seed777.pt
+步骤5：固定target IG
+结果: F1=0.360327, Acc=0.368706
+稳定性: PredAgree=0.5656, Featureρ=0.4451, Temporalρ=0.7718
+近期性: Last10=0.5577, Last10/First10=14.3473, Top5Overlap=0.60
+--------------------
+Seed=0
+步骤4：训练新seed模型
+训练配置: hidden=128, layers=3, dropout=0.1, lr=5.0e-05, batch=512, weights=[1.0, 1.0, 1.0]
+Epoch 001: Loss=1.0988, ValF1=0.2668, LR=5.00e-05
+Epoch 020: Loss=1.0784, ValF1=0.3351, LR=2.50e-05
+Epoch 040: Loss=1.0762, ValF1=0.3388, LR=1.25e-05
+Epoch 060: Loss=1.0761, ValF1=0.3353, LR=3.13e-06
+Epoch 080: Loss=1.0756, ValF1=0.3371, LR=1.56e-06
+Epoch 100: Loss=1.0757, ValF1=0.3377, LR=3.91e-07
+Epoch 120: Loss=1.0760, ValF1=0.3380, LR=9.77e-08
+Early stopping: epoch=139
+模型保存: xai_cell_J_V2/models/US-Med_GRU_seed0.pt
+步骤5：固定target IG
+结果: F1=0.354557, Acc=0.367483
+稳定性: PredAgree=0.5670, Featureρ=0.7143, Temporalρ=0.8410
+近期性: Last10=0.5939, Last10/First10=10.8715, Top5Overlap=0.60
+--------------------
+Seed=2024
+步骤4：训练新seed模型
+训练配置: hidden=128, layers=3, dropout=0.1, lr=5.0e-05, batch=512, weights=[1.0, 1.0, 1.0]
+Epoch 001: Loss=1.0990, ValF1=0.2617, LR=5.00e-05
+Epoch 020: Loss=1.0779, ValF1=0.3248, LR=5.00e-05
+Epoch 040: Loss=1.0761, ValF1=0.3064, LR=2.50e-05
+Epoch 060: Loss=1.0754, ValF1=0.3322, LR=1.25e-05
+Epoch 080: Loss=1.0746, ValF1=0.3487, LR=3.13e-06
+Epoch 100: Loss=1.0747, ValF1=0.3440, LR=7.81e-07
+Epoch 120: Loss=1.0747, ValF1=0.3449, LR=1.95e-07
+Early stopping: epoch=122
+模型保存: xai_cell_J_V2/models/US-Med_GRU_seed2024.pt
+步骤5：固定target IG
+结果: F1=0.325081, Acc=0.359615
+稳定性: PredAgree=0.5402, Featureρ=0.5824, Temporalρ=0.8512
+近期性: Last10=0.5184, Last10/First10=6.8385, Top5Overlap=0.60
+--------------------
+US-Med / BiLSTM
+步骤2：seed42原模型复核
+seed42复核: Macro-F1=0.358022, Accuracy=0.366783
+seed42模型: xai_us/models_XAI/rnn_bilstm_us_60/bilstm_dataset4_m_SELECTED_13_seed42.pt
+步骤3：seed42参考IG
+--------------------
+Seed=42
+结果: F1=0.358022, Acc=0.366783
+稳定性: PredAgree=1.0000, Featureρ=1.0000, Temporalρ=1.0000
+近期性: Last10=0.4596, Last10/First10=5.0429, Top5Overlap=1.00
+--------------------
+Seed=123
+步骤4：训练新seed模型
+训练配置: hidden=128, layers=3, dropout=0.1, lr=5.0e-05, batch=512, weights=[1.0, 1.0, 1.0]
+Epoch 001: Loss=1.0986, ValF1=0.2531, LR=5.00e-05
+Epoch 020: Loss=1.0771, ValF1=0.3298, LR=2.50e-05
+Epoch 040: Loss=1.0756, ValF1=0.3334, LR=6.25e-06
+Epoch 060: Loss=1.0752, ValF1=0.3316, LR=1.56e-06
+Early stopping: epoch=63
+模型保存: xai_cell_J_V2/models/US-Med_BiLSTM_seed123.pt
+步骤5：固定target IG
+结果: F1=0.361990, Acc=0.368007
+稳定性: PredAgree=0.4892, Featureρ=0.3516, Temporalρ=0.9813
+近期性: Last10=0.3201, Last10/First10=4.6818, Top5Overlap=0.60
+--------------------
+Seed=777
+步骤4：训练新seed模型
+训练配置: hidden=128, layers=3, dropout=0.1, lr=5.0e-05, batch=512, weights=[1.0, 1.0, 1.0]
+Epoch 001: Loss=1.0984, ValF1=0.2701, LR=5.00e-05
+Epoch 020: Loss=1.0773, ValF1=0.3270, LR=5.00e-05
+Epoch 040: Loss=1.0745, ValF1=0.3252, LR=1.25e-05
+Epoch 060: Loss=1.0736, ValF1=0.3273, LR=3.13e-06
+Early stopping: epoch=74
+模型保存: xai_cell_J_V2/models/US-Med_BiLSTM_seed777.pt
+步骤5：固定target IG
+结果: F1=0.330469, Acc=0.365909
+稳定性: PredAgree=0.7016, Featureρ=0.0549, Temporalρ=0.8856
+近期性: Last10=0.6509, Last10/First10=16.4716, Top5Overlap=0.40
+--------------------
+Seed=0
+步骤4：训练新seed模型
+训练配置: hidden=128, layers=3, dropout=0.1, lr=5.0e-05, batch=512, weights=[1.0, 1.0, 1.0]
+Epoch 001: Loss=1.0986, ValF1=0.2371, LR=5.00e-05
+Epoch 020: Loss=1.0786, ValF1=0.3306, LR=5.00e-05
+Epoch 040: Loss=1.0762, ValF1=0.3308, LR=1.25e-05
+Epoch 060: Loss=1.0757, ValF1=0.3229, LR=3.13e-06
+Early stopping: epoch=69
+模型保存: xai_cell_J_V2/models/US-Med_BiLSTM_seed0.pt
+步骤5：固定target IG
+结果: F1=0.349671, Acc=0.364161
+稳定性: PredAgree=0.5962, Featureρ=0.3571, Temporalρ=0.6525
+近期性: Last10=0.6589, Last10/First10=10.8309, Top5Overlap=0.40
+--------------------
+Seed=2024
+步骤4：训练新seed模型
+训练配置: hidden=128, layers=3, dropout=0.1, lr=5.0e-05, batch=512, weights=[1.0, 1.0, 1.0]
+Epoch 001: Loss=1.0985, ValF1=0.2315, LR=5.00e-05
+Epoch 020: Loss=1.0778, ValF1=0.3413, LR=5.00e-05
+Epoch 040: Loss=1.0756, ValF1=0.3186, LR=5.00e-05
+Epoch 060: Loss=1.0735, ValF1=0.3195, LR=1.25e-05
+Epoch 080: Loss=1.0730, ValF1=0.3519, LR=3.13e-06
+Early stopping: epoch=89
+模型保存: xai_cell_J_V2/models/US-Med_BiLSTM_seed2024.pt
+步骤5：固定target IG
+结果: F1=0.324314, Acc=0.357343
+稳定性: PredAgree=0.6900, Featureρ=0.1593, Temporalρ=0.9757
+近期性: Last10=0.6846, Last10/First10=18.9487, Top5Overlap=0.60
+--------------------
+US-Med / LSTM
+步骤2：seed42原模型复核
+seed42复核: Macro-F1=0.363922, Accuracy=0.373252
+seed42模型: xai_us/models_XAI/lstm_us_60/lstm_dataset4_m_SELECTED_13_seed42.pt
+步骤3：seed42参考IG
+--------------------
+Seed=42
+结果: F1=0.363922, Acc=0.373252
+稳定性: PredAgree=1.0000, Featureρ=1.0000, Temporalρ=1.0000
+近期性: Last10=0.4882, Last10/First10=4.1502, Top5Overlap=1.00
+--------------------
+Seed=123
+步骤4：训练新seed模型
+训练配置: hidden=128, layers=3, dropout=0.1, lr=5.0e-05, batch=256, weights=[1.0, 1.0, 1.0]
+Epoch 001: Loss=1.0987, ValF1=0.2854, LR=5.00e-05
+Epoch 020: Loss=1.0791, ValF1=0.3104, LR=5.00e-05
+Epoch 040: Loss=1.0773, ValF1=0.3191, LR=2.50e-05
+Epoch 060: Loss=1.0759, ValF1=0.3308, LR=1.25e-05
+Epoch 080: Loss=1.0753, ValF1=0.3422, LR=6.25e-06
+Early stopping: epoch=96
+模型保存: xai_cell_J_V2/models/US-Med_LSTM_seed123.pt
+步骤5：固定target IG
+结果: F1=0.361333, Acc=0.367483
+稳定性: PredAgree=0.7432, Featureρ=0.6923, Temporalρ=0.3160
+近期性: Last10=0.5061, Last10/First10=17.7418, Top5Overlap=1.00
+--------------------
+Seed=777
+步骤4：训练新seed模型
+训练配置: hidden=128, layers=3, dropout=0.1, lr=5.0e-05, batch=256, weights=[1.0, 1.0, 1.0]
+Epoch 001: Loss=1.0984, ValF1=0.2780, LR=5.00e-05
+Epoch 020: Loss=1.0787, ValF1=0.3368, LR=5.00e-05
+Epoch 040: Loss=1.0754, ValF1=0.3251, LR=2.50e-05
+Epoch 060: Loss=1.0741, ValF1=0.3241, LR=1.25e-05
+Early stopping: epoch=79
+模型保存: xai_cell_J_V2/models/US-Med_LSTM_seed777.pt
+步骤5：固定target IG
+结果: F1=0.351365, Acc=0.364685
+稳定性: PredAgree=0.6815, Featureρ=0.4451, Temporalρ=0.3759
+近期性: Last10=0.4835, Last10/First10=9.0706, Top5Overlap=0.60
+--------------------
+Seed=0
+步骤4：训练新seed模型
+训练配置: hidden=128, layers=3, dropout=0.1, lr=5.0e-05, batch=256, weights=[1.0, 1.0, 1.0]
+Epoch 001: Loss=1.0987, ValF1=0.2414, LR=5.00e-05
+Epoch 020: Loss=1.0791, ValF1=0.2996, LR=5.00e-05
+Epoch 040: Loss=1.0761, ValF1=0.3311, LR=2.50e-05
+Epoch 060: Loss=1.0745, ValF1=0.3163, LR=6.25e-06
+Early stopping: epoch=71
+模型保存: xai_cell_J_V2/models/US-Med_LSTM_seed0.pt
+步骤5：固定target IG
+结果: F1=0.323748, Acc=0.364685
+稳定性: PredAgree=0.5895, Featureρ=0.6593, Temporalρ=0.3126
+近期性: Last10=0.3938, Last10/First10=6.4790, Top5Overlap=0.60
+--------------------
+Seed=2024
+步骤4：训练新seed模型
+训练配置: hidden=128, layers=3, dropout=0.1, lr=5.0e-05, batch=256, weights=[1.0, 1.0, 1.0]
+Epoch 001: Loss=1.0985, ValF1=0.3025, LR=5.00e-05
+Epoch 020: Loss=1.0787, ValF1=0.3115, LR=5.00e-05
+Epoch 040: Loss=1.0772, ValF1=0.3255, LR=2.50e-05
+Epoch 060: Loss=1.0749, ValF1=0.3320, LR=1.25e-05
+Epoch 080: Loss=1.0747, ValF1=0.3398, LR=6.25e-06
+Early stopping: epoch=96
+模型保存: xai_cell_J_V2/models/US-Med_LSTM_seed2024.pt
+步骤5：固定target IG
+结果: F1=0.355064, Acc=0.366958
+稳定性: PredAgree=0.7512, Featureρ=0.5659, Temporalρ=0.3342
+近期性: Last10=0.5554, Last10/First10=10.6482, Top5Overlap=0.60
+--------------------
+数据集: US-Pow
+步骤1：数据准备与审计
+US-Pow: train=(63799, 60, 12), val=(6280, 60, 12), test=(5720, 60, 12)
+train: NaN=0, Inf=0
+val: NaN=0, Inf=0
+test: NaN=0, Inf=0
+固定IG样本数: 500
+字段数: 12
+数据审计: 通过
+--------------------
+US-Pow / GRU
+步骤2：seed42原模型复核
+seed42复核: Macro-F1=0.327094, Accuracy=0.328322
+seed42模型: xai_us/models_XAI/rnn_models_us/gru_dataset5_p_SELECTED_12_seed42.pt
+步骤3：seed42参考IG
+--------------------
+Seed=42
+结果: F1=0.327094, Acc=0.328322
+稳定性: PredAgree=1.0000, Featureρ=1.0000, Temporalρ=1.0000
+近期性: Last10=0.5355, Last10/First10=7.2432, Top5Overlap=1.00
+--------------------
+Seed=123
+步骤4：训练新seed模型
+训练配置: hidden=128, layers=3, dropout=0.1, lr=5.0e-05, batch=512, weights=[1.0, 1.0, 1.0]
+Epoch 001: Loss=1.0989, ValF1=0.2897, LR=5.00e-05
+Epoch 020: Loss=1.0858, ValF1=0.3368, LR=2.50e-05
+Epoch 040: Loss=1.0844, ValF1=0.3427, LR=1.25e-05
+Epoch 060: Loss=1.0838, ValF1=0.3369, LR=3.13e-06
+Epoch 080: Loss=1.0837, ValF1=0.3401, LR=7.81e-07
+Early stopping: epoch=87
+模型保存: xai_cell_J_V2/models/US-Pow_GRU_seed123.pt
+步骤5：固定target IG
+结果: F1=0.333918, Acc=0.337762
+稳定性: PredAgree=0.4472, Featureρ=0.3776, Temporalρ=0.6704
+近期性: Last10=0.5361, Last10/First10=5.9073, Top5Overlap=0.40
+--------------------
+Seed=777
+步骤4：训练新seed模型
+训练配置: hidden=128, layers=3, dropout=0.1, lr=5.0e-05, batch=512, weights=[1.0, 1.0, 1.0]
+Epoch 001: Loss=1.0987, ValF1=0.2816, LR=5.00e-05
+Epoch 020: Loss=1.0854, ValF1=0.3473, LR=5.00e-05
+Epoch 040: Loss=1.0831, ValF1=0.3498, LR=1.25e-05
+Epoch 060: Loss=1.0826, ValF1=0.3428, LR=3.13e-06
+Epoch 080: Loss=1.0824, ValF1=0.3404, LR=7.81e-07
+Early stopping: epoch=91
+模型保存: xai_cell_J_V2/models/US-Pow_GRU_seed777.pt
+步骤5：固定target IG
+结果: F1=0.336653, Acc=0.354895
+稳定性: PredAgree=0.4568, Featureρ=0.5035, Temporalρ=0.7098
+近期性: Last10=0.6380, Last10/First10=9.3254, Top5Overlap=0.80
+--------------------
+Seed=0
+步骤4：训练新seed模型
+训练配置: hidden=128, layers=3, dropout=0.1, lr=5.0e-05, batch=512, weights=[1.0, 1.0, 1.0]
+Epoch 001: Loss=1.0989, ValF1=0.2292, LR=5.00e-05
+Epoch 020: Loss=1.0867, ValF1=0.3537, LR=5.00e-05
+Epoch 040: Loss=1.0841, ValF1=0.3492, LR=1.25e-05
+Epoch 060: Loss=1.0835, ValF1=0.3451, LR=3.13e-06
+Epoch 080: Loss=1.0831, ValF1=0.3425, LR=7.81e-07
+Early stopping: epoch=90
+模型保存: xai_cell_J_V2/models/US-Pow_GRU_seed0.pt
+步骤5：固定target IG
+结果: F1=0.334507, Acc=0.338811
+稳定性: PredAgree=0.4582, Featureρ=0.5105, Temporalρ=0.8338
+近期性: Last10=0.5161, Last10/First10=6.5092, Top5Overlap=0.60
+--------------------
+Seed=2024
+步骤4：训练新seed模型
+训练配置: hidden=128, layers=3, dropout=0.1, lr=5.0e-05, batch=512, weights=[1.0, 1.0, 1.0]
+Epoch 001: Loss=1.0986, ValF1=0.2865, LR=5.00e-05
+Epoch 020: Loss=1.0856, ValF1=0.3432, LR=2.50e-05
+Epoch 040: Loss=1.0842, ValF1=0.3316, LR=6.25e-06
+Epoch 060: Loss=1.0839, ValF1=0.3325, LR=3.13e-06
+Epoch 080: Loss=1.0836, ValF1=0.3345, LR=7.81e-07
+Early stopping: epoch=85
+模型保存: xai_cell_J_V2/models/US-Pow_GRU_seed2024.pt
+步骤5：固定target IG
+结果: F1=0.340798, Acc=0.343182
+稳定性: PredAgree=0.3652, Featureρ=0.2727, Temporalρ=0.8486
+近期性: Last10=0.7074, Last10/First10=13.6886, Top5Overlap=0.60
+--------------------
+US-Pow / BiLSTM
+步骤2：seed42原模型复核
+seed42复核: Macro-F1=0.365106, Accuracy=0.366608
+seed42模型: xai_us/models_XAI/rnn_bilstm_us_60/bilstm_dataset5_p_SELECTED_12_seed42.pt
+步骤3：seed42参考IG
+--------------------
+Seed=42
+结果: F1=0.365106, Acc=0.366608
+稳定性: PredAgree=1.0000, Featureρ=1.0000, Temporalρ=1.0000
+近期性: Last10=0.3427, Last10/First10=2.5076, Top5Overlap=1.00
+--------------------
+Seed=123
+步骤4：训练新seed模型
+训练配置: hidden=128, layers=3, dropout=0.1, lr=5.0e-05, batch=512, weights=[1.0, 1.0, 1.0]
+Epoch 001: Loss=1.0988, ValF1=0.2370, LR=5.00e-05
+Epoch 020: Loss=1.0843, ValF1=0.3077, LR=2.50e-05
+Epoch 040: Loss=1.0818, ValF1=0.3131, LR=6.25e-06
+Epoch 060: Loss=1.0815, ValF1=0.3204, LR=1.56e-06
+Early stopping: epoch=62
+模型保存: xai_cell_J_V2/models/US-Pow_BiLSTM_seed123.pt
+步骤5：固定target IG
+结果: F1=0.325028, Acc=0.338986
+稳定性: PredAgree=0.4157, Featureρ=0.5734, Temporalρ=0.9089
+近期性: Last10=0.8575, Last10/First10=50.9284, Top5Overlap=0.60
+--------------------
+Seed=777
+步骤4：训练新seed模型
+训练配置: hidden=128, layers=3, dropout=0.1, lr=5.0e-05, batch=512, weights=[1.0, 1.0, 1.0]
+Epoch 001: Loss=1.0984, ValF1=0.2832, LR=5.00e-05
+Epoch 020: Loss=1.0857, ValF1=0.3376, LR=5.00e-05
+Epoch 040: Loss=1.0798, ValF1=0.3370, LR=2.50e-05
+Epoch 060: Loss=1.0772, ValF1=0.3357, LR=6.25e-06
+Epoch 080: Loss=1.0764, ValF1=0.3228, LR=3.13e-06
+Early stopping: epoch=86
+模型保存: xai_cell_J_V2/models/US-Pow_BiLSTM_seed777.pt
+步骤5：固定target IG
+结果: F1=0.333866, Acc=0.339685
+稳定性: PredAgree=0.5983, Featureρ=0.5664, Temporalρ=0.4944
+近期性: Last10=0.3195, Last10/First10=3.6545, Top5Overlap=0.40
+--------------------
+Seed=0
+步骤4：训练新seed模型
+训练配置: hidden=128, layers=3, dropout=0.1, lr=5.0e-05, batch=512, weights=[1.0, 1.0, 1.0]
+Epoch 001: Loss=1.0987, ValF1=0.2790, LR=5.00e-05
+Epoch 020: Loss=1.0843, ValF1=0.3141, LR=2.50e-05
+Epoch 040: Loss=1.0818, ValF1=0.3230, LR=6.25e-06
+Epoch 060: Loss=1.0810, ValF1=0.3221, LR=1.56e-06
+Early stopping: epoch=63
+模型保存: xai_cell_J_V2/models/US-Pow_BiLSTM_seed0.pt
+步骤5：固定target IG
+结果: F1=0.335166, Acc=0.352273
+稳定性: PredAgree=0.3544, Featureρ=0.4545, Temporalρ=0.7322
+近期性: Last10=0.2645, Last10/First10=1.8673, Top5Overlap=0.60
+--------------------
+Seed=2024
+步骤4：训练新seed模型
+训练配置: hidden=128, layers=3, dropout=0.1, lr=5.0e-05, batch=512, weights=[1.0, 1.0, 1.0]
+Epoch 001: Loss=1.0986, ValF1=0.3226, LR=5.00e-05
+Epoch 020: Loss=1.0855, ValF1=0.3264, LR=2.50e-05
+Epoch 040: Loss=1.0840, ValF1=0.3018, LR=2.50e-05
+Epoch 060: Loss=1.0808, ValF1=0.3254, LR=1.25e-05
+Epoch 080: Loss=1.0795, ValF1=0.3354, LR=6.25e-06
+Epoch 100: Loss=1.0787, ValF1=0.3332, LR=1.56e-06
+Epoch 120: Loss=1.0782, ValF1=0.3312, LR=7.81e-07
+Early stopping: epoch=125
+模型保存: xai_cell_J_V2/models/US-Pow_BiLSTM_seed2024.pt
+步骤5：固定target IG
+结果: F1=0.355385, Acc=0.356119
+稳定性: PredAgree=0.7023, Featureρ=0.4266, Temporalρ=0.4947
+近期性: Last10=0.4611, Last10/First10=8.9327, Top5Overlap=0.60
+--------------------
+US-Pow / LSTM
+步骤2：seed42原模型复核
+seed42复核: Macro-F1=0.332670, Accuracy=0.347727
+seed42模型: xai_us/models_XAI/lstm_us_60/lstm_dataset5_p_SELECTED_12_seed42.pt
+步骤3：seed42参考IG
+--------------------
+Seed=42
+结果: F1=0.332670, Acc=0.347727
+稳定性: PredAgree=1.0000, Featureρ=1.0000, Temporalρ=1.0000
+近期性: Last10=0.2761, Last10/First10=1.8947, Top5Overlap=1.00
+--------------------
+Seed=123
+步骤4：训练新seed模型
+训练配置: hidden=128, layers=3, dropout=0.1, lr=5.0e-05, batch=256, weights=[1.0, 1.0, 1.0]
+Epoch 001: Loss=1.0987, ValF1=0.2306, LR=5.00e-05
+Epoch 020: Loss=1.0848, ValF1=0.3380, LR=5.00e-05
+Epoch 040: Loss=1.0797, ValF1=0.3319, LR=2.50e-05
+Epoch 060: Loss=1.0770, ValF1=0.3089, LR=1.25e-05
+Early stopping: epoch=79
+模型保存: xai_cell_J_V2/models/US-Pow_LSTM_seed123.pt
+步骤5：固定target IG
+结果: F1=0.347135, Acc=0.347727
+稳定性: PredAgree=0.6079, Featureρ=0.4755, Temporalρ=0.6835
+近期性: Last10=0.4560, Last10/First10=13.2700, Top5Overlap=0.60
+--------------------
+Seed=777
+步骤4：训练新seed模型
+训练配置: hidden=128, layers=3, dropout=0.1, lr=5.0e-05, batch=256, weights=[1.0, 1.0, 1.0]
+Epoch 001: Loss=1.0991, ValF1=0.2255, LR=5.00e-05
+Epoch 020: Loss=1.0874, ValF1=0.3582, LR=5.00e-05
+Epoch 040: Loss=1.0831, ValF1=0.3285, LR=2.50e-05
+Epoch 060: Loss=1.0806, ValF1=0.3396, LR=1.25e-05
+Epoch 080: Loss=1.0791, ValF1=0.3109, LR=6.25e-06
+Early stopping: epoch=80
+模型保存: xai_cell_J_V2/models/US-Pow_LSTM_seed777.pt
+步骤5：固定target IG
+结果: F1=0.355543, Acc=0.358392
+稳定性: PredAgree=0.6226, Featureρ=0.3846, Temporalρ=0.6848
+近期性: Last10=0.4389, Last10/First10=14.5921, Top5Overlap=0.40
+--------------------
+Seed=0
+步骤4：训练新seed模型
+训练配置: hidden=128, layers=3, dropout=0.1, lr=5.0e-05, batch=256, weights=[1.0, 1.0, 1.0]
+Epoch 001: Loss=1.0987, ValF1=0.1635, LR=5.00e-05
+Epoch 020: Loss=1.0854, ValF1=0.3122, LR=5.00e-05
+Epoch 040: Loss=1.0801, ValF1=0.3342, LR=2.50e-05
+Epoch 060: Loss=1.0783, ValF1=0.3145, LR=1.25e-05
+Early stopping: epoch=77
+模型保存: xai_cell_J_V2/models/US-Pow_LSTM_seed0.pt
+步骤5：固定target IG
+结果: F1=0.321952, Acc=0.331818
+稳定性: PredAgree=0.4615, Featureρ=0.4825, Temporalρ=0.8316
+近期性: Last10=0.4143, Last10/First10=4.6829, Top5Overlap=0.60
+--------------------
+Seed=2024
+步骤4：训练新seed模型
+训练配置: hidden=128, layers=3, dropout=0.1, lr=5.0e-05, batch=256, weights=[1.0, 1.0, 1.0]
+Epoch 001: Loss=1.0986, ValF1=0.3235, LR=5.00e-05
+Epoch 020: Loss=1.0857, ValF1=0.3265, LR=5.00e-05
+Epoch 040: Loss=1.0819, ValF1=0.2980, LR=2.50e-05
+Epoch 060: Loss=1.0801, ValF1=0.3003, LR=6.25e-06
+Epoch 080: Loss=1.0792, ValF1=0.3063, LR=3.13e-06
+Early stopping: epoch=85
+模型保存: xai_cell_J_V2/models/US-Pow_LSTM_seed2024.pt
+步骤5：固定target IG
+结果: F1=0.347065, Acc=0.349825
+稳定性: PredAgree=0.6533, Featureρ=0.5804, Temporalρ=0.7008
+近期性: Last10=0.4179, Last10/First10=10.6380, Top5Overlap=0.60
+--------------------
+步骤6：全局汇总
+明细行数: 70
+预期明细行数: 70
+汇总行数: 14
+预期汇总行数: 14
+--------------------
+核心汇总
+  Dataset  Model  MacroF1_Mean  MacroF1_SD  Feature_Spearman_vs_42_Mean_4Seeds  Feature_Spearman_vs_42_Min_4Seeds  Temporal_Spearman_vs_42_Mean_4Seeds  Temporal_Spearman_vs_42_Min_4Seeds  IG_Last10_Mass_Mean  All_Seeds_Last10_gt_First10
+Medical-1    GRU        0.4096      0.0040                              0.9354                             0.8407                               0.9513                              0.9159               0.5626                         True
+Medical-1 BiLSTM        0.3993      0.0032                              0.8956                             0.8187                               0.9003                              0.8620               0.6043                         True
+Medical-1   LSTM        0.4065      0.0042                              0.8558                             0.7857                               0.9233                              0.9021               0.5808                         True
+Medical-2 BiLSTM        0.4026      0.0109                              0.8670                             0.7143                               0.9958                              0.9850               0.7200                         True
+Medical-2   LSTM        0.3995      0.0087                              0.7725                             0.7275                               0.9176                              0.6713               0.6610                         True
+    Power    GRU        0.4108      0.0034                              0.9266                             0.9091                               0.9616                              0.8709               0.6750                         True
+    Power BiLSTM        0.4081      0.0069                              0.8619                             0.7972                               0.9801                              0.9745               0.6266                         True
+    Power   LSTM        0.4064      0.0066                              0.7500                             0.6503                               0.9514                              0.8669               0.5935                         True
+   US-Med    GRU        0.3514      0.0150                              0.5934                             0.4451                               0.8505                              0.7718               0.5788                         True
+   US-Med BiLSTM        0.3449      0.0167                              0.2308                             0.0549                               0.8738                              0.6525               0.5548                         True
+   US-Med   LSTM        0.3511      0.0161                              0.5907                             0.4451                               0.3347                              0.3126               0.4854                         True
+   US-Pow    GRU        0.3346      0.0050                              0.4161                             0.2727                               0.7656                              0.6704               0.5866                         True
+   US-Pow BiLSTM        0.3429      0.0167                              0.5052                             0.4266                               0.6575                              0.4944               0.4491                         True
+   US-Pow   LSTM        0.3409      0.0134                              0.4808                             0.3846                               0.7252                              0.6835               0.4006                         True
+--------------------
+审计
+5-seed完整: True
+全部组合Last10>First10: True
+--------------------
+输出文件
+xai_cell_J_V2/multiseed_detail.csv
+xai_cell_J_V2/multiseed_summary.csv
+xai_cell_J_V2/ig_feature_all_seeds.csv
+xai_cell_J_V2/ig_timestep_all_seeds.csv
+xai_cell_J_V2/models
+--------------------
+全部完成
+
+
+
+
+
+
+

@@ -1,0 +1,55 @@
+输出目录: 0924/xai_cell_G_V8/
+--------------------
+步骤1：读取固定结果
+A_SANITY: 读取成功 | 行数=66 | 路径=0924/xai_cell_A_V9/A1_parameter_randomization_sanity.csv
+A_OCCLUSION: 读取成功 | 行数=90 | 路径=0924/xai_cell_A_V9/A3_temporal_occlusion.csv
+B_COMPARE: 读取成功 | 行数=15 | 路径=0924/xai_cell_B_V6/B2_ig_vs_kernelshap.csv
+B_RELEVANCE: 读取成功 | 行数=45 | 路径=0924/xai_cell_B_V6/B3_paired_faithfulness_summary.csv
+D_NOISE: 读取成功 | 行数=45 | 路径=0924/xai_cell_D_V1/D2_input_noise_robustness_summary.csv
+E_LABEL: 读取成功 | 行数=15 | 路径=0924/xai_cell_E_V2/E1_label_randomization_sanity.csv
+F_BLOCK: 读取成功 | 行数=90 | 路径=0924/xai_cell_F_V1/F4_temporal_block_mass.csv
+F_SUMMARY: 读取成功 | 行数=15 | 路径=0924/xai_cell_F_V1/F5_temporal_method_summary.csv
+--------------------
+步骤2：生成Figure 1
+已保存: 0924/xai_cell_G_V8/Figure1_feature_consistency_behavioral_relevance.png
+已保存: 0924/xai_cell_G_V8/Figure1_feature_consistency_behavioral_relevance.jpeg
+已保存: 0924/xai_cell_G_V8/Figure1_feature_consistency_behavioral_relevance.tiff
+The PostScript backend does not support transparency; partially transparent artists will be rendered opaque.
+已保存: 0924/xai_cell_G_V8/Figure1_feature_consistency_behavioral_relevance.eps
+Figure 1摘要: rho范围=0.692308-0.979021; 正相关且p<0.05=15/15
+Behavioral relevance摘要: mean contrast > 0=44/45
+--------------------
+步骤3：生成Figure 2
+已保存: 0924/xai_cell_G_V8/Figure2_temporal_recency_validation.png
+已保存: 0924/xai_cell_G_V8/Figure2_temporal_recency_validation.jpeg
+已保存: 0924/xai_cell_G_V8/Figure2_temporal_recency_validation.tiff
+The PostScript backend does not support transparency; partially transparent artists will be rendered opaque.
+已保存: 0924/xai_cell_G_V8/Figure2_temporal_recency_validation.eps
+Figure 2摘要: 60-timestep rho范围=0.523201-0.885177; 正相关且p<0.05=15/15
+峰值block一致: 15/15
+KernelSHAP峰值51-60: 15/15
+--------------------
+步骤4：生成Figure 3
+已保存: 0924/xai_cell_G_V8/Figure3_sanity_robustness.png
+已保存: 0924/xai_cell_G_V8/Figure3_sanity_robustness.jpeg
+已保存: 0924/xai_cell_G_V8/Figure3_sanity_robustness.tiff
+已保存: 0924/xai_cell_G_V8/Figure3_sanity_robustness.eps
+Figure 3A摘要: final-stage feature rho范围=-0.034965-0.686813
+Figure 3B摘要: label-randomization平均rho | Map=0.389833, Feature=0.196364, Temporal=0.405479
+Figure 3C跨模型均值:
+ Noise_Percent_SD      Map  Feature  Temporal  PredictionAgreement
+              0.5 0.999991 1.000000  0.999706             0.997068
+              1.0 0.999976 0.999878  0.999290             0.994338
+              2.0 0.999928 0.999878  0.998149             0.988501
+--------------------
+步骤5：最终审计
+Figure 1–3全部生成成功
+输出格式: PNG / JPEG / TIFF / EPS
+异常: 0
+--------------------
+xai_cell_G_V8 完成
+结果目录: 0924/xai_cell_G_V8/
+
+
+
+

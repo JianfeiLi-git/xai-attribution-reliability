@@ -1,0 +1,855 @@
+输出目录: 0924/xai_cell_F_V1/
+设备: cuda
+任务: F流程 temporal non-path SHAP验证
+Temporal KernelSHAP: 60个timestep = 60个独立player
+解释样本数: 50, training backgrounds: 10
+KernelSHAP nsamples: 512, IG steps: 64
+主比较: 同一样本、同一原模型固定target下 IG vs Temporal KernelSHAP
+--------------------
+数据集: Medical-1
+步骤1：数据准备与审计
+Medical-1: 数据目录=XAI_cn/datasets/processed/dataset1_A_grade
+Medical-1: train=(38820, 60, 13), val=(7168, 60, 13), test=(6583, 60, 13)
+字段数: 13
+训练样本: 38820, 验证样本: 7168, 测试样本: 6583
+训练缺失值: 0, 验证缺失值: 0, 测试缺失值: 0
+固定解释样本数: 50
+数据审计: 通过
+--------------------
+Medical-1 / GRU
+步骤2：读取并复核原模型
+Medical-1-GRU: XAI_cn/models_XAI/rnn_enhanced_dataset2/gru_dataset1_SELECTED_13_seed42.pt | input=13, hidden=64, layers=2
+原模型复核: Macro-F1=0.413231, Accuracy=0.423211
+固定target分布: {0: 13, 1: 19, 2: 18}
+模型复核: 通过
+步骤3：Temporal KernelSHAP （60 timestep players）
+  Temporal KernelSHAP进度: 10/50
+  Temporal KernelSHAP进度: 20/50
+  Temporal KernelSHAP进度: 30/50
+  Temporal KernelSHAP进度: 40/50
+  Temporal KernelSHAP进度: 50/50
+Temporal KernelSHAP Top10 timesteps:
+ Timestep  KernelSHAP_Importance  KernelSHAP_Share
+       60               0.026647          0.233224
+       59               0.015848          0.138711
+       58               0.009632          0.084306
+       57               0.006755          0.059120
+       56               0.005172          0.045267
+       55               0.005089          0.044540
+       54               0.004215          0.036893
+       51               0.003250          0.028442
+       53               0.003057          0.026752
+       52               0.002834          0.024801
+Temporal KernelSHAP: 完成
+步骤4：同一样本IG temporal attribution
+IG timestep行数: 60
+IG temporal: 完成
+步骤5：IG vs Temporal KernelSHAP比较
+60-timestep Spearman: rho=0.523201, p=1.79425e-05
+6-block Spearman: rho=0.428571, p=0.396501
+IG近期性: Last10=0.591784, First10=0.056597, Ratio=10.456034
+KernelSHAP近期性: Last10=0.722057, First10=0.050139, Ratio=14.401243
+峰值block: IG=6, KernelSHAP=6, 一致=True
+6×10日block质量:
+ Block  Timestep_Start  Timestep_End  IG_Mass  KernelSHAP_Mass
+     1               1            10 0.056597         0.050139
+     2              11            20 0.062541         0.040324
+     3              21            30 0.064228         0.035635
+     4              31            40 0.075738         0.033430
+     5              41            50 0.149112         0.118415
+     6              51            60 0.591784         0.722057
+Temporal方法比较: 完成
+--------------------
+Medical-1 / BiLSTM
+步骤2：读取并复核原模型
+Medical-1-BiLSTM: XAI_cn/models_XAI/rnn_enhanced_dataset2/bilstm_dataset1_SELECTED_13_seed42.pt | input=13, hidden=64, layers=2
+原模型复核: Macro-F1=0.403506, Accuracy=0.407261
+固定target分布: {0: 19, 1: 16, 2: 15}
+模型复核: 通过
+步骤3：Temporal KernelSHAP （60 timestep players）
+  Temporal KernelSHAP进度: 10/50
+  Temporal KernelSHAP进度: 20/50
+  Temporal KernelSHAP进度: 30/50
+  Temporal KernelSHAP进度: 40/50
+  Temporal KernelSHAP进度: 50/50
+Temporal KernelSHAP Top10 timesteps:
+ Timestep  KernelSHAP_Importance  KernelSHAP_Share
+       60               0.043947          0.342943
+       59               0.010373          0.080945
+       58               0.009667          0.075434
+       57               0.007284          0.056843
+       56               0.006670          0.052049
+       54               0.004994          0.038973
+       55               0.004794          0.037413
+       53               0.003251          0.025369
+       52               0.002366          0.018467
+       51               0.002300          0.017948
+Temporal KernelSHAP: 完成
+步骤4：同一样本IG temporal attribution
+IG timestep行数: 60
+IG temporal: 完成
+步骤5：IG vs Temporal KernelSHAP比较
+60-timestep Spearman: rho=0.720256, p=8.76319e-11
+6-block Spearman: rho=0.828571, p=0.0415627
+IG近期性: Last10=0.573072, First10=0.068973, Ratio=8.308617
+KernelSHAP近期性: Last10=0.746383, First10=0.051743, Ratio=14.424773
+峰值block: IG=6, KernelSHAP=6, 一致=True
+6×10日block质量:
+ Block  Timestep_Start  Timestep_End  IG_Mass  KernelSHAP_Mass
+     1               1            10 0.068973         0.051743
+     2              11            20 0.076195         0.055207
+     3              21            30 0.068854         0.038625
+     4              31            40 0.076006         0.034514
+     5              41            50 0.136900         0.073528
+     6              51            60 0.573072         0.746383
+Temporal方法比较: 完成
+--------------------
+Medical-1 / LSTM
+步骤2：读取并复核原模型
+Medical-1-LSTM: XAI_cn/models_XAI/lstm_enhanced/lstm_dataset1_SELECTED_13_seed42.pt | input=13, hidden=64, layers=2
+原模型复核: Macro-F1=0.412939, Accuracy=0.427617
+固定target分布: {0: 16, 1: 19, 2: 15}
+模型复核: 通过
+步骤3：Temporal KernelSHAP （60 timestep players）
+  Temporal KernelSHAP进度: 10/50
+  Temporal KernelSHAP进度: 20/50
+  Temporal KernelSHAP进度: 30/50
+  Temporal KernelSHAP进度: 40/50
+  Temporal KernelSHAP进度: 50/50
+Temporal KernelSHAP Top10 timesteps:
+ Timestep  KernelSHAP_Importance  KernelSHAP_Share
+       60               0.019286          0.161784
+       59               0.013910          0.116690
+       58               0.010826          0.090814
+       57               0.007564          0.063451
+       55               0.006292          0.052784
+       56               0.005418          0.045447
+       54               0.004207          0.035289
+       51               0.003462          0.029046
+       53               0.003081          0.025842
+       52               0.002855          0.023947
+Temporal KernelSHAP: 完成
+步骤4：同一样本IG temporal attribution
+IG timestep行数: 60
+IG temporal: 完成
+步骤5：IG vs Temporal KernelSHAP比较
+60-timestep Spearman: rho=0.582051, p=1.07204e-06
+6-block Spearman: rho=0.542857, p=0.265703
+IG近期性: Last10=0.485493, First10=0.085055, Ratio=5.707985
+KernelSHAP近期性: Last10=0.645094, First10=0.085988, Ratio=7.502140
+峰值block: IG=6, KernelSHAP=6, 一致=True
+6×10日block质量:
+ Block  Timestep_Start  Timestep_End  IG_Mass  KernelSHAP_Mass
+     1               1            10 0.085055         0.085988
+     2              11            20 0.091225         0.046159
+     3              21            30 0.084502         0.062483
+     4              31            40 0.089852         0.046134
+     5              41            50 0.163873         0.114142
+     6              51            60 0.485493         0.645094
+Temporal方法比较: 完成
+--------------------
+数据集: Medical-2
+步骤1：数据准备与审计
+Medical-2: 数据目录=XAI_cn/datasets/processed/dataset2_AB_grade
+Medical-2: train=(138900, 60, 14), val=(23608, 60, 14), test=(21647, 60, 14)
+字段数: 14
+训练样本: 138900, 验证样本: 23608, 测试样本: 21647
+训练缺失值: 0, 验证缺失值: 0, 测试缺失值: 0
+固定解释样本数: 50
+数据审计: 通过
+--------------------
+Medical-2 / GRU
+步骤2：读取并复核原模型
+Medical-2-GRU: XAI_cn/models_XAI/rnn_enhanced_dataset2/gru_dataset2_SELECTED_14_seed42.pt | input=14, hidden=256, layers=2
+原模型复核: Macro-F1=0.412268, Accuracy=0.429667
+固定target分布: {0: 14, 1: 20, 2: 16}
+模型复核: 通过
+步骤3：Temporal KernelSHAP （60 timestep players）
+  Temporal KernelSHAP进度: 10/50
+  Temporal KernelSHAP进度: 20/50
+  Temporal KernelSHAP进度: 30/50
+  Temporal KernelSHAP进度: 40/50
+  Temporal KernelSHAP进度: 50/50
+Temporal KernelSHAP Top10 timesteps:
+ Timestep  KernelSHAP_Importance  KernelSHAP_Share
+       60               0.032951          0.244196
+       58               0.011431          0.084714
+       57               0.010899          0.080771
+       59               0.010426          0.077267
+       56               0.010062          0.074565
+       55               0.007968          0.059048
+       52               0.004613          0.034187
+       53               0.004523          0.033522
+       51               0.004267          0.031619
+       54               0.003843          0.028479
+Temporal KernelSHAP: 完成
+步骤4：同一样本IG temporal attribution
+IG timestep行数: 60
+IG temporal: 完成
+步骤5：IG vs Temporal KernelSHAP比较
+60-timestep Spearman: rho=0.865138, p=4.96892e-19
+6-block Spearman: rho=1.000000, p=0
+IG近期性: Last10=0.494936, First10=0.070811, Ratio=6.989539
+KernelSHAP近期性: Last10=0.748368, First10=0.019289, Ratio=38.797452
+峰值block: IG=6, KernelSHAP=6, 一致=True
+6×10日block质量:
+ Block  Timestep_Start  Timestep_End  IG_Mass  KernelSHAP_Mass
+     1               1            10 0.070811         0.019289
+     2              11            20 0.063204         0.011456
+     3              21            30 0.069189         0.013408
+     4              31            40 0.094861         0.040580
+     5              41            50 0.206999         0.166899
+     6              51            60 0.494936         0.748368
+Temporal方法比较: 完成
+--------------------
+Medical-2 / BiLSTM
+步骤2：读取并复核原模型
+Medical-2-BiLSTM: XAI_cn/models_XAI/rnn_enhanced_dataset2/bilstm_dataset2_SELECTED_14_seed42.pt | input=14, hidden=128, layers=2
+原模型复核: Macro-F1=0.419882, Accuracy=0.437474
+固定target分布: {0: 12, 1: 24, 2: 14}
+模型复核: 通过
+步骤3：Temporal KernelSHAP （60 timestep players）
+  Temporal KernelSHAP进度: 10/50
+  Temporal KernelSHAP进度: 20/50
+  Temporal KernelSHAP进度: 30/50
+  Temporal KernelSHAP进度: 40/50
+  Temporal KernelSHAP进度: 50/50
+Temporal KernelSHAP Top10 timesteps:
+ Timestep  KernelSHAP_Importance  KernelSHAP_Share
+       60               0.030528          0.293550
+       59               0.011810          0.113558
+       58               0.009508          0.091426
+       57               0.008449          0.081246
+       56               0.007696          0.074007
+       55               0.006178          0.059406
+       54               0.004563          0.043878
+       53               0.003352          0.032228
+       51               0.003104          0.029851
+       52               0.002800          0.026924
+Temporal KernelSHAP: 完成
+步骤4：同一样本IG temporal attribution
+IG timestep行数: 60
+IG temporal: 完成
+步骤5：IG vs Temporal KernelSHAP比较
+60-timestep Spearman: rho=0.865481, p=4.63848e-19
+6-block Spearman: rho=1.000000, p=0
+IG近期性: Last10=0.635240, First10=0.043933, Ratio=14.459422
+KernelSHAP近期性: Last10=0.846075, First10=0.009532, Ratio=88.764195
+峰值block: IG=6, KernelSHAP=6, 一致=True
+6×10日block质量:
+ Block  Timestep_Start  Timestep_End  IG_Mass  KernelSHAP_Mass
+     1               1            10 0.043933         0.009532
+     2              11            20 0.052270         0.012276
+     3              21            30 0.064330         0.016441
+     4              31            40 0.083244         0.029881
+     5              41            50 0.120984         0.085797
+     6              51            60 0.635240         0.846075
+Temporal方法比较: 完成
+--------------------
+Medical-2 / LSTM
+步骤2：读取并复核原模型
+Medical-2-LSTM: XAI_cn/models_XAI/lstm_enhanced/lstm_dataset2_SELECTED_14_seed42.pt | input=14, hidden=128, layers=2
+原模型复核: Macro-F1=0.412224, Accuracy=0.427265
+固定target分布: {0: 13, 1: 23, 2: 14}
+模型复核: 通过
+步骤3：Temporal KernelSHAP （60 timestep players）
+  Temporal KernelSHAP进度: 10/50
+  Temporal KernelSHAP进度: 20/50
+  Temporal KernelSHAP进度: 30/50
+  Temporal KernelSHAP进度: 40/50
+  Temporal KernelSHAP进度: 50/50
+Temporal KernelSHAP Top10 timesteps:
+ Timestep  KernelSHAP_Importance  KernelSHAP_Share
+       60               0.038130          0.320359
+       58               0.013440          0.112920
+       59               0.012822          0.107725
+       57               0.008711          0.073183
+       56               0.007416          0.062308
+       55               0.006464          0.054309
+       54               0.004682          0.039335
+       53               0.002849          0.023937
+       51               0.002336          0.019626
+       47               0.002290          0.019242
+Temporal KernelSHAP: 完成
+步骤4：同一样本IG temporal attribution
+IG timestep行数: 60
+IG temporal: 完成
+步骤5：IG vs Temporal KernelSHAP比较
+60-timestep Spearman: rho=0.885177, p=6.2431e-21
+6-block Spearman: rho=0.942857, p=0.00480466
+IG近期性: Last10=0.662233, First10=0.027972, Ratio=23.675087
+KernelSHAP近期性: Last10=0.832628, First10=0.001618, Ratio=514.609710
+峰值block: IG=6, KernelSHAP=6, 一致=True
+6×10日block质量:
+ Block  Timestep_Start  Timestep_End  IG_Mass  KernelSHAP_Mass
+     1               1            10 0.027972         0.001618
+     2              11            20 0.037961         0.010045
+     3              21            30 0.053665         0.009082
+     4              31            40 0.082083         0.025395
+     5              41            50 0.136085         0.121232
+     6              51            60 0.662233         0.832628
+Temporal方法比较: 完成
+--------------------
+数据集: Power
+步骤1：数据准备与审计
+Power: 数据目录=XAI_cn/e3/datasets/processed/dataset2_AB_grade
+Power: train=(74093, 60, 12), val=(8969, 60, 12), test=(8543, 60, 12)
+字段数: 12
+训练样本: 74093, 验证样本: 8969, 测试样本: 8543
+训练缺失值: 0, 验证缺失值: 0, 测试缺失值: 0
+固定解释样本数: 50
+数据审计: 通过
+--------------------
+Power / GRU
+步骤2：读取并复核原模型
+Power-GRU: XAI_cn/e3/models_XAI/rnn_enhanced_dataset2/gru_dataset2_SELECTED_12_seed42.pt | input=12, hidden=128, layers=2
+原模型复核: Macro-F1=0.410313, Accuracy=0.416598
+固定target分布: {0: 14, 1: 16, 2: 20}
+模型复核: 通过
+步骤3：Temporal KernelSHAP （60 timestep players）
+  Temporal KernelSHAP进度: 10/50
+  Temporal KernelSHAP进度: 20/50
+  Temporal KernelSHAP进度: 30/50
+  Temporal KernelSHAP进度: 40/50
+  Temporal KernelSHAP进度: 50/50
+Temporal KernelSHAP Top10 timesteps:
+ Timestep  KernelSHAP_Importance  KernelSHAP_Share
+       60               0.029312          0.217630
+       59               0.019526          0.144971
+       58               0.012490          0.092733
+       57               0.010105          0.075022
+       56               0.008341          0.061926
+       55               0.007946          0.058993
+       54               0.006777          0.050312
+       53               0.005766          0.042812
+       52               0.004778          0.035472
+       48               0.003906          0.029000
+Temporal KernelSHAP: 完成
+步骤4：同一样本IG temporal attribution
+IG timestep行数: 60
+IG temporal: 完成
+步骤5：IG vs Temporal KernelSHAP比较
+60-timestep Spearman: rho=0.848370, p=1.16576e-17
+6-block Spearman: rho=0.942857, p=0.00480466
+IG近期性: Last10=0.593134, First10=0.050632, Ratio=11.714710
+KernelSHAP近期性: Last10=0.804832, First10=0.023172, Ratio=34.732853
+峰值block: IG=6, KernelSHAP=6, 一致=True
+6×10日block质量:
+ Block  Timestep_Start  Timestep_End  IG_Mass  KernelSHAP_Mass
+     1               1            10 0.050632         0.023172
+     2              11            20 0.044892         0.008072
+     3              21            30 0.057342         0.016231
+     4              31            40 0.092790         0.030344
+     5              41            50 0.161211         0.117350
+     6              51            60 0.593134         0.804832
+Temporal方法比较: 完成
+--------------------
+Power / BiLSTM
+步骤2：读取并复核原模型
+Power-BiLSTM: XAI_cn/e3/models_XAI/rnn_enhanced_dataset2/bilstm_dataset2_SELECTED_12_seed42.pt | input=12, hidden=128, layers=2
+原模型复核: Macro-F1=0.412120, Accuracy=0.423153
+固定target分布: {0: 12, 1: 16, 2: 22}
+模型复核: 通过
+步骤3：Temporal KernelSHAP （60 timestep players）
+  Temporal KernelSHAP进度: 10/50
+  Temporal KernelSHAP进度: 20/50
+  Temporal KernelSHAP进度: 30/50
+  Temporal KernelSHAP进度: 40/50
+  Temporal KernelSHAP进度: 50/50
+Temporal KernelSHAP Top10 timesteps:
+ Timestep  KernelSHAP_Importance  KernelSHAP_Share
+       60               0.024064          0.196138
+       59               0.013051          0.106378
+       58               0.011226          0.091502
+       57               0.008718          0.071063
+       56               0.006127          0.049940
+       55               0.005681          0.046305
+       54               0.005327          0.043420
+       52               0.005119          0.041722
+       53               0.004883          0.039800
+       48               0.004172          0.034002
+Temporal KernelSHAP: 完成
+步骤4：同一样本IG temporal attribution
+IG timestep行数: 60
+IG temporal: 完成
+步骤5：IG vs Temporal KernelSHAP比较
+60-timestep Spearman: rho=0.744884, p=8.85648e-12
+6-block Spearman: rho=0.942857, p=0.00480466
+IG近期性: Last10=0.500575, First10=0.056553, Ratio=8.851414
+KernelSHAP近期性: Last10=0.714985, First10=0.022949, Ratio=31.155551
+峰值block: IG=6, KernelSHAP=6, 一致=True
+6×10日block质量:
+ Block  Timestep_Start  Timestep_End  IG_Mass  KernelSHAP_Mass
+     1               1            10 0.056553         0.022949
+     2              11            20 0.057854         0.024597
+     3              21            30 0.079823         0.056898
+     4              31            40 0.120994         0.047887
+     5              41            50 0.184200         0.132685
+     6              51            60 0.500575         0.714985
+Temporal方法比较: 完成
+--------------------
+Power / LSTM
+步骤2：读取并复核原模型
+Power-LSTM: XAI_cn/e3/models_XAI/lstm_enhanced/lstm_dataset2_SELECTED_12_seed42.pt | input=12, hidden=96, layers=2
+原模型复核: Macro-F1=0.402199, Accuracy=0.410277
+固定target分布: {0: 15, 1: 16, 2: 19}
+模型复核: 通过
+步骤3：Temporal KernelSHAP （60 timestep players）
+  Temporal KernelSHAP进度: 10/50
+  Temporal KernelSHAP进度: 20/50
+  Temporal KernelSHAP进度: 30/50
+  Temporal KernelSHAP进度: 40/50
+  Temporal KernelSHAP进度: 50/50
+Temporal KernelSHAP Top10 timesteps:
+ Timestep  KernelSHAP_Importance  KernelSHAP_Share
+       60               0.023064          0.157528
+       59               0.019991          0.136542
+       58               0.013604          0.092919
+       57               0.011495          0.078512
+       56               0.008280          0.056551
+       55               0.007167          0.048952
+       53               0.006106          0.041705
+       54               0.005017          0.034269
+       52               0.004000          0.027319
+       42               0.002632          0.017975
+Temporal KernelSHAP: 完成
+步骤4：同一样本IG temporal attribution
+IG timestep行数: 60
+IG temporal: 完成
+步骤5：IG vs Temporal KernelSHAP比较
+60-timestep Spearman: rho=0.694415, p=7.58004e-10
+6-block Spearman: rho=1.000000, p=0
+IG近期性: Last10=0.506863, First10=0.060247, Ratio=8.413044
+KernelSHAP近期性: Last10=0.689203, First10=0.041450, Ratio=16.627249
+峰值block: IG=6, KernelSHAP=6, 一致=True
+6×10日block质量:
+ Block  Timestep_Start  Timestep_End  IG_Mass  KernelSHAP_Mass
+     1               1            10 0.060247         0.041450
+     2              11            20 0.065414         0.043443
+     3              21            30 0.085231         0.056885
+     4              31            40 0.114228         0.064843
+     5              41            50 0.168016         0.104176
+     6              51            60 0.506863         0.689203
+Temporal方法比较: 完成
+--------------------
+数据集: US-Med
+步骤1：数据准备与审计
+US-Med: 数据目录=xai_us/datasets/processed/dataset4_m
+US-Med: train=(63061, 60, 13), val=(6280, 60, 13), test=(5720, 60, 13)
+字段数: 13
+训练样本: 63061, 验证样本: 6280, 测试样本: 5720
+训练缺失值: 0, 验证缺失值: 0, 测试缺失值: 0
+固定解释样本数: 50
+数据审计: 通过
+--------------------
+US-Med / GRU
+步骤2：读取并复核原模型
+US-Med-GRU: xai_us/models_XAI/rnn_models_us/gru_dataset4_m_SELECTED_13_seed42.pt | input=13, hidden=128, layers=3
+原模型复核: Macro-F1=0.356312, Accuracy=0.363636
+固定target分布: {0: 14, 1: 27, 2: 9}
+模型复核: 通过
+步骤3：Temporal KernelSHAP （60 timestep players）
+  Temporal KernelSHAP进度: 10/50
+  Temporal KernelSHAP进度: 20/50
+  Temporal KernelSHAP进度: 30/50
+  Temporal KernelSHAP进度: 40/50
+  Temporal KernelSHAP进度: 50/50
+Temporal KernelSHAP Top10 timesteps:
+ Timestep  KernelSHAP_Importance  KernelSHAP_Share
+       60               0.009182          0.117466
+       59               0.008249          0.105523
+       58               0.007590          0.097093
+       57               0.005960          0.076246
+       56               0.005506          0.070439
+       55               0.005171          0.066152
+       53               0.004367          0.055870
+       54               0.003463          0.044295
+       52               0.003213          0.041102
+       50               0.002348          0.030032
+Temporal KernelSHAP: 完成
+步骤4：同一样本IG temporal attribution
+IG timestep行数: 60
+IG temporal: 完成
+步骤5：IG vs Temporal KernelSHAP比较
+60-timestep Spearman: rho=0.711235, p=1.91114e-10
+6-block Spearman: rho=0.885714, p=0.0188455
+IG近期性: Last10=0.610839, First10=0.060845, Ratio=10.039291
+KernelSHAP近期性: Last10=0.698060, First10=0.040460, Ratio=17.253155
+峰值block: IG=6, KernelSHAP=6, 一致=True
+6×10日block质量:
+ Block  Timestep_Start  Timestep_End  IG_Mass  KernelSHAP_Mass
+     1               1            10 0.060845         0.040460
+     2              11            20 0.048130         0.039113
+     3              21            30 0.057320         0.031155
+     4              31            40 0.065767         0.040370
+     5              41            50 0.157099         0.150842
+     6              51            60 0.610839         0.698060
+Temporal方法比较: 完成
+--------------------
+US-Med / BiLSTM
+步骤2：读取并复核原模型
+US-Med-BiLSTM: xai_us/models_XAI/rnn_bilstm_us_60/bilstm_dataset4_m_SELECTED_13_seed42.pt | input=13, hidden=128, layers=3
+原模型复核: Macro-F1=0.358022, Accuracy=0.366783
+固定target分布: {0: 24, 1: 12, 2: 14}
+模型复核: 通过
+步骤3：Temporal KernelSHAP （60 timestep players）
+  Temporal KernelSHAP进度: 10/50
+  Temporal KernelSHAP进度: 20/50
+  Temporal KernelSHAP进度: 30/50
+  Temporal KernelSHAP进度: 40/50
+  Temporal KernelSHAP进度: 50/50
+Temporal KernelSHAP Top10 timesteps:
+ Timestep  KernelSHAP_Importance  KernelSHAP_Share
+       60               0.010480          0.168567
+       59               0.006515          0.104782
+       58               0.004843          0.077887
+       57               0.003402          0.054710
+       56               0.003061          0.049227
+       55               0.002930          0.047127
+       54               0.002832          0.045552
+       53               0.002780          0.044707
+       52               0.002038          0.032785
+       49               0.001462          0.023522
+Temporal KernelSHAP: 完成
+步骤4：同一样本IG temporal attribution
+IG timestep行数: 60
+IG temporal: 完成
+步骤5：IG vs Temporal KernelSHAP比较
+60-timestep Spearman: rho=0.701084, p=4.43987e-10
+6-block Spearman: rho=0.600000, p=0.208
+IG近期性: Last10=0.423619, First10=0.099534, Ratio=4.256034
+KernelSHAP近期性: Last10=0.642524, First10=0.043110, Ratio=14.904294
+峰值block: IG=6, KernelSHAP=6, 一致=True
+6×10日block质量:
+ Block  Timestep_Start  Timestep_End  IG_Mass  KernelSHAP_Mass
+     1               1            10 0.099534         0.043110
+     2              11            20 0.113622         0.052578
+     3              21            30 0.115904         0.038732
+     4              31            40 0.113244         0.060673
+     5              41            50 0.134077         0.162383
+     6              51            60 0.423619         0.642524
+Temporal方法比较: 完成
+--------------------
+US-Med / LSTM
+步骤2：读取并复核原模型
+US-Med-LSTM: xai_us/models_XAI/lstm_us_60/lstm_dataset4_m_SELECTED_13_seed42.pt | input=13, hidden=128, layers=3
+原模型复核: Macro-F1=0.363922, Accuracy=0.373252
+固定target分布: {0: 22, 1: 14, 2: 14}
+模型复核: 通过
+步骤3：Temporal KernelSHAP （60 timestep players）
+  Temporal KernelSHAP进度: 10/50
+  Temporal KernelSHAP进度: 20/50
+  Temporal KernelSHAP进度: 30/50
+  Temporal KernelSHAP进度: 40/50
+  Temporal KernelSHAP进度: 50/50
+Temporal KernelSHAP Top10 timesteps:
+ Timestep  KernelSHAP_Importance  KernelSHAP_Share
+       60               0.006173          0.097067
+       58               0.006127          0.096345
+       59               0.005996          0.094284
+       57               0.005241          0.082401
+       56               0.004958          0.077956
+       55               0.004233          0.066559
+       52               0.003295          0.051808
+       54               0.002919          0.045905
+       53               0.002041          0.032088
+       48               0.001493          0.023477
+Temporal KernelSHAP: 完成
+步骤4：同一样本IG temporal attribution
+IG timestep行数: 60
+IG temporal: 完成
+步骤5：IG vs Temporal KernelSHAP比较
+60-timestep Spearman: rho=0.618227, p=1.41472e-07
+6-block Spearman: rho=0.657143, p=0.156175
+IG近期性: Last10=0.473302, First10=0.113789, Ratio=4.159469
+KernelSHAP近期性: Last10=0.665809, First10=0.052032, Ratio=12.796189
+峰值block: IG=6, KernelSHAP=6, 一致=True
+6×10日block质量:
+ Block  Timestep_Start  Timestep_End  IG_Mass  KernelSHAP_Mass
+     1               1            10 0.113789         0.052032
+     2              11            20 0.098229         0.032751
+     3              21            30 0.098641         0.039401
+     4              31            40 0.093827         0.068237
+     5              41            50 0.122212         0.141770
+     6              51            60 0.473302         0.665809
+Temporal方法比较: 完成
+--------------------
+数据集: US-Pow
+步骤1：数据准备与审计
+US-Pow: 数据目录=xai_us/datasets/processed/dataset5_p
+US-Pow: train=(63799, 60, 12), val=(6280, 60, 12), test=(5720, 60, 12)
+字段数: 12
+训练样本: 63799, 验证样本: 6280, 测试样本: 5720
+训练缺失值: 0, 验证缺失值: 0, 测试缺失值: 0
+固定解释样本数: 50
+数据审计: 通过
+--------------------
+US-Pow / GRU
+步骤2：读取并复核原模型
+US-Pow-GRU: xai_us/models_XAI/rnn_models_us/gru_dataset5_p_SELECTED_12_seed42.pt | input=12, hidden=128, layers=3
+原模型复核: Macro-F1=0.327094, Accuracy=0.328322
+固定target分布: {0: 10, 1: 19, 2: 21}
+模型复核: 通过
+步骤3：Temporal KernelSHAP （60 timestep players）
+  Temporal KernelSHAP进度: 10/50
+  Temporal KernelSHAP进度: 20/50
+  Temporal KernelSHAP进度: 30/50
+  Temporal KernelSHAP进度: 40/50
+  Temporal KernelSHAP进度: 50/50
+Temporal KernelSHAP Top10 timesteps:
+ Timestep  KernelSHAP_Importance  KernelSHAP_Share
+       58               0.004133          0.078795
+       56               0.003944          0.075187
+       59               0.003841          0.073230
+       60               0.003736          0.071231
+       57               0.003036          0.057887
+       51               0.002433          0.046382
+       53               0.002413          0.046002
+       52               0.002169          0.041354
+       55               0.002111          0.040245
+       46               0.002094          0.039921
+Temporal KernelSHAP: 完成
+步骤4：同一样本IG temporal attribution
+IG timestep行数: 60
+IG temporal: 完成
+步骤5：IG vs Temporal KernelSHAP比较
+60-timestep Spearman: rho=0.834732, p=1.16091e-16
+6-block Spearman: rho=0.942857, p=0.00480466
+IG近期性: Last10=0.512751, First10=0.063873, Ratio=8.027686
+KernelSHAP近期性: Last10=0.569731, First10=0.052998, Ratio=10.749973
+峰值block: IG=6, KernelSHAP=6, 一致=True
+6×10日block质量:
+ Block  Timestep_Start  Timestep_End  IG_Mass  KernelSHAP_Mass
+     1               1            10 0.063873         0.052998
+     2              11            20 0.058331         0.041831
+     3              21            30 0.072827         0.058687
+     4              31            40 0.089407         0.057365
+     5              41            50 0.202812         0.219387
+     6              51            60 0.512751         0.569731
+Temporal方法比较: 完成
+--------------------
+US-Pow / BiLSTM
+步骤2：读取并复核原模型
+US-Pow-BiLSTM: xai_us/models_XAI/rnn_bilstm_us_60/bilstm_dataset5_p_SELECTED_12_seed42.pt | input=12, hidden=128, layers=3
+原模型复核: Macro-F1=0.365106, Accuracy=0.366608
+固定target分布: {0: 23, 1: 13, 2: 14}
+模型复核: 通过
+步骤3：Temporal KernelSHAP （60 timestep players）
+  Temporal KernelSHAP进度: 10/50
+  Temporal KernelSHAP进度: 20/50
+  Temporal KernelSHAP进度: 30/50
+  Temporal KernelSHAP进度: 40/50
+  Temporal KernelSHAP进度: 50/50
+Temporal KernelSHAP Top10 timesteps:
+ Timestep  KernelSHAP_Importance  KernelSHAP_Share
+       60               0.006116          0.097141
+       58               0.004254          0.067565
+       59               0.003553          0.056434
+       56               0.003434          0.054536
+       57               0.002773          0.044038
+       55               0.002652          0.042128
+       53               0.002246          0.035666
+       50               0.002054          0.032627
+       52               0.001834          0.029128
+       54               0.001782          0.028297
+Temporal KernelSHAP: 完成
+步骤4：同一样本IG temporal attribution
+IG timestep行数: 60
+IG temporal: 完成
+步骤5：IG vs Temporal KernelSHAP比较
+60-timestep Spearman: rho=0.612726, p=1.95685e-07
+6-block Spearman: rho=0.600000, p=0.208
+IG近期性: Last10=0.339243, First10=0.133004, Ratio=2.550625
+KernelSHAP近期性: Last10=0.478523, First10=0.083245, Ratio=5.748375
+峰值block: IG=6, KernelSHAP=6, 一致=True
+6×10日block质量:
+ Block  Timestep_Start  Timestep_End  IG_Mass  KernelSHAP_Mass
+     1               1            10 0.133004         0.083245
+     2              11            20 0.120307         0.081973
+     3              21            30 0.120260         0.102086
+     4              31            40 0.131853         0.088106
+     5              41            50 0.155333         0.166068
+     6              51            60 0.339243         0.478523
+Temporal方法比较: 完成
+--------------------
+US-Pow / LSTM
+步骤2：读取并复核原模型
+US-Pow-LSTM: xai_us/models_XAI/lstm_us_60/lstm_dataset5_p_SELECTED_12_seed42.pt | input=12, hidden=128, layers=3
+原模型复核: Macro-F1=0.332670, Accuracy=0.347727
+固定target分布: {0: 32, 1: 8, 2: 10}
+模型复核: 通过
+步骤3：Temporal KernelSHAP （60 timestep players）
+  Temporal KernelSHAP进度: 10/50
+  Temporal KernelSHAP进度: 20/50
+  Temporal KernelSHAP进度: 30/50
+  Temporal KernelSHAP进度: 40/50
+  Temporal KernelSHAP进度: 50/50
+Temporal KernelSHAP Top10 timesteps:
+ Timestep  KernelSHAP_Importance  KernelSHAP_Share
+       56               0.002731          0.041293
+       54               0.002497          0.037762
+       47               0.002441          0.036917
+       52               0.002335          0.035312
+       55               0.002226          0.033661
+       53               0.002207          0.033369
+       57               0.001985          0.030010
+       49               0.001925          0.029114
+       43               0.001871          0.028294
+        4               0.001807          0.027322
+Temporal KernelSHAP: 完成
+步骤4：同一样本IG temporal attribution
+IG timestep行数: 60
+IG temporal: 完成
+步骤5：IG vs Temporal KernelSHAP比较
+60-timestep Spearman: rho=0.746207, p=7.77286e-12
+6-block Spearman: rho=1.000000, p=0
+IG近期性: Last10=0.218206, First10=0.168817, Ratio=1.292558
+KernelSHAP近期性: Last10=0.303154, First10=0.148669, Ratio=2.039117
+峰值block: IG=6, KernelSHAP=6, 一致=True
+6×10日block质量:
+ Block  Timestep_Start  Timestep_End  IG_Mass  KernelSHAP_Mass
+     1               1            10 0.168817         0.148669
+     2              11            20 0.128886         0.111632
+     3              21            30 0.119675         0.083447
+     4              31            40 0.154707         0.129261
+     5              41            50 0.209709         0.223837
+     6              51            60 0.218206         0.303154
+Temporal方法比较: 完成
+--------------------
+步骤6：保存结果并生成最终汇总
+模型复核行数: 15
+Temporal KernelSHAP明细行数: 45000
+Temporal KernelSHAP timestep行数: 900
+IG timestep行数: 900
+Block mass行数: 90
+方法比较行数: 15
+异常记录数: 0
+--------------------
+最终汇总1：IG vs Temporal KernelSHAP
+  Dataset  Model  Timestep_Spearman  Timestep_p_value  Block_Spearman  Block_p_value  IG_Last10_Mass  KernelSHAP_Last10_Mass  IG_Last10_to_First10  KernelSHAP_Last10_to_First10  IG_Peak_Block  KernelSHAP_Peak_Block  Same_Peak_Block
+Medical-1 BiLSTM           0.720256      8.763194e-11        0.828571       0.041563        0.573072                0.746383              8.308617                     14.424773              6                      6             True
+Medical-1    GRU           0.523201      1.794248e-05        0.428571       0.396501        0.591784                0.722057             10.456034                     14.401243              6                      6             True
+Medical-1   LSTM           0.582051      1.072043e-06        0.542857       0.265703        0.485493                0.645094              5.707985                      7.502140              6                      6             True
+Medical-2 BiLSTM           0.865481      4.638477e-19        1.000000       0.000000        0.635240                0.846075             14.459422                     88.764195              6                      6             True
+Medical-2    GRU           0.865138      4.968919e-19        1.000000       0.000000        0.494936                0.748368              6.989539                     38.797452              6                      6             True
+Medical-2   LSTM           0.885177      6.243097e-21        0.942857       0.004805        0.662233                0.832628             23.675087                    514.609710              6                      6             True
+    Power BiLSTM           0.744884      8.856480e-12        0.942857       0.004805        0.500575                0.714985              8.851414                     31.155551              6                      6             True
+    Power    GRU           0.848370      1.165765e-17        0.942857       0.004805        0.593134                0.804832             11.714710                     34.732853              6                      6             True
+    Power   LSTM           0.694415      7.580036e-10        1.000000       0.000000        0.506863                0.689203              8.413044                     16.627249              6                      6             True
+   US-Med BiLSTM           0.701084      4.439866e-10        0.600000       0.208000        0.423619                0.642524              4.256034                     14.904294              6                      6             True
+   US-Med    GRU           0.711235      1.911138e-10        0.885714       0.018845        0.610839                0.698060             10.039291                     17.253155              6                      6             True
+   US-Med   LSTM           0.618227      1.414722e-07        0.657143       0.156175        0.473302                0.665809              4.159469                     12.796189              6                      6             True
+   US-Pow BiLSTM           0.612726      1.956846e-07        0.600000       0.208000        0.339243                0.478523              2.550625                      5.748375              6                      6             True
+   US-Pow    GRU           0.834732      1.160915e-16        0.942857       0.004805        0.512751                0.569731              8.027686                     10.749973              6                      6             True
+   US-Pow   LSTM           0.746207      7.772860e-12        1.000000       0.000000        0.218206                0.303154              1.292558                      2.039117              6                      6             True
+60-timestep rho范围: 0.523201 - 0.885177
+60-timestep正相关且p<0.05: 15/15
+KernelSHAP Last10 > First10: 15/15
+IG与KernelSHAP峰值block一致: 15/15
+KernelSHAP峰值为51-60日: 15/15
+--------------------
+最终汇总2：6×10日block mass
+  Dataset  Model  Block  Timestep_Start  Timestep_End  IG_Mass  KernelSHAP_Mass
+Medical-1 BiLSTM      1               1            10 0.068973         0.051743
+Medical-1 BiLSTM      2              11            20 0.076195         0.055207
+Medical-1 BiLSTM      3              21            30 0.068854         0.038625
+Medical-1 BiLSTM      4              31            40 0.076006         0.034514
+Medical-1 BiLSTM      5              41            50 0.136900         0.073528
+Medical-1 BiLSTM      6              51            60 0.573072         0.746383
+Medical-1    GRU      1               1            10 0.056597         0.050139
+Medical-1    GRU      2              11            20 0.062541         0.040324
+Medical-1    GRU      3              21            30 0.064228         0.035635
+Medical-1    GRU      4              31            40 0.075738         0.033430
+Medical-1    GRU      5              41            50 0.149112         0.118415
+Medical-1    GRU      6              51            60 0.591784         0.722057
+Medical-1   LSTM      1               1            10 0.085055         0.085988
+Medical-1   LSTM      2              11            20 0.091225         0.046159
+Medical-1   LSTM      3              21            30 0.084502         0.062483
+Medical-1   LSTM      4              31            40 0.089852         0.046134
+Medical-1   LSTM      5              41            50 0.163873         0.114142
+Medical-1   LSTM      6              51            60 0.485493         0.645094
+Medical-2 BiLSTM      1               1            10 0.043933         0.009532
+Medical-2 BiLSTM      2              11            20 0.052270         0.012276
+Medical-2 BiLSTM      3              21            30 0.064330         0.016441
+Medical-2 BiLSTM      4              31            40 0.083244         0.029881
+Medical-2 BiLSTM      5              41            50 0.120984         0.085797
+Medical-2 BiLSTM      6              51            60 0.635240         0.846075
+Medical-2    GRU      1               1            10 0.070811         0.019289
+Medical-2    GRU      2              11            20 0.063204         0.011456
+Medical-2    GRU      3              21            30 0.069189         0.013408
+Medical-2    GRU      4              31            40 0.094861         0.040580
+Medical-2    GRU      5              41            50 0.206999         0.166899
+Medical-2    GRU      6              51            60 0.494936         0.748368
+Medical-2   LSTM      1               1            10 0.027972         0.001618
+Medical-2   LSTM      2              11            20 0.037961         0.010045
+Medical-2   LSTM      3              21            30 0.053665         0.009082
+Medical-2   LSTM      4              31            40 0.082083         0.025395
+Medical-2   LSTM      5              41            50 0.136085         0.121232
+Medical-2   LSTM      6              51            60 0.662233         0.832628
+    Power BiLSTM      1               1            10 0.056553         0.022949
+    Power BiLSTM      2              11            20 0.057854         0.024597
+    Power BiLSTM      3              21            30 0.079823         0.056898
+    Power BiLSTM      4              31            40 0.120994         0.047887
+    Power BiLSTM      5              41            50 0.184200         0.132685
+    Power BiLSTM      6              51            60 0.500575         0.714985
+    Power    GRU      1               1            10 0.050632         0.023172
+    Power    GRU      2              11            20 0.044892         0.008072
+    Power    GRU      3              21            30 0.057342         0.016231
+    Power    GRU      4              31            40 0.092790         0.030344
+    Power    GRU      5              41            50 0.161211         0.117350
+    Power    GRU      6              51            60 0.593134         0.804832
+    Power   LSTM      1               1            10 0.060247         0.041450
+    Power   LSTM      2              11            20 0.065414         0.043443
+    Power   LSTM      3              21            30 0.085231         0.056885
+    Power   LSTM      4              31            40 0.114228         0.064843
+    Power   LSTM      5              41            50 0.168016         0.104176
+    Power   LSTM      6              51            60 0.506863         0.689203
+   US-Med BiLSTM      1               1            10 0.099534         0.043110
+   US-Med BiLSTM      2              11            20 0.113622         0.052578
+   US-Med BiLSTM      3              21            30 0.115904         0.038732
+   US-Med BiLSTM      4              31            40 0.113244         0.060673
+   US-Med BiLSTM      5              41            50 0.134077         0.162383
+   US-Med BiLSTM      6              51            60 0.423619         0.642524
+   US-Med    GRU      1               1            10 0.060845         0.040460
+   US-Med    GRU      2              11            20 0.048130         0.039113
+   US-Med    GRU      3              21            30 0.057320         0.031155
+   US-Med    GRU      4              31            40 0.065767         0.040370
+   US-Med    GRU      5              41            50 0.157099         0.150842
+   US-Med    GRU      6              51            60 0.610839         0.698060
+   US-Med   LSTM      1               1            10 0.113789         0.052032
+   US-Med   LSTM      2              11            20 0.098229         0.032751
+   US-Med   LSTM      3              21            30 0.098641         0.039401
+   US-Med   LSTM      4              31            40 0.093827         0.068237
+   US-Med   LSTM      5              41            50 0.122212         0.141770
+   US-Med   LSTM      6              51            60 0.473302         0.665809
+   US-Pow BiLSTM      1               1            10 0.133004         0.083245
+   US-Pow BiLSTM      2              11            20 0.120307         0.081973
+   US-Pow BiLSTM      3              21            30 0.120260         0.102086
+   US-Pow BiLSTM      4              31            40 0.131853         0.088106
+   US-Pow BiLSTM      5              41            50 0.155333         0.166068
+   US-Pow BiLSTM      6              51            60 0.339243         0.478523
+   US-Pow    GRU      1               1            10 0.063873         0.052998
+   US-Pow    GRU      2              11            20 0.058331         0.041831
+   US-Pow    GRU      3              21            30 0.072827         0.058687
+   US-Pow    GRU      4              31            40 0.089407         0.057365
+   US-Pow    GRU      5              41            50 0.202812         0.219387
+   US-Pow    GRU      6              51            60 0.512751         0.569731
+   US-Pow   LSTM      1               1            10 0.168817         0.148669
+   US-Pow   LSTM      2              11            20 0.128886         0.111632
+   US-Pow   LSTM      3              21            30 0.119675         0.083447
+   US-Pow   LSTM      4              31            40 0.154707         0.129261
+   US-Pow   LSTM      5              41            50 0.209709         0.223837
+   US-Pow   LSTM      6              51            60 0.218206         0.303154
+--------------------
+最终汇总3：异常
+异常: 0，全部步骤运行完成
+--------------------
+xai_cell_F_V1 完成
+结果目录: 0924/xai_cell_F_V1/
+
+
+
+
+
+
+
