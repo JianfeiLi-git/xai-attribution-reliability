@@ -1,0 +1,159 @@
+输出目录: stage5/cell_A_bootstrap_V4/
+当前工作目录: /home/i/2026_0712/stock_i/xai_PJCS
+中国数据根目录: /home/i/2026_0712/stock_i/XAI_cn
+美国数据根目录: /home/i/2026_0712/stock_i/xai_us
+设备: cpu
+任务: 最佳RNN vs 最佳传统baseline 配对bootstrap
+主分析: 交易日moving-block bootstrap, block=20, 重复=2000
+敏感性分析: 逐样本i.i.d. bootstrap, 重复=2000
+--------------------
+数据集: Medical-1
+步骤1：数据准备
+Medical-1: train=(38820, 60, 13), test=(6583, 60, 13)
+测试样本: 6583, 测试交易日: 275
+步骤2：RNN预测与点估计复核
+GRU: Macro-F1=0.413236, 已报告=0.413231, 一致=True
+BiLSTM: Macro-F1=0.403513, 已报告=0.403506, 一致=True
+LSTM: Macro-F1=0.413009, 已报告=0.412939, 一致=True
+步骤3：最佳baseline重新拟合与复核
+Extra Trees/Balanced: Macro-F1=0.390459, 已报告=0.390459, 一致=True
+步骤4：配对bootstrap
+  block bootstrap进度: 500/2000
+  block bootstrap进度: 1000/2000
+  block bootstrap进度: 1500/2000
+  block bootstrap进度: 2000/2000
+  iid bootstrap进度: 500/2000
+  iid bootstrap进度: 1000/2000
+  iid bootstrap进度: 1500/2000
+  iid bootstrap进度: 2000/2000
+主比较 GRU vs Extra Trees: ΔF1=0.0228, block 95%CI=[0.0096, 0.0373], block p=0.0010
+--------------------
+数据集: Medical-2
+步骤1：数据准备
+Medical-2: train=(138900, 60, 14), test=(21647, 60, 14)
+测试样本: 21647, 测试交易日: 275
+步骤2：RNN预测与点估计复核
+GRU: Macro-F1=0.412267, 已报告=0.412268, 一致=True
+BiLSTM: Macro-F1=0.419881, 已报告=0.419882, 一致=True
+LSTM: Macro-F1=0.412332, 已报告=0.412224, 一致=True
+步骤3：最佳baseline重新拟合与复核
+Logistic Regression/Balanced: Macro-F1=0.375716, 已报告=0.377716, 一致=False
+警告: 点估计与已报告数值不一致，bootstrap仍运行，请逐项核对A2文件
+步骤4：配对bootstrap
+  block bootstrap进度: 500/2000
+  block bootstrap进度: 1000/2000
+  block bootstrap进度: 1500/2000
+  block bootstrap进度: 2000/2000
+  iid bootstrap进度: 500/2000
+  iid bootstrap进度: 1000/2000
+  iid bootstrap进度: 1500/2000
+  iid bootstrap进度: 2000/2000
+主比较 BiLSTM vs Logistic Regression: ΔF1=0.0442, block 95%CI=[0.0235, 0.0580], block p=0.0005
+--------------------
+数据集: Power
+步骤1：数据准备
+Power: train=(74093, 60, 12), test=(8543, 60, 12)
+测试样本: 8543, 测试交易日: 285
+步骤2：RNN预测与点估计复核
+GRU: Macro-F1=0.410313, 已报告=0.410313, 一致=True
+BiLSTM: Macro-F1=0.411858, 已报告=0.412120, 一致=True
+LSTM: Macro-F1=0.402068, 已报告=0.402199, 一致=True
+步骤3：最佳baseline重新拟合与复核
+Extra Trees/Unweighted: Macro-F1=0.398032, 已报告=0.398032, 一致=True
+步骤4：配对bootstrap
+  block bootstrap进度: 500/2000
+  block bootstrap进度: 1000/2000
+  block bootstrap进度: 1500/2000
+  block bootstrap进度: 2000/2000
+  iid bootstrap进度: 500/2000
+  iid bootstrap进度: 1000/2000
+  iid bootstrap进度: 1500/2000
+  iid bootstrap进度: 2000/2000
+主比较 BiLSTM vs Extra Trees: ΔF1=0.0138, block 95%CI=[-0.0104, 0.0244], block p=0.2024
+--------------------
+数据集: US-Med
+步骤1：数据准备
+US-Med: train=(63061, 60, 13), test=(5720, 60, 13)
+测试样本: 5720, 测试交易日: 286
+步骤2：RNN预测与点估计复核
+GRU: Macro-F1=0.356141, 已报告=0.356312, 一致=True
+BiLSTM: Macro-F1=0.357795, 已报告=0.358022, 一致=True
+LSTM: Macro-F1=0.364083, 已报告=0.363922, 一致=True
+步骤3：最佳baseline重新拟合与复核
+Extra Trees/Balanced: Macro-F1=0.359013, 已报告=0.359013, 一致=True
+步骤4：配对bootstrap
+  block bootstrap进度: 500/2000
+  block bootstrap进度: 1000/2000
+  block bootstrap进度: 1500/2000
+  block bootstrap进度: 2000/2000
+  iid bootstrap进度: 500/2000
+  iid bootstrap进度: 1000/2000
+  iid bootstrap进度: 1500/2000
+  iid bootstrap进度: 2000/2000
+主比较 LSTM vs Extra Trees: ΔF1=0.0051, block 95%CI=[-0.0151, 0.0239], block p=0.3403
+--------------------
+数据集: US-Pow
+步骤1：数据准备
+US-Pow: train=(63799, 60, 12), test=(5720, 60, 12)
+测试样本: 5720, 测试交易日: 286
+步骤2：RNN预测与点估计复核
+GRU: Macro-F1=0.327094, 已报告=0.327094, 一致=True
+BiLSTM: Macro-F1=0.364745, 已报告=0.365106, 一致=True
+LSTM: Macro-F1=0.332532, 已报告=0.332670, 一致=True
+步骤3：最佳baseline重新拟合与复核
+Logistic Regression/Unweighted: Macro-F1=0.357997, 已报告=0.356558, 一致=False
+警告: 点估计与已报告数值不一致，bootstrap仍运行，请逐项核对A2文件
+步骤4：配对bootstrap
+  block bootstrap进度: 500/2000
+  block bootstrap进度: 1000/2000
+  block bootstrap进度: 1500/2000
+  block bootstrap进度: 2000/2000
+  iid bootstrap进度: 500/2000
+  iid bootstrap进度: 1000/2000
+  iid bootstrap进度: 1500/2000
+  iid bootstrap进度: 2000/2000
+主比较 BiLSTM vs Logistic Regression: ΔF1=0.0067, block 95%CI=[-0.0309, 0.0329], block p=0.4913
+--------------------
+步骤5：保存与汇总
+最终汇总1：点估计复核
+  Dataset                            Model  Recomputed_MacroF1  Reported_MacroF1  Match
+Medical-1                              GRU            0.413236          0.413231   True
+Medical-1                           BiLSTM            0.403513          0.403506   True
+Medical-1                             LSTM            0.413009          0.412939   True
+Medical-1           Extra Trees (Balanced)            0.390459          0.390459   True
+Medical-2                              GRU            0.412267          0.412268   True
+Medical-2                           BiLSTM            0.419881          0.419882   True
+Medical-2                             LSTM            0.412332          0.412224   True
+Medical-2   Logistic Regression (Balanced)            0.375716          0.377716  False
+    Power                              GRU            0.410313          0.410313   True
+    Power                           BiLSTM            0.411858          0.412120   True
+    Power                             LSTM            0.402068          0.402199   True
+    Power         Extra Trees (Unweighted)            0.398032          0.398032   True
+   US-Med                              GRU            0.356141          0.356312   True
+   US-Med                           BiLSTM            0.357795          0.358022   True
+   US-Med                             LSTM            0.364083          0.363922   True
+   US-Med           Extra Trees (Balanced)            0.359013          0.359013   True
+   US-Pow                              GRU            0.327094          0.327094   True
+   US-Pow                           BiLSTM            0.364745          0.365106   True
+   US-Pow                             LSTM            0.332532          0.332670   True
+   US-Pow Logistic Regression (Unweighted)            0.357997          0.356558  False
+全部一致: False
+--------------------
+最终汇总2：最佳RNN vs 最佳baseline（Macro-F1差值）
+  Dataset    RNN            Baseline  Delta_MacroF1  Block_F1_CI_Lower  Block_F1_CI_Upper  Block_F1_p_one_sided  Block_F1_p_BH_FDR  IID_F1_CI_Lower  IID_F1_CI_Upper  IID_F1_p_one_sided
+Medical-1    GRU         Extra Trees         0.0228             0.0096             0.0373                0.0010             0.0025           0.0107           0.0353              0.0005
+Medical-2 BiLSTM Logistic Regression         0.0442             0.0235             0.0580                0.0005             0.0025           0.0371           0.0514              0.0005
+    Power BiLSTM         Extra Trees         0.0138            -0.0104             0.0244                0.2024             0.3373           0.0030           0.0249              0.0055
+   US-Med   LSTM         Extra Trees         0.0051            -0.0151             0.0239                0.3403             0.4254          -0.0092           0.0203              0.2354
+   US-Pow BiLSTM Logistic Regression         0.0067            -0.0309             0.0329                0.4913             0.4913          -0.0083           0.0230              0.1959
+Block bootstrap BH-FDR显著: 2/5
+--------------------
+最终汇总3：异常
+异常: 0
+--------------------
+stage5_cell_A_bootstrap_V4 完成
+结果目录: stage5/cell_A_bootstrap_V4/
+
+
+
+
