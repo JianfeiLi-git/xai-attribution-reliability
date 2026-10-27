@@ -1,0 +1,16 @@
+Dataset,Model,Model_Path,Test_N,Macro_F1,Accuracy
+Medical-1,GRU,XAI_cn/models_XAI/rnn_enhanced_dataset2/gru_dataset1_SELECTED_13_seed42.pt,6583,0.4132307764695263,0.42321130183806777
+Medical-1,BiLSTM,XAI_cn/models_XAI/rnn_enhanced_dataset2/bilstm_dataset1_SELECTED_13_seed42.pt,6583,0.4035062920215924,0.40726112714567825
+Medical-1,LSTM,XAI_cn/models_XAI/lstm_enhanced/lstm_dataset1_SELECTED_13_seed42.pt,6583,0.41293924808173604,0.4276165881816801
+Medical-2,GRU,XAI_cn/models_XAI/rnn_enhanced_dataset2/gru_dataset2_SELECTED_14_seed42.pt,21647,0.4122677528060707,0.42966692844274035
+Medical-2,BiLSTM,XAI_cn/models_XAI/rnn_enhanced_dataset2/bilstm_dataset2_SELECTED_14_seed42.pt,21647,0.4198817700562311,0.4374740148750404
+Medical-2,LSTM,XAI_cn/models_XAI/lstm_enhanced/lstm_dataset2_SELECTED_14_seed42.pt,21647,0.4122236740369194,0.4272647480020326
+Power,GRU,XAI_cn/e3/models_XAI/rnn_enhanced_dataset2/gru_dataset2_SELECTED_12_seed42.pt,8543,0.41031336099654797,0.4165983846423973
+Power,BiLSTM,XAI_cn/e3/models_XAI/rnn_enhanced_dataset2/bilstm_dataset2_SELECTED_12_seed42.pt,8543,0.412119648568584,0.423153458972258
+Power,LSTM,XAI_cn/e3/models_XAI/lstm_enhanced/lstm_dataset2_SELECTED_12_seed42.pt,8543,0.4021994866098276,0.4102774201100316
+US-Med,GRU,xai_us/models_XAI/rnn_models_us/gru_dataset4_m_SELECTED_13_seed42.pt,5720,0.3563116048732791,0.36363636363636365
+US-Med,BiLSTM,xai_us/models_XAI/rnn_bilstm_us_60/bilstm_dataset4_m_SELECTED_13_seed42.pt,5720,0.358022322090837,0.3667832167832168
+US-Med,LSTM,xai_us/models_XAI/lstm_us_60/lstm_dataset4_m_SELECTED_13_seed42.pt,5720,0.36392204705496073,0.3732517482517482
+US-Pow,GRU,xai_us/models_XAI/rnn_models_us/gru_dataset5_p_SELECTED_12_seed42.pt,5720,0.3270944309341632,0.3283216783216783
+US-Pow,BiLSTM,xai_us/models_XAI/rnn_bilstm_us_60/bilstm_dataset5_p_SELECTED_12_seed42.pt,5720,0.36510600421712763,0.3666083916083916
+US-Pow,LSTM,xai_us/models_XAI/lstm_us_60/lstm_dataset5_p_SELECTED_12_seed42.pt,5720,0.33267041281311127,0.3477272727272727
