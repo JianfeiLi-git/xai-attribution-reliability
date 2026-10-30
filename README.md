@@ -4,7 +4,7 @@ Code, trained models and result tables for the paper:
 
 > *Attribution Reliability in Financial Time-Series Classification: Cross-Market Evidence from Multidimensional XAI Validation* (submitted to PeerJ Computer Science).
 
-Archived release: https://doi.org/10.5281/zenodo.23697967
+Archived release: https://doi.org/10.5281/zenodo.23789348
 
 ## Repository structure
 
@@ -102,4 +102,4 @@ Code is released under the MIT License (see `LICENSE`).
 
 ## Citation
 
-If you use this code, please cite the paper (citation details will be added after publication) and the archived release of this repository (https://doi.org/10.5281/zenodo.23697967).
+If you use this code, please cite the paper (citation details will be added after publication) and the archived release of this repository (https://doi.org/10.5281/zenodo.23789348).
