@@ -2,7 +2,7 @@
 
 Code, trained models and result tables for the paper submitted to PeerJ Computer Science.
 
-Archived release: [https://doi.org/10.5281/zenodo.23789348](https://doi.org/10.5281/zenodo.23789348)
+Archived release: [https://doi.org/10.5281/zenodo.24522264](https://doi.org/10.5281/zenodo.24522264)
 
 ## Description
 
