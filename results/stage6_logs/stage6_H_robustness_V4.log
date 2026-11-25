@@ -1,0 +1,414 @@
+Input directories: ./stage6/stage6_cell_A_data_preprocessing_V1/, ./stage6/stage6_cell_C_data_training_V2/
+Output directory: ./stage6/stage6_cell_H_data_robustness_V4/
+cuDNN disabled (cuDNN cannot be initialized on the server); using PyTorch native CUDA RNN kernels
+Input file check passed (19 files)
+US-Med: 22 features: ['roc_5', 'close_to_ma20', 'low', 'rsi', 'high_low_range', 'roc_20', 'dayofyear_sin', 'bb_position', 'macd', 'roc_10', 'bb_width', 'macd_signal', 'dayofweek_sin', 'dayofyear_cos', 'dayofweek_cos', 'year', 'month', 'day', 'dayofweek', 'quarter', 'dayofyear', 'weekofyear']
+US-Pow: 19 features: ['roc_5', 'dayofyear_sin', 'ma10', 'macd_signal', 'dayofyear_cos', 'macd', 'dayofweek_cos', 'high_low_range', 'close_to_ma20', 'momentum_5', 'roc_20', 'rsi', 'year', 'month', 'day', 'dayofweek', 'quarter', 'dayofyear', 'weekofyear']
+Device: cuda
+Task: model prediction and IG stability under small input noise
+Noise: training-set feature SD x 0.5%, 1%, 2%
+Repetitions per noise level: 3
+Attribution comparison: sample-averaged TxF attribution map / feature ranking / temporal ranking
+Prediction comparison: prediction agreement / Macro-F1 / accuracy / true-class probability
+--------------------
+Dataset: US-Med
+Step 1: data preparation and checks
+US-Med: data directory ./stage6/stage6_cell_A_data_preprocessing_V1/us_med
+US-Med: train (63061, 60, 22), validation (6280, 60, 22), test (5720, 60, 22)
+Number of features: 22
+Features: roc_5, close_to_ma20, low, rsi, high_low_range, roc_20, dayofyear_sin, bb_position, macd, roc_10, bb_width, macd_signal, dayofweek_sin, dayofyear_cos, dayofweek_cos, year, month, day, dayofweek, quarter, dayofyear, weekofyear
+Training samples: 63061, validation samples: 6280, test samples: 5720
+Training missing values: 0, validation missing values: 0, test missing values: 0
+Training label distribution: {0: 21008, 1: 21004, 2: 21049}
+Test label distribution: {0: 2013, 1: 1718, 2: 1989}
+Data check: passed
+--------------------
+US-Med / GRU
+Step 2: load and check models
+US-Med-GRU: ./stage6/stage6_cell_C_data_training_V2/us_med/gru_seed42_selected.pth | input dim 22, hidden dim 128, layers 2
+Test samples: 5720
+Model check: test Macro-F1 0.251911, accuracy 0.366434, mean true-class probability 0.343086
+Model check: passed
+Step 3: build fixed samples and the clean-input IG reference
+IG fixed samples: 200
+IG integration steps: 32
+Fixed target-class distribution: {1: 26, 2: 174}
+Clean-input attribution shape: (200, 60, 22)
+Clean-input attribution missing values: 0
+Clean-input IG feature importance top 5:
+1. dayofyear | importance 0.00254429
+2. day | importance 0.00187951
+3. high_low_range | importance 0.00093770
+4. weekofyear | importance 0.00087623
+5. low | importance 0.00082597
+Training feature SD: min 0.49868467, max 103.19834137
+Zero-variance features: 0
+--------------------
+Step 4: input noise = 0.5% of the training-set SD
+Repetition 1/3 | random seed 1551
+Result: map ρ 0.999999, feature ρ 1.000000, temporal ρ 0.999833, prediction agreement 0.998776, ΔF1 -0.000377, Δaccuracy -0.000350
+Repetition 2/3 | random seed 2560
+Result: map ρ 0.999998, feature ρ 1.000000, temporal ρ 0.999833, prediction agreement 0.999301, ΔF1 -0.000050, Δaccuracy 0.000175
+Repetition 3/3 | random seed 3569
+Result: map ρ 0.999999, feature ρ 1.000000, temporal ρ 0.999833, prediction agreement 0.999126, ΔF1 -0.000427, Δaccuracy -0.000175
+--------------------
+Step 4: input noise = 1.0% of the training-set SD
+Repetition 1/3 | random seed 2051
+Result: map ρ 0.999996, feature ρ 1.000000, temporal ρ 0.999389, prediction agreement 0.998252, ΔF1 -0.000951, Δaccuracy -0.000524
+Repetition 2/3 | random seed 3060
+Result: map ρ 0.999996, feature ρ 1.000000, temporal ρ 0.999722, prediction agreement 0.998776, ΔF1 -0.000361, Δaccuracy -0.000350
+Repetition 3/3 | random seed 4069
+Result: map ρ 0.999996, feature ρ 1.000000, temporal ρ 0.999833, prediction agreement 0.998951, ΔF1 -0.000369, Δaccuracy -0.000350
+--------------------
+Step 4: input noise = 2.0% of the training-set SD
+Repetition 1/3 | random seed 3051
+Result: map ρ 0.999986, feature ρ 1.000000, temporal ρ 0.998055, prediction agreement 0.996678, ΔF1 -0.001529, Δaccuracy -0.000699
+Repetition 2/3 | random seed 4060
+Result: map ρ 0.999989, feature ρ 1.000000, temporal ρ 0.999667, prediction agreement 0.997203, ΔF1 -0.000693, Δaccuracy -0.000350
+Repetition 3/3 | random seed 5069
+Result: map ρ 0.999988, feature ρ 1.000000, temporal ρ 0.999667, prediction agreement 0.996853, ΔF1 -0.001047, Δaccuracy -0.000699
+Completeness check: noise 0.5%, all 3 repetitions succeeded
+Completeness check: noise 1.0%, all 3 repetitions succeeded
+Completeness check: noise 2.0%, all 3 repetitions succeeded
+Noise result rows for the current model (complete combinations only): 9
+Summary for the current model:
+ Noise_Percent_SD  Map_Spearman_Mean  Feature_Spearman_Mean  Temporal_Spearman_Mean  Pred_Agreement_Mean  Delta_MacroF1_Mean  Delta_Accuracy_Mean
+              0.5           0.999999                    1.0                0.999833             0.999068           -0.000285            -0.000117
+              1.0           0.999996                    1.0                0.999648             0.998660           -0.000560            -0.000408
+              2.0           0.999987                    1.0                0.999129             0.996911           -0.001090            -0.000583
+--------------------
+US-Med / BiLSTM
+Step 2: load and check models
+US-Med-BiLSTM: ./stage6/stage6_cell_C_data_training_V2/us_med/bilstm_seed42_selected.pth | input dim 22, hidden dim 128, layers 2
+Test samples: 5720
+Model check: test Macro-F1 0.336737, accuracy 0.365559, mean true-class probability 0.343342
+Model check: passed
+Step 3: build fixed samples and the clean-input IG reference
+IG fixed samples: 200
+IG integration steps: 32
+Fixed target-class distribution: {0: 97, 1: 11, 2: 92}
+Clean-input attribution shape: (200, 60, 22)
+Clean-input attribution missing values: 0
+Clean-input IG feature importance top 5:
+1. dayofyear | importance 0.00270439
+2. high_low_range | importance 0.00228150
+3. day | importance 0.00172308
+4. month | importance 0.00163469
+5. macd | importance 0.00106460
+Training feature SD: min 0.49868467, max 103.19834137
+Zero-variance features: 0
+--------------------
+Step 4: input noise = 0.5% of the training-set SD
+Repetition 1/3 | random seed 1551
+Result: map ρ 0.999999, feature ρ 1.000000, temporal ρ 0.999944, prediction agreement 0.997902, ΔF1 0.000162, Δaccuracy 0.000000
+Repetition 2/3 | random seed 2560
+Result: map ρ 0.999999, feature ρ 1.000000, temporal ρ 0.999944, prediction agreement 0.998077, ΔF1 0.000457, Δaccuracy 0.000350
+Repetition 3/3 | random seed 3569
+Result: map ρ 0.999999, feature ρ 1.000000, temporal ρ 1.000000, prediction agreement 0.998776, ΔF1 0.000576, Δaccuracy 0.000699
+--------------------
+Step 4: input noise = 1.0% of the training-set SD
+Repetition 1/3 | random seed 2051
+Result: map ρ 0.999998, feature ρ 1.000000, temporal ρ 1.000000, prediction agreement 0.996503, ΔF1 -0.000127, Δaccuracy -0.000350
+Repetition 2/3 | random seed 3060
+Result: map ρ 0.999998, feature ρ 1.000000, temporal ρ 1.000000, prediction agreement 0.995629, ΔF1 0.000617, Δaccuracy 0.000175
+Repetition 3/3 | random seed 4069
+Result: map ρ 0.999998, feature ρ 1.000000, temporal ρ 0.999944, prediction agreement 0.997552, ΔF1 0.000871, Δaccuracy 0.000874
+--------------------
+Step 4: input noise = 2.0% of the training-set SD
+Repetition 1/3 | random seed 3051
+Result: map ρ 0.999995, feature ρ 1.000000, temporal ρ 0.999944, prediction agreement 0.992832, ΔF1 0.000457, Δaccuracy 0.000524
+Repetition 2/3 | random seed 4060
+Result: map ρ 0.999995, feature ρ 1.000000, temporal ρ 1.000000, prediction agreement 0.992308, ΔF1 0.001231, Δaccuracy 0.000874
+Repetition 3/3 | random seed 5069
+Result: map ρ 0.999994, feature ρ 1.000000, temporal ρ 0.999944, prediction agreement 0.993706, ΔF1 0.000411, Δaccuracy 0.000874
+Completeness check: noise 0.5%, all 3 repetitions succeeded
+Completeness check: noise 1.0%, all 3 repetitions succeeded
+Completeness check: noise 2.0%, all 3 repetitions succeeded
+Noise result rows for the current model (complete combinations only): 9
+Summary for the current model:
+ Noise_Percent_SD  Map_Spearman_Mean  Feature_Spearman_Mean  Temporal_Spearman_Mean  Pred_Agreement_Mean  Delta_MacroF1_Mean  Delta_Accuracy_Mean
+              0.5           0.999999                    1.0                0.999963             0.998252            0.000398             0.000350
+              1.0           0.999998                    1.0                0.999981             0.996562            0.000454             0.000233
+              2.0           0.999995                    1.0                0.999963             0.992949            0.000700             0.000758
+--------------------
+US-Med / LSTM
+Step 2: load and check models
+US-Med-LSTM: ./stage6/stage6_cell_C_data_training_V2/us_med/lstm_seed42_selected.pth | input dim 22, hidden dim 128, layers 2
+Test samples: 5720
+Model check: test Macro-F1 0.301719, accuracy 0.352972, mean true-class probability 0.344733
+Model check: passed
+Step 3: build fixed samples and the clean-input IG reference
+IG fixed samples: 200
+IG integration steps: 32
+Fixed target-class distribution: {0: 111, 1: 5, 2: 84}
+Clean-input attribution shape: (200, 60, 22)
+Clean-input attribution missing values: 0
+Clean-input IG feature importance top 5:
+1. dayofyear | importance 0.00500820
+2. weekofyear | importance 0.00312194
+3. high_low_range | importance 0.00175728
+4. day | importance 0.00113641
+5. bb_width | importance 0.00079406
+Training feature SD: min 0.49868467, max 103.19834137
+Zero-variance features: 0
+--------------------
+Step 4: input noise = 0.5% of the training-set SD
+Repetition 1/3 | random seed 1551
+Result: map ρ 0.999999, feature ρ 1.000000, temporal ρ 0.999944, prediction agreement 0.997028, ΔF1 0.000403, Δaccuracy 0.000524
+Repetition 2/3 | random seed 2560
+Result: map ρ 0.999999, feature ρ 1.000000, temporal ρ 1.000000, prediction agreement 0.998077, ΔF1 0.000126, Δaccuracy 0.000175
+Repetition 3/3 | random seed 3569
+Result: map ρ 0.999999, feature ρ 1.000000, temporal ρ 1.000000, prediction agreement 0.997378, ΔF1 -0.000093, Δaccuracy 0.000175
+--------------------
+Step 4: input noise = 1.0% of the training-set SD
+Repetition 1/3 | random seed 2051
+Result: map ρ 0.999997, feature ρ 1.000000, temporal ρ 1.000000, prediction agreement 0.994930, ΔF1 0.000621, Δaccuracy 0.000524
+Repetition 2/3 | random seed 3060
+Result: map ρ 0.999997, feature ρ 1.000000, temporal ρ 0.999889, prediction agreement 0.995105, ΔF1 0.000498, Δaccuracy 0.000350
+Repetition 3/3 | random seed 4069
+Result: map ρ 0.999998, feature ρ 1.000000, temporal ρ 0.999944, prediction agreement 0.995629, ΔF1 0.001268, Δaccuracy 0.001049
+--------------------
+Step 4: input noise = 2.0% of the training-set SD
+Repetition 1/3 | random seed 3051
+Result: map ρ 0.999992, feature ρ 1.000000, temporal ρ 0.999778, prediction agreement 0.990210, ΔF1 0.000575, Δaccuracy 0.000175
+Repetition 2/3 | random seed 4060
+Result: map ρ 0.999992, feature ρ 1.000000, temporal ρ 0.999778, prediction agreement 0.989510, ΔF1 -0.000195, Δaccuracy 0.000000
+Repetition 3/3 | random seed 5069
+Result: map ρ 0.999991, feature ρ 1.000000, temporal ρ 0.999944, prediction agreement 0.987413, ΔF1 0.000496, Δaccuracy 0.000350
+Completeness check: noise 0.5%, all 3 repetitions succeeded
+Completeness check: noise 1.0%, all 3 repetitions succeeded
+Completeness check: noise 2.0%, all 3 repetitions succeeded
+Noise result rows for the current model (complete combinations only): 9
+Summary for the current model:
+ Noise_Percent_SD  Map_Spearman_Mean  Feature_Spearman_Mean  Temporal_Spearman_Mean  Pred_Agreement_Mean  Delta_MacroF1_Mean  Delta_Accuracy_Mean
+              0.5           0.999999                    1.0                0.999981             0.997494            0.000146             0.000291
+              1.0           0.999997                    1.0                0.999944             0.995221            0.000796             0.000641
+              2.0           0.999992                    1.0                0.999833             0.989044            0.000292             0.000175
+--------------------
+Dataset: US-Pow
+Step 1: data preparation and checks
+US-Pow: data directory ./stage6/stage6_cell_A_data_preprocessing_V1/us_pow
+US-Pow: train (63799, 60, 19), validation (6280, 60, 19), test (5720, 60, 19)
+Number of features: 19
+Features: roc_5, dayofyear_sin, ma10, macd_signal, dayofyear_cos, macd, dayofweek_cos, high_low_range, close_to_ma20, momentum_5, roc_20, rsi, year, month, day, dayofweek, quarter, dayofyear, weekofyear
+Training samples: 63799, validation samples: 6280, test samples: 5720
+Training missing values: 0, validation missing values: 0, test missing values: 0
+Training label distribution: {0: 21301, 1: 21218, 2: 21280}
+Test label distribution: {0: 1969, 1: 1701, 2: 2050}
+Data check: passed
+--------------------
+US-Pow / GRU
+Step 2: load and check models
+US-Pow-GRU: ./stage6/stage6_cell_C_data_training_V2/us_pow/gru_seed42_selected.pth | input dim 19, hidden dim 64, layers 2
+Test samples: 5720
+Model check: test Macro-F1 0.288881, accuracy 0.361538, mean true-class probability 0.338955
+Model check: passed
+Step 3: build fixed samples and the clean-input IG reference
+IG fixed samples: 200
+IG integration steps: 32
+Fixed target-class distribution: {0: 3, 1: 69, 2: 128}
+Clean-input attribution shape: (200, 60, 19)
+Clean-input attribution missing values: 0
+Clean-input IG feature importance top 5:
+1. dayofyear | importance 0.00421191
+2. high_low_range | importance 0.00269177
+3. day | importance 0.00242641
+4. weekofyear | importance 0.00177206
+5. momentum_5 | importance 0.00120472
+Training feature SD: min 0.49865985, max 103.20468140
+Zero-variance features: 0
+--------------------
+Step 4: input noise = 0.5% of the training-set SD
+Repetition 1/3 | random seed 1551
+Result: map ρ 0.999998, feature ρ 1.000000, temporal ρ 0.999833, prediction agreement 0.998776, ΔF1 0.000374, Δaccuracy 0.000175
+Repetition 2/3 | random seed 2560
+Result: map ρ 0.999998, feature ρ 1.000000, temporal ρ 0.999889, prediction agreement 0.998776, ΔF1 0.000335, Δaccuracy 0.000350
+Repetition 3/3 | random seed 3569
+Result: map ρ 0.999998, feature ρ 1.000000, temporal ρ 0.999889, prediction agreement 0.998252, ΔF1 -0.000003, Δaccuracy 0.000000
+--------------------
+Step 4: input noise = 1.0% of the training-set SD
+Repetition 1/3 | random seed 2051
+Result: map ρ 0.999995, feature ρ 1.000000, temporal ρ 0.999722, prediction agreement 0.996853, ΔF1 -0.000099, Δaccuracy 0.000000
+Repetition 2/3 | random seed 3060
+Result: map ρ 0.999995, feature ρ 1.000000, temporal ρ 0.999944, prediction agreement 0.995979, ΔF1 0.000480, Δaccuracy 0.000175
+Repetition 3/3 | random seed 4069
+Result: map ρ 0.999996, feature ρ 1.000000, temporal ρ 0.999889, prediction agreement 0.996503, ΔF1 0.000899, Δaccuracy 0.000699
+--------------------
+Step 4: input noise = 2.0% of the training-set SD
+Repetition 1/3 | random seed 3051
+Result: map ρ 0.999984, feature ρ 1.000000, temporal ρ 0.999667, prediction agreement 0.995280, ΔF1 0.000887, Δaccuracy 0.000524
+Repetition 2/3 | random seed 4060
+Result: map ρ 0.999988, feature ρ 1.000000, temporal ρ 0.999278, prediction agreement 0.993357, ΔF1 0.000234, Δaccuracy 0.000175
+Repetition 3/3 | random seed 5069
+Result: map ρ 0.999986, feature ρ 1.000000, temporal ρ 0.999555, prediction agreement 0.994930, ΔF1 -0.000987, Δaccuracy -0.000175
+Completeness check: noise 0.5%, all 3 repetitions succeeded
+Completeness check: noise 1.0%, all 3 repetitions succeeded
+Completeness check: noise 2.0%, all 3 repetitions succeeded
+Noise result rows for the current model (complete combinations only): 9
+Summary for the current model:
+ Noise_Percent_SD  Map_Spearman_Mean  Feature_Spearman_Mean  Temporal_Spearman_Mean  Pred_Agreement_Mean  Delta_MacroF1_Mean  Delta_Accuracy_Mean
+              0.5           0.999998                    1.0                0.999870             0.998601            0.000235             0.000175
+              1.0           0.999995                    1.0                0.999852             0.996445            0.000427             0.000291
+              2.0           0.999986                    1.0                0.999500             0.994522            0.000045             0.000175
+--------------------
+US-Pow / BiLSTM
+Step 2: load and check models
+US-Pow-BiLSTM: ./stage6/stage6_cell_C_data_training_V2/us_pow/bilstm_seed42_selected.pth | input dim 19, hidden dim 128, layers 2
+Test samples: 5720
+Model check: test Macro-F1 0.333694, accuracy 0.361014, mean true-class probability 0.338293
+Model check: passed
+Step 3: build fixed samples and the clean-input IG reference
+IG fixed samples: 200
+IG integration steps: 32
+Fixed target-class distribution: {0: 70, 1: 35, 2: 95}
+Clean-input attribution shape: (200, 60, 19)
+Clean-input attribution missing values: 0
+Clean-input IG feature importance top 5:
+1. dayofyear | importance 0.00318515
+2. weekofyear | importance 0.00180261
+3. high_low_range | importance 0.00147580
+4. momentum_5 | importance 0.00058909
+5. roc_5 | importance 0.00048250
+Training feature SD: min 0.49865985, max 103.20468140
+Zero-variance features: 0
+--------------------
+Step 4: input noise = 0.5% of the training-set SD
+Repetition 1/3 | random seed 1551
+Result: map ρ 0.999998, feature ρ 1.000000, temporal ρ 0.999944, prediction agreement 0.997902, ΔF1 0.000366, Δaccuracy 0.000175
+Repetition 2/3 | random seed 2560
+Result: map ρ 0.999998, feature ρ 1.000000, temporal ρ 0.999833, prediction agreement 0.997378, ΔF1 -0.000153, Δaccuracy -0.000350
+Repetition 3/3 | random seed 3569
+Result: map ρ 0.999998, feature ρ 1.000000, temporal ρ 0.999944, prediction agreement 0.997727, ΔF1 -0.000687, Δaccuracy -0.000699
+--------------------
+Step 4: input noise = 1.0% of the training-set SD
+Repetition 1/3 | random seed 2051
+Result: map ρ 0.999995, feature ρ 1.000000, temporal ρ 0.999722, prediction agreement 0.996329, ΔF1 -0.001565, Δaccuracy -0.001573
+Repetition 2/3 | random seed 3060
+Result: map ρ 0.999994, feature ρ 1.000000, temporal ρ 0.999722, prediction agreement 0.995280, ΔF1 -0.000604, Δaccuracy -0.000874
+Repetition 3/3 | random seed 4069
+Result: map ρ 0.999993, feature ρ 1.000000, temporal ρ 0.999778, prediction agreement 0.994930, ΔF1 -0.001458, Δaccuracy -0.001224
+--------------------
+Step 4: input noise = 2.0% of the training-set SD
+Repetition 1/3 | random seed 3051
+Result: map ρ 0.999982, feature ρ 1.000000, temporal ρ 0.999778, prediction agreement 0.989685, ΔF1 0.000063, Δaccuracy -0.000175
+Repetition 2/3 | random seed 4060
+Result: map ρ 0.999984, feature ρ 1.000000, temporal ρ 0.999555, prediction agreement 0.990385, ΔF1 0.000800, Δaccuracy 0.000699
+Repetition 3/3 | random seed 5069
+Result: map ρ 0.999983, feature ρ 1.000000, temporal ρ 0.999278, prediction agreement 0.989685, ΔF1 -0.000076, Δaccuracy -0.000524
+Completeness check: noise 0.5%, all 3 repetitions succeeded
+Completeness check: noise 1.0%, all 3 repetitions succeeded
+Completeness check: noise 2.0%, all 3 repetitions succeeded
+Noise result rows for the current model (complete combinations only): 9
+Summary for the current model:
+ Noise_Percent_SD  Map_Spearman_Mean  Feature_Spearman_Mean  Temporal_Spearman_Mean  Pred_Agreement_Mean  Delta_MacroF1_Mean  Delta_Accuracy_Mean
+              0.5           0.999998                    1.0                0.999907             0.997669           -0.000158        -2.913753e-04
+              1.0           0.999994                    1.0                0.999741             0.995513           -0.001209        -1.223776e-03
+              2.0           0.999983                    1.0                0.999537             0.989918            0.000262         3.700743e-17
+--------------------
+US-Pow / LSTM
+Step 2: load and check models
+US-Pow-LSTM: ./stage6/stage6_cell_C_data_training_V2/us_pow/lstm_seed42_selected.pth | input dim 19, hidden dim 128, layers 2
+Test samples: 5720
+Model check: test Macro-F1 0.333218, accuracy 0.362238, mean true-class probability 0.342212
+Model check: passed
+Step 3: build fixed samples and the clean-input IG reference
+IG fixed samples: 200
+IG integration steps: 32
+Fixed target-class distribution: {0: 99, 1: 26, 2: 75}
+Clean-input attribution shape: (200, 60, 19)
+Clean-input attribution missing values: 0
+Clean-input IG feature importance top 5:
+1. dayofyear | importance 0.00959192
+2. weekofyear | importance 0.00283557
+3. high_low_range | importance 0.00199986
+4. momentum_5 | importance 0.00082761
+5. day | importance 0.00066304
+Training feature SD: min 0.49865985, max 103.20468140
+Zero-variance features: 0
+--------------------
+Step 4: input noise = 0.5% of the training-set SD
+Repetition 1/3 | random seed 1551
+Result: map ρ 0.999995, feature ρ 1.000000, temporal ρ 0.999389, prediction agreement 0.996678, ΔF1 0.000962, Δaccuracy 0.000524
+Repetition 2/3 | random seed 2560
+Result: map ρ 0.999994, feature ρ 1.000000, temporal ρ 0.999833, prediction agreement 0.996154, ΔF1 0.000012, Δaccuracy -0.000175
+Repetition 3/3 | random seed 3569
+Result: map ρ 0.999993, feature ρ 1.000000, temporal ρ 0.999555, prediction agreement 0.995455, ΔF1 0.000500, Δaccuracy 0.000524
+--------------------
+Step 4: input noise = 1.0% of the training-set SD
+Repetition 1/3 | random seed 2051
+Result: map ρ 0.999980, feature ρ 1.000000, temporal ρ 0.999222, prediction agreement 0.993182, ΔF1 0.000485, Δaccuracy 0.000175
+Repetition 2/3 | random seed 3060
+Result: map ρ 0.999981, feature ρ 1.000000, temporal ρ 0.999333, prediction agreement 0.992832, ΔF1 0.000827, Δaccuracy 0.000699
+Repetition 3/3 | random seed 4069
+Result: map ρ 0.999983, feature ρ 1.000000, temporal ρ 0.999667, prediction agreement 0.991608, ΔF1 0.000848, Δaccuracy 0.000874
+--------------------
+Step 4: input noise = 2.0% of the training-set SD
+Repetition 1/3 | random seed 3051
+Result: map ρ 0.999947, feature ρ 1.000000, temporal ρ 0.996555, prediction agreement 0.982517, ΔF1 0.000772, Δaccuracy -0.000350
+Repetition 2/3 | random seed 4060
+Result: map ρ 0.999934, feature ρ 1.000000, temporal ρ 0.996277, prediction agreement 0.986538, ΔF1 0.000112, Δaccuracy -0.000175
+Repetition 3/3 | random seed 5069
+Result: map ρ 0.999929, feature ρ 1.000000, temporal ρ 0.997610, prediction agreement 0.980420, ΔF1 0.000733, Δaccuracy 0.000524
+Completeness check: noise 0.5%, all 3 repetitions succeeded
+Completeness check: noise 1.0%, all 3 repetitions succeeded
+Completeness check: noise 2.0%, all 3 repetitions succeeded
+Noise result rows for the current model (complete combinations only): 9
+Summary for the current model:
+ Noise_Percent_SD  Map_Spearman_Mean  Feature_Spearman_Mean  Temporal_Spearman_Mean  Pred_Agreement_Mean  Delta_MacroF1_Mean  Delta_Accuracy_Mean
+              0.5           0.999994                    1.0                0.999592             0.996096            0.000491         2.913753e-04
+              1.0           0.999982                    1.0                0.999407             0.992541            0.000720         5.827506e-04
+              2.0           0.999937                    1.0                0.996814             0.983159            0.000539         1.850372e-17
+--------------------
+Step 5: save results and produce the final summary
+Completeness check: all repetitions succeeded for all models and noise levels
+Model check rows: 6
+Noise result detail rows: 54
+Noise result summary rows: 18
+Error records: 0
+--------------------
+Final summary 1: model checks
+Dataset  Model  Test_N  Accuracy  Macro_F1  Mean_True_Class_Prob
+ US-Med BiLSTM    5720  0.365559  0.336737              0.343342
+ US-Med    GRU    5720  0.366434  0.251911              0.343086
+ US-Med   LSTM    5720  0.352972  0.301719              0.344733
+ US-Pow BiLSTM    5720  0.361014  0.333694              0.338293
+ US-Pow    GRU    5720  0.361538  0.288881              0.338955
+ US-Pow   LSTM    5720  0.362238  0.333218              0.342212
+--------------------
+Final summary 2: input-noise robustness
+Dataset  Model  Noise_Percent_SD  Map_Spearman_Mean  Feature_Spearman_Mean  Temporal_Spearman_Mean  Pred_Agreement_Mean  Delta_MacroF1_Mean  Delta_Accuracy_Mean  Delta_TrueProb_Mean
+ US-Med BiLSTM               0.5           0.999999                    1.0                0.999963             0.998252            0.000398         3.496503e-04         3.506740e-06
+ US-Med BiLSTM               1.0           0.999998                    1.0                0.999981             0.996562            0.000454         2.331002e-04        -1.619260e-06
+ US-Med BiLSTM               2.0           0.999995                    1.0                0.999963             0.992949            0.000700         7.575758e-04         2.831221e-06
+ US-Med    GRU               0.5           0.999999                    1.0                0.999833             0.999068           -0.000285        -1.165501e-04        -5.880992e-06
+ US-Med    GRU               1.0           0.999996                    1.0                0.999648             0.998660           -0.000560        -4.079254e-04        -5.563100e-07
+ US-Med    GRU               2.0           0.999987                    1.0                0.999129             0.996911           -0.001090        -5.827506e-04         1.952052e-05
+ US-Med   LSTM               0.5           0.999999                    1.0                0.999981             0.997494            0.000146         2.913753e-04         2.274911e-06
+ US-Med   LSTM               1.0           0.999997                    1.0                0.999944             0.995221            0.000796         6.410256e-04         7.549922e-07
+ US-Med   LSTM               2.0           0.999992                    1.0                0.999833             0.989044            0.000292         1.748252e-04         8.801619e-06
+ US-Pow BiLSTM               0.5           0.999998                    1.0                0.999907             0.997669           -0.000158        -2.913753e-04        -1.728535e-06
+ US-Pow BiLSTM               1.0           0.999994                    1.0                0.999741             0.995513           -0.001209        -1.223776e-03        -5.722046e-06
+ US-Pow BiLSTM               2.0           0.999983                    1.0                0.999537             0.989918            0.000262         3.700743e-17        -1.144409e-05
+ US-Pow    GRU               0.5           0.999998                    1.0                0.999870             0.998601            0.000235         1.748252e-04        -1.976887e-06
+ US-Pow    GRU               1.0           0.999995                    1.0                0.999852             0.996445            0.000427         2.913753e-04         2.523263e-06
+ US-Pow    GRU               2.0           0.999986                    1.0                0.999500             0.994522            0.000045         1.748252e-04         3.556410e-06
+ US-Pow   LSTM               0.5           0.999994                    1.0                0.999592             0.996096            0.000491         2.913753e-04        -3.725290e-06
+ US-Pow   LSTM               1.0           0.999982                    1.0                0.999407             0.992541            0.000720         5.827506e-04        -1.003345e-06
+ US-Pow   LSTM               2.0           0.999937                    1.0                0.996814             0.983159            0.000539         1.850372e-17        -3.179908e-05
+--------------------
+Final summary 3: overall statistics across models for each noise level
+ Noise_Percent_SD  N  Map_Spearman_Mean  Map_Spearman_Min  Feature_Spearman_Mean  Feature_Spearman_Min  Temporal_Spearman_Mean  Temporal_Spearman_Min  Pred_Agreement_Mean  Pred_Agreement_Min  Delta_MacroF1_Mean  Delta_Accuracy_Mean
+              0.5 18           0.999998          0.999993                    1.0                   1.0                0.999858               0.999389             0.997863            0.995455            0.000138             0.000117
+              1.0 18           0.999994          0.999980                    1.0                   1.0                0.999762               0.999222             0.995824            0.991608            0.000104             0.000019
+              2.0 18           0.999980          0.999929                    1.0                   1.0                0.999129               0.996277             0.991084            0.980420            0.000125             0.000087
+--------------------
+Final summary 4: errors
+Errors: 0, all steps completed
+--------------------
+stage6_cell_H_data_robustness_V4 finished
+Results directory: ./stage6/stage6_cell_H_data_robustness_V4/
+
+
+
+
+

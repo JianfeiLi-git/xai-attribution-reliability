@@ -1,0 +1,347 @@
+Input directories: 0924/xai_cell_A_V9/, 0924/xai_cell_B_V6/, 0924/xai_cell_D_V1/, 0924/xai_cell_E_V2/, 0924/xai_cell_F_V1/, 0924/xai_cell_I_V2/, xai_cell_K_V1/, ./stage5/cell_A_bootstrap_V4/, XAI_cn/ (Chinese data), ./stage6/stage6_cell_A_data_preprocessing_V1/, ./stage6/stage6_cell_K_data_cnmultiseed_V7/, ./stage6/stage6_cell_C_data_training_V2/, ./stage6/stage6_cell_D_data_baseline_V1/, ./stage6/stage6_cell_E_data_attribution_V2/, ./stage6/stage6_cell_F_data_kernelshap_V4/, ./stage6/stage6_cell_G_data_temporal_V2/, ./stage6/stage6_cell_H_data_robustness_V4/, ./stage6/stage6_cell_I_data_labelrandom_V2/, ./stage6/stage6_cell_J_data_multiseed_V1/, ./stage6/stage6_cell_L_data_crossmarket_V5/
+Output directory: ./stage6/stage6_cell_N_data_paperstats_V5/
+Input file check passed (62 files)
+
+====================================================================================================
+Step 1: Table 1 (dataset statistics) and time-alignment checks, total 0h00m00s
+====================================================================================================
+  Medical-1: companies 24, features 13, train 38,820, validation 7,168, test 6,583 (0.4s)
+  Gate check passed: Table 1 Medical-1 matches the original paper; this run (24, 13, 38820, 7168, 6583), original (24, 13, 38820, 7168, 6583)
+    Time-alignment data check roc_20: correlation with the 20-day return up to day d 0.9382, up to d−1 0.9923, up to d−2 0.9383 -> highest at lag 1
+    Window under the training rule: stock 002393.SZ, first day 2024-07-01, last day d = 2024-09-24 -> label date 2024-09-25 (next trading day after d: yes), return 1.8109%
+    Window under the training rule: stock 002393.SZ, first day 2024-07-02, last day d = 2024-09-25 -> label date 2024-09-26 (next trading day after d: yes), return 3.5573%
+    Window under the training rule: stock 002393.SZ, first day 2024-07-03, last day d = 2024-09-26 -> label date 2024-09-27 (next trading day after d: yes), return 4.2621%
+  Medical-2: companies 79, features 14, train 138,900, validation 23,608, test 21,647 (1.4s)
+  Gate check passed: Table 1 Medical-2 matches the original paper; this run (79, 14, 138900, 23608, 21647), original (79, 14, 138900, 23608, 21647)
+    Time-alignment data check roc_5: correlation with the 5-day return up to day d 0.8020, up to d−1 0.9975, up to d−2 0.8019 -> highest at lag 1
+    Time-alignment data check roc_10: correlation with the 10-day return up to day d 0.8940, up to d−1 0.9973, up to d−2 0.8938 -> highest at lag 1
+    Time-alignment data check roc_20: correlation with the 20-day return up to day d 0.9467, up to d−1 0.9971, up to d−2 0.9467 -> highest at lag 1
+    Window under the training rule: stock 000078.SZ, first day 2024-07-01, last day d = 2024-09-24 -> label date 2024-09-25 (next trading day after d: yes), return 1.8018%
+    Window under the training rule: stock 000078.SZ, first day 2024-07-02, last day d = 2024-09-25 -> label date 2024-09-26 (next trading day after d: yes), return 3.0973%
+    Window under the training rule: stock 000078.SZ, first day 2024-07-03, last day d = 2024-09-26 -> label date 2024-09-27 (next trading day after d: yes), return 3.4335%
+  Power: companies 30, features 12, train 74,093, validation 8,969, test 8,543 (0.8s)
+  Gate check passed: Table 1 Power matches the original paper; this run (30, 12, 74093, 8969, 8543), original (30, 12, 74093, 8969, 8543)
+    Time-alignment data check roc_5: correlation with the 5-day return up to day d 0.8136, up to d−1 0.9954, up to d−2 0.8145 -> highest at lag 1
+    Time-alignment data check roc_10: correlation with the 10-day return up to day d 0.9048, up to d−1 0.9975, up to d−2 0.9043 -> highest at lag 1
+    Window under the training rule: stock 000096.SZ, first day 2024-07-01, last day d = 2024-09-24 -> label date 2024-09-25 (next trading day after d: yes), return -0.6749%
+    Window under the training rule: stock 000096.SZ, first day 2024-07-02, last day d = 2024-09-25 -> label date 2024-09-26 (next trading day after d: yes), return 1.0193%
+    Window under the training rule: stock 000096.SZ, first day 2024-07-03, last day d = 2024-09-26 -> label date 2024-09-27 (next trading day after d: yes), return 3.3632%
+  US-Med: companies 20, features 22, train 63,061, validation 6,280, test 5,720 (0.5s)
+    U.S. features 22 = first-stage selected 15 + discrete time features 7: ['roc_5', 'close_to_ma20', 'low', 'rsi', 'high_low_range', 'roc_20', 'dayofyear_sin', 'bb_position', 'macd', 'roc_10', 'bb_width', 'macd_signal', 'dayofweek_sin', 'dayofyear_cos', 'dayofweek_cos']
+    Time-alignment data check roc_5: correlation with the 5-day return up to day d 0.8011, up to d−1 1.0000, up to d−2 0.8005 -> highest at lag 1
+    Time-alignment data check roc_10: correlation with the 10-day return up to day d 0.8943, up to d−1 1.0000, up to d−2 0.8947 -> highest at lag 1
+    Time-alignment data check roc_20: correlation with the 20-day return up to day d 0.9426, up to d−1 1.0000, up to d−2 0.9422 -> highest at lag 1
+    Window under the training rule: stock ABBV, first day 2024-07-01, last day d = 2024-09-24 -> label date 2024-09-25 (next trading day after d: yes), return -1.1627%
+    Window under the training rule: stock ABBV, first day 2024-07-02, last day d = 2024-09-25 -> label date 2024-09-26 (next trading day after d: yes), return 0.3346%
+    Window under the training rule: stock ABBV, first day 2024-07-03, last day d = 2024-09-26 -> label date 2024-09-27 (next trading day after d: yes), return 1.5060%
+  US-Pow: companies 20, features 19, train 63,799, validation 6,280, test 5,720 (0.5s)
+    U.S. features 19 = first-stage selected 12 + discrete time features 7: ['roc_5', 'dayofyear_sin', 'ma10', 'macd_signal', 'dayofyear_cos', 'macd', 'dayofweek_cos', 'high_low_range', 'close_to_ma20', 'momentum_5', 'roc_20', 'rsi']
+    Time-alignment data check roc_5: correlation with the 5-day return up to day d 0.7807, up to d−1 1.0000, up to d−2 0.7808 -> highest at lag 1
+    Time-alignment data check roc_20: correlation with the 20-day return up to day d 0.9365, up to d−1 1.0000, up to d−2 0.9363 -> highest at lag 1
+    Window under the training rule: stock AEP, first day 2024-07-01, last day d = 2024-09-24 -> label date 2024-09-25 (next trading day after d: yes), return -0.2564%
+    Window under the training rule: stock AEP, first day 2024-07-02, last day d = 2024-09-25 -> label date 2024-09-26 (next trading day after d: yes), return -0.4053%
+    Window under the training rule: stock AEP, first day 2024-07-03, last day d = 2024-09-26 -> label date 2024-09-27 (next trading day after d: yes), return 1.0919%
+  Gate check passed: Formal verification: in the X and y files of all 15 splits, dates and stock codes are valid, stock x date is unique, and dates are strictly ascending within each stock (prerequisite for correct training labels); 30 files checked; invalid dates 0, invalid codes 0, duplicates 0, not ascending 0
+  Gate check passed: Final feature list lengths equal the feature counts in Table 1 (the Chinese lists are identical to the original five-seed code; predictions recomputed with them by K V7 passed the check against the original results); Medical-1 13, Medical-2 14, Power 12, US-Med 22, US-Pow 19
+  Gate check passed: Formal verification: all features finally entering the model in the 5 datasets belong to the 37 price/technical features with shift(1) or to the calendar features; 80 (dataset x feature) in total; shift(1) 53, calendar 27, unknown 0
+  Preprocessing source code (citing the line-by-line audit record of GitHub repository V1.2; this cell does not read the source code):
+    china_medical/medical_05_features_selection_split.py line 379: group[all_feature_columns] = group[all_feature_columns].shift(1)
+    china_power/power_05_features_selection_split.py line 379: group[all_feature_columns] = group[all_feature_columns].shift(1)
+    us/us_02_feature_engineering.py line 215: group[ALL_FEATURE_COLS] = group[ALL_FEATURE_COLS].shift(1)
+    us/us_02_feature_engineering.py line 212: group['pct_chg_next'] = group['pct_chg_raw'].shift(-1)
+    china_medical/medical_05_features_selection_split.py call: df = df.groupby('stock_code', group_keys=False).apply(calculate_technical_indicators_corrected)
+    china_medical/medical_05_features_selection_split.py call: df_dataset1 = clean_and_engineer_features(df_raw_ds1
+    china_medical/medical_05_features_selection_split.py call: df_dataset2 = clean_and_engineer_features(df_raw_ds2
+    china_power/power_05_features_selection_split.py call: df = df.groupby('stock_code', group_keys=False).apply(calculate_technical_indicators_corrected)
+    china_power/power_05_features_selection_split.py call: df_dataset2 = clean_and_engineer_features(df_raw_ds2
+    us/us_02_feature_engineering.py call: result = calculate_features_one_stock(g)
+  Gate check passed: Formal verification: for all eligible windows (all training, validation and test windows counted in Table 1), the label date is the next trading day of the same stock after d; windows checked 479,191, anomalies 0
+  Gate check passed: Formal verification (printed examples): label dates of the first 3 windows of each dataset under the training rule are the next trading day after d; 15 windows checked, 15 passed
+
+Table 1:
+  Dataset  Market     Sector  Companies  Features  Train   Val  Test
+Medical-1 A-share    Medical         24        13  38820  7168  6583
+Medical-2 A-share    Medical         79        14 138900 23608 21647
+    Power A-share    Utility         30        12  74093  8969  8543
+   US-Med    U.S. Healthcare         20        22  63061  6280  5720
+   US-Pow    U.S.    Utility         20        19  63799  6280  5720
+  Reference check passed: Supporting diagnostic: for each dataset, the correlation between roc features and returns is highest at lag 1 (not conclusive); 5/5 datasets and 11 features checkable; highest lag: Medical-1 roc_20=1, Medical-2 roc_5=1, Medical-2 roc_10=1, Medical-2 roc_20=1, Power roc_5=1, Power roc_10=1, US-Med roc_5=1, US-Med roc_10=1, US-Med roc_20=1, US-Pow roc_5=1, US-Pow roc_20=1
+  Basis of the time-alignment conclusion: verified = date order and uniqueness of X and y files, label dates of windows under the training rule, classification of final features; location of feature shift(1) = source code (see the source check or audit record above); roc lagged correlation = supporting diagnostic
+
+====================================================================================================
+Step 2: Table 2 (strongest baseline vs best RNN) and Supplementary Table S1, total 0h00m04s
+====================================================================================================
+  Gate check passed: Table 2 US-Med BH-adjusted p matches the value saved by stage6_cell_D; this run 0.875062, saved 0.875062
+  Gate check passed: Table 2 US-Pow BH-adjusted p matches the value saved by stage6_cell_D; this run 0.875062, saved 0.875062
+
+Table 2 (BH-adjusted p of the three Chinese rows recomputed with the new U.S. p-values):
+  Dataset            Baseline Baseline_Weighting  Baseline_MacroF1    RNN  RNN_MacroF1  Delta_MacroF1  Block_F1_CI_Lower  Block_F1_CI_Upper  Block_F1_p_one_sided  BH_p_5datasets  Baseline_Accuracy  RNN_Accuracy  Delta_Accuracy  N_Test
+Medical-1         Extra Trees           Balanced            0.3905    GRU       0.4132         0.0228             0.0096             0.0373                0.0010          0.0025             0.4101        0.4232          0.0131    6583
+Medical-2 Logistic Regression           Balanced            0.3757 BiLSTM       0.4199         0.0442             0.0235             0.0580                0.0005          0.0025             0.4260        0.4375          0.0115   21647
+    Power         Extra Trees         Unweighted            0.3980 BiLSTM       0.4119         0.0138            -0.0104             0.0244                0.2024          0.3373             0.4178        0.4229          0.0052    8543
+   US-Med Logistic Regression           Balanced            0.3535 BiLSTM       0.3367        -0.0168            -0.0518             0.0111                0.8751          0.8751             0.3640        0.3656          0.0016    5720
+   US-Pow Logistic Regression           Balanced            0.3429 BiLSTM       0.3337        -0.0092            -0.0487             0.0157                0.8506          0.8751             0.3497        0.3610          0.0114    5720
+
+Supplementary Table S1:
+  Dataset            Baseline  Weighting  Macro_F1  Accuracy  Best_MacroF1_in_Dataset  Best_Accuracy_in_Dataset
+Medical-1 Logistic Regression Unweighted    0.3661    0.3898                    False                     False
+Medical-1 Logistic Regression   Balanced    0.3650    0.3872                    False                     False
+Medical-1         Extra Trees Unweighted    0.3827    0.4042                    False                     False
+Medical-1         Extra Trees   Balanced    0.3905    0.4101                     True                      True
+Medical-1      Naive Momentum        NaN    0.3513    0.3580                    False                     False
+Medical-2 Logistic Regression Unweighted    0.3746    0.4266                    False                      True
+Medical-2 Logistic Regression   Balanced    0.3777    0.4262                     True                     False
+Medical-2         Extra Trees Unweighted    0.3759    0.3966                    False                     False
+Medical-2         Extra Trees   Balanced    0.3734    0.3963                    False                     False
+Medical-2      Naive Momentum        NaN    0.3592    0.3685                    False                     False
+    Power Logistic Regression Unweighted    0.3892    0.4229                    False                     False
+    Power Logistic Regression   Balanced    0.3910    0.4234                    False                      True
+    Power         Extra Trees Unweighted    0.3980    0.4178                     True                     False
+    Power         Extra Trees   Balanced    0.3952    0.4147                    False                     False
+    Power      Naive Momentum        NaN    0.3543    0.3623                    False                     False
+   US-Med      Naive Momentum        NaN    0.3416    0.3421                    False                     False
+   US-Med Logistic Regression Unweighted    0.3512    0.3622                    False                     False
+   US-Med Logistic Regression   Balanced    0.3535    0.3640                     True                      True
+   US-Med         Extra Trees Unweighted    0.3226    0.3490                    False                     False
+   US-Med         Extra Trees   Balanced    0.3186    0.3467                    False                     False
+   US-Pow      Naive Momentum        NaN    0.3355    0.3378                    False                     False
+   US-Pow Logistic Regression Unweighted    0.3428    0.3507                    False                     False
+   US-Pow Logistic Regression   Balanced    0.3429    0.3497                     True                     False
+   US-Pow         Extra Trees Unweighted    0.3028    0.3453                    False                     False
+   US-Pow         Extra Trees   Balanced    0.3081    0.3545                    False                      True
+  Gate check passed: Supplementary Table S1 has 5 baselines per dataset; {'Medical-1': 5, 'Medical-2': 5, 'Power': 5, 'US-Med': 5, 'US-Pow': 5}
+  Gate check passed: US-Med strongest baseline in Table 2 matches the highest in Supplementary Table S1 (name, weighting, Macro-F1); Table 2 Logistic Regression/Balanced 0.3535, S1 Logistic Regression/Balanced 0.3535
+  Gate check passed: US-Pow strongest baseline in Table 2 matches the highest in Supplementary Table S1 (name, weighting, Macro-F1); Table 2 Logistic Regression/Balanced 0.3429, S1 Logistic Regression/Balanced 0.3429
+
+====================================================================================================
+Step 3: Table 3 (feature agreement) and perturbation-test numbers, total 0h00m04s
+====================================================================================================
+  Gate check passed: cn_B2+us_B2 records complete (by Dataset×Model, 15 expected); present 15, duplicates 0, missing 0, extra 0
+  Gate check passed: Table 3 ρ matches L2; max difference 0.00e+00, rows 15
+
+Table 3:
+  Dataset  Model  Features  Spearman_rho  BH_FDR_adjusted_p BH_p_display
+Medical-1    GRU        13        0.9176             0.0000       <0.001
+Medical-1 BiLSTM        13        0.8736             0.0001       <0.001
+Medical-1   LSTM        13        0.7857             0.0015        0.001
+Medical-2    GRU        14        0.8681             0.0001       <0.001
+Medical-2 BiLSTM        14        0.9121             0.0000       <0.001
+Medical-2   LSTM        14        0.9341             0.0000       <0.001
+    Power    GRU        12        0.9021             0.0001       <0.001
+    Power BiLSTM        12        0.9790             0.0000       <0.001
+    Power   LSTM        12        0.8881             0.0001       <0.001
+   US-Med    GRU        22        0.9018             0.0000       <0.001
+   US-Med BiLSTM        22        0.8713             0.0000       <0.001
+   US-Med   LSTM        22        0.9300             0.0000       <0.001
+   US-Pow    GRU        19        0.8544             0.0000       <0.001
+   US-Pow BiLSTM        19        0.8825             0.0000       <0.001
+   US-Pow   LSTM        19        0.8982             0.0000       <0.001
+  Gate check passed: cn_B3+us_B3 records complete (by Dataset×Model×K, 45 expected); present 45, duplicates 0, missing 0, extra 0
+
+====================================================================================================
+Step 4: Table 4 (temporal agreement and recency) and recency proportions, total 0h00m04s
+====================================================================================================
+  Gate check passed: cn_F5+us_F5 records complete (by Dataset×Model, 15 expected); present 15, duplicates 0, missing 0, extra 0
+  Gate check passed: cn_A3+us_A3 records complete (by Dataset×Model×Block, 90 expected); present 90, duplicates 0, missing 0, extra 0
+  Gate check passed: Table 4 temporal ρ matches L2; max difference 0.00e+00
+
+Table 4 (the original table has only one Peak Block column; IG, KernelSHAP and occlusion peaks are given here, to choose the definition when revising the paper):
+  Dataset  Model  IG_Last10_Mass  KernelSHAP_Last10_Mass  Timestep_Spearman IG_Peak_Days KernelSHAP_Peak_Days Occlusion_Peak_Days  IG_Last10_to_First10  IG_Last10_gt_First10  KS_Last10_gt_First10
+Medical-1    GRU          0.5918                  0.7221             0.5232        51–60                51–60               51–60               10.4560                  True                  True
+Medical-1 BiLSTM          0.5731                  0.7464             0.7203        51–60                51–60               51–60                8.3086                  True                  True
+Medical-1   LSTM          0.4855                  0.6451             0.5821        51–60                51–60               51–60                5.7080                  True                  True
+Medical-2    GRU          0.4949                  0.7484             0.8651        51–60                51–60               51–60                6.9895                  True                  True
+Medical-2 BiLSTM          0.6352                  0.8461             0.8655        51–60                51–60               51–60               14.4594                  True                  True
+Medical-2   LSTM          0.6622                  0.8326             0.8852        51–60                51–60               51–60               23.6751                  True                  True
+    Power    GRU          0.5931                  0.8048             0.8484        51–60                51–60               51–60               11.7147                  True                  True
+    Power BiLSTM          0.5006                  0.7150             0.7449        51–60                51–60               51–60                8.8514                  True                  True
+    Power   LSTM          0.5069                  0.6892             0.6944        51–60                51–60               51–60                8.4130                  True                  True
+   US-Med    GRU          0.0812                  0.0826             0.6921        11–20                11–20                1–10                0.3881                 False                 False
+   US-Med BiLSTM          0.5822                  0.6884             0.8371        51–60                51–60               51–60               22.6015                  True                  True
+   US-Med   LSTM          0.5852                  0.6398             0.8182        51–60                51–60               51–60                6.9292                  True                  True
+   US-Pow    GRU          0.3769                  0.3930             0.8098        51–60                51–60               51–60                4.7009                  True                  True
+   US-Pow BiLSTM          0.3920                  0.5676             0.8268        51–60                51–60               51–60                4.2130                  True                  True
+   US-Pow   LSTM          0.2246                  0.3084             0.4821        51–60                51–60               41–50                1.9494                  True                  True
+  Gate check passed: cn_A2+us_A2 records complete (by Dataset×Model, 15 expected); present 15, duplicates 0, missing 0, extra 0
+  Reference check passed: Reference: IG recency judgments of F5 (50 samples) and A2 (500 samples) agree; combinations judged differently 0; combination-level Spearman ρ of the two ratios = 0.993; max Last10 mass difference 0.045
+
+====================================================================================================
+Step 5: parameter randomization, Table 5 (label randomization), Table 6 (input noise), total 0h00m04s
+====================================================================================================
+  Gate check passed: Parameter randomization: each of the 15 combinations has Original and a unique final stage, the final-stage layer number equals the largest layer number, and (combination x stage) has no duplicates (same standard as M V2); combinations 15, duplicates 0, invalid none
+  Gate check passed: cn_E1+us_E1 records complete (by Dataset×Model, 15 expected); present 15, duplicates 0, missing 0, extra 0
+
+Table 5 (cells with missing correlations are written as n/a in the paper):
+  Dataset  Model  RandomLabel_MacroF1  Map_Spearman  Feature_Spearman  Temporal_Spearman  Original_MacroF1
+Medical-1    GRU               0.1867        0.5277            0.2033             0.0438            0.4132
+Medical-1 BiLSTM               0.1878        0.5598            0.8242             0.0955            0.4035
+Medical-1   LSTM               0.2480        0.5613            0.4890             0.4128            0.4129
+Medical-2    GRU               0.1915       -0.6226           -0.6659            -0.0644            0.4123
+Medical-2 BiLSTM               0.1915        0.0182           -0.6352             0.6969            0.4199
+Medical-2   LSTM               0.1915        0.2774           -0.2000             0.9625            0.4122
+    Power    GRU               0.1866        0.5444            0.6573             0.2183            0.4103
+    Power BiLSTM               0.1866        0.7148            0.3636             0.5240            0.4121
+    Power   LSTM               0.2034        0.3018            0.0000            -0.2621            0.4022
+   US-Med    GRU               0.1540           NaN               NaN                NaN            0.2519
+   US-Med BiLSTM               0.1540        0.5534            0.6070             0.9968            0.3367
+   US-Med   LSTM               0.1735        0.5594            0.4489             0.8672            0.3017
+   US-Pow    GRU               0.1707        0.4810            0.7579             0.9790            0.2889
+   US-Pow BiLSTM               0.1707        0.4665            0.2807             0.8865            0.3337
+   US-Pow   LSTM               0.1707        0.4567            0.3368             0.8187            0.3332
+  Gate check passed: cn_D2+us_D2n records complete (by Dataset×Model×Noise_Percent_SD, 45 expected); present 45, duplicates 0, missing 0, extra 0
+  Gate check passed: cn_D1+us_D1 records complete (by Dataset×Model×Noise_Percent_SD×Repeat, 135 expected); present 135, duplicates 0, missing 0, extra 0
+
+Table 6 (the two Min_ columns are minima over all combinations x repetitions, used in the text):
+ Noise_Percent_SD      Map  Feature  Temporal  Prediction_Agreement  Delta_MacroF1  Delta_Accuracy  N_Combos  Min_Temporal  Min_Pred_Agreement  N_Repeats
+         0.500000 0.999992 1.000000  0.999744              0.997173       0.000039        0.000024        15      0.998666            0.993094         45
+         1.000000 0.999978 0.999878  0.999394              0.994431      -0.000148       -0.000199        15      0.996777            0.988880         45
+         2.000000 0.999933 0.999878  0.998233              0.988614      -0.000131       -0.000226        15      0.984051            0.976238         45
+  Gate check passed: Table 6 has 15 combinations and 45 repetitions per noise level; combinations [15, 15, 15], repetitions [45, 45, 45]
+  Combinations with the minimum temporal ρ at each noise level:
+ Noise_Percent_SD   Dataset Model  Temporal_Spearman
+              0.5 Medical-1  LSTM           0.998666
+              1.0 Medical-1  LSTM           0.996777
+              2.0 Medical-1  LSTM           0.984051
+
+====================================================================================================
+Step 6: Supplementary Table S2 (five-seed stability), total 0h00m04s
+====================================================================================================
+  Gate check passed: Five-seed: 5 seeds for each of the 15 combinations; combinations 15
+
+Supplementary Table S2 (combinations containing seeds consistent with single-class prediction have an extra row "excluding these seeds"):
+  Dataset  Model                                 Status                Seed_Set  N_Seeds  N_Flagged_Other_Seeds  MacroF1_Mean  MacroF1_SD  Feature_rho_Mean  Feature_rho_Min  Temporal_rho_Mean  Temporal_rho_Min  Agreement_Mean  Last10_Mass_Mean Last10_gt_First10
+Medical-1    GRU                      Fully recoverable               All seeds        5                      0        0.4095      0.0041            0.9354           0.8407             0.9532            0.9254          0.8388            0.5534         All seeds
+Medical-1 BiLSTM                      Fully recoverable               All seeds        5                      0        0.3993      0.0032            0.9011           0.8407             0.8632            0.8226          0.6955            0.5984         All seeds
+Medical-1   LSTM                      Fully recoverable               All seeds        5                      0        0.4066      0.0041            0.8626           0.7912             0.9097            0.8922          0.7641            0.5600         All seeds
+Medical-2    GRU            Reconstructed configuration               All seeds        5                      0        0.3946      0.0109            0.5319           0.3143             0.8451            0.7395          0.6823            0.6087         All seeds
+Medical-2 BiLSTM                      Fully recoverable               All seeds        5                      0        0.4082      0.0140            0.8780           0.6879             0.9940            0.9926          0.7592            0.6856         All seeds
+Medical-2   LSTM                      Fully recoverable               All seeds        5                      0        0.4039      0.0052            0.8000           0.7538             0.9587            0.8941          0.7573            0.6697         All seeds
+    Power    GRU                      Fully recoverable               All seeds        5                      0        0.4108      0.0034            0.9318           0.9091             0.9633            0.8670          0.8323            0.6513         All seeds
+    Power BiLSTM                      Fully recoverable               All seeds        5                      0        0.4080      0.0069            0.8986           0.8462             0.9853            0.9712          0.8166            0.6087         All seeds
+    Power   LSTM                      Fully recoverable               All seeds        5                      0        0.4063      0.0067            0.7587           0.6503             0.9538            0.8732          0.7929            0.5833         All seeds
+   US-Med    GRU Selected from candidate configurations               All seeds        5                      2        0.2096      0.0411            0.7414           0.6714             0.0728           -0.4322          0.8795            0.4489         3/5 seeds
+   US-Med    GRU Selected from candidate configurations Excluding flagged seeds        3                      2        0.2346      0.0320            0.7837           0.7719             0.3368           -0.2137          0.8851            0.2261         1/3 seeds
+   US-Med BiLSTM Selected from candidate configurations               All seeds        5                      0        0.3520      0.0092            0.8100           0.7357             0.9370            0.7858          0.7680            0.5293         All seeds
+   US-Med   LSTM Selected from candidate configurations               All seeds        5                      0        0.3418      0.0237            0.8072           0.7753             0.8124            0.6689          0.5290            0.5003         All seeds
+   US-Pow    GRU Selected from candidate configurations               All seeds        5                      4        0.1985      0.0505            0.5136           0.3807            -0.0625           -0.4790          0.6439            0.2732         3/5 seeds
+   US-Pow    GRU Selected from candidate configurations Excluding flagged seeds        1                      4        0.2889         NaN               NaN              NaN                NaN               NaN             NaN            0.3849         All seeds
+   US-Pow BiLSTM Selected from candidate configurations               All seeds        5                      0        0.3340      0.0134            0.8114           0.6912             0.9167            0.8872          0.6309            0.4599         All seeds
+   US-Pow   LSTM Selected from candidate configurations               All seeds        5                      0        0.3242      0.0218            0.8325           0.7877             0.7473            0.4303          0.5614            0.3204         All seeds
+
+====================================================================================================
+Step 7: key numbers of the two new analyses (from L V5), total 0h00m04s
+====================================================================================================
+
+====================================================================================================
+Step 8: cross-table consistency checks, total 0h00m04s
+====================================================================================================
+  Gate check passed: Medical-1 Table 2 RNN Macro-F1 matches five-seed seed 42 (tolerance 0.0005); Table 2 0.413236, five-seed 0.413236
+  Gate check passed: Medical-2 Table 2 RNN Macro-F1 matches five-seed seed 42 (tolerance 0.0005); Table 2 0.419881, five-seed 0.419881
+  Gate check passed: Power Table 2 RNN Macro-F1 matches five-seed seed 42 (tolerance 0.0005); Table 2 0.411858, five-seed 0.411858
+  Gate check passed: US-Med Table 2 RNN Macro-F1 matches five-seed seed 42 (tolerance 0.0005); Table 2 0.336737, five-seed 0.336737
+  Gate check passed: US-Pow Table 2 RNN Macro-F1 matches five-seed seed 42 (tolerance 0.0005); Table 2 0.333694, five-seed 0.333694
+  Gate check passed: US-Med GRU cell C test Macro-F1 matches five-seed seed 42 (cell C keeps 4 decimals); cell C 0.2519 (from candidate Power GRU), five-seed 0.251911
+  Gate check passed: US-Med LSTM cell C test Macro-F1 matches five-seed seed 42 (cell C keeps 4 decimals); cell C 0.3017 (from candidate Medical-2 LSTM), five-seed 0.301719
+  Gate check passed: US-Med BiLSTM cell C test Macro-F1 matches five-seed seed 42 (cell C keeps 4 decimals); cell C 0.3367 (from candidate Medical-2 BiLSTM), five-seed 0.336737
+  Gate check passed: US-Pow GRU cell C test Macro-F1 matches five-seed seed 42 (cell C keeps 4 decimals); cell C 0.2889 (from candidate Medical-1 GRU), five-seed 0.288881
+  Gate check passed: US-Pow LSTM cell C test Macro-F1 matches five-seed seed 42 (cell C keeps 4 decimals); cell C 0.3332 (from candidate Medical-2 LSTM), five-seed 0.333218
+  Gate check passed: US-Pow BiLSTM cell C test Macro-F1 matches five-seed seed 42 (cell C keeps 4 decimals); cell C 0.3337 (from candidate Medical-2 BiLSTM), five-seed 0.333694
+  Gate check passed: Medical-1 GRU Table 5 original-model Macro-F1 matches five-seed seed 42 (tolerance 0.0005); Table 5 0.413231, five-seed 0.413236
+  Gate check passed: Medical-1 BiLSTM Table 5 original-model Macro-F1 matches five-seed seed 42 (tolerance 0.0005); Table 5 0.403506, five-seed 0.403513
+  Gate check passed: Medical-1 LSTM Table 5 original-model Macro-F1 matches five-seed seed 42 (tolerance 0.0005); Table 5 0.412939, five-seed 0.413009
+  Gate check passed: Medical-2 BiLSTM Table 5 original-model Macro-F1 matches five-seed seed 42 (tolerance 0.0005); Table 5 0.419882, five-seed 0.419881
+  Gate check passed: Medical-2 LSTM Table 5 original-model Macro-F1 matches five-seed seed 42 (tolerance 0.0005); Table 5 0.412224, five-seed 0.412332
+  Gate check passed: Power GRU Table 5 original-model Macro-F1 matches five-seed seed 42 (tolerance 0.0005); Table 5 0.410313, five-seed 0.410313
+  Gate check passed: Power BiLSTM Table 5 original-model Macro-F1 matches five-seed seed 42 (tolerance 0.0005); Table 5 0.412120, five-seed 0.411858
+  Gate check passed: Power LSTM Table 5 original-model Macro-F1 matches five-seed seed 42 (tolerance 0.0005); Table 5 0.402199, five-seed 0.402068
+  Gate check passed: US-Med GRU Table 5 original-model Macro-F1 matches five-seed seed 42 (tolerance 0.0005); Table 5 0.251911, five-seed 0.251911
+  Gate check passed: US-Med BiLSTM Table 5 original-model Macro-F1 matches five-seed seed 42 (tolerance 0.0005); Table 5 0.336737, five-seed 0.336737
+  Gate check passed: US-Med LSTM Table 5 original-model Macro-F1 matches five-seed seed 42 (tolerance 0.0005); Table 5 0.301719, five-seed 0.301719
+  Gate check passed: US-Pow GRU Table 5 original-model Macro-F1 matches five-seed seed 42 (tolerance 0.0005); Table 5 0.288881, five-seed 0.288881
+  Gate check passed: US-Pow BiLSTM Table 5 original-model Macro-F1 matches five-seed seed 42 (tolerance 0.0005); Table 5 0.333694, five-seed 0.333694
+  Gate check passed: US-Pow LSTM Table 5 original-model Macro-F1 matches five-seed seed 42 (tolerance 0.0005); Table 5 0.333218, five-seed 0.333218
+  Gate check passed: Medical-1 Table 1 test sample count matches Table 2; Table 1 6583, Table 2 6583
+  Gate check passed: Medical-2 Table 1 test sample count matches Table 2; Table 1 21647, Table 2 21647
+  Gate check passed: Power Table 1 test sample count matches Table 2; Table 1 8543, Table 2 8543
+  Gate check passed: US-Med Table 1 test sample count matches Table 2; Table 1 5720, Table 2 5720
+  Gate check passed: US-Pow Table 1 test sample count matches Table 2; Table 1 5720, Table 2 5720
+
+====================================================================================================
+Summary, total 0h00m04s
+====================================================================================================
+Numbers for the text (by section):
+
+[2.3]
+  Evidence on feature timing: Line-by-line audit of the GitHub repository source code (shift(1) statements and calls of their functions) + this cell's check of the final feature classification  [source SOURCE_AUDIT]
+
+[3.1]
+  Medical-1 best RNN vs strongest baseline: GRU 0.4132 vs Extra Trees/Balanced 0.3905, ΔF1 +0.0228, 95%CI [+0.0096, +0.0373], BH p 0.0025  [source stage5 A3 / stage6 D3]
+  Medical-2 best RNN vs strongest baseline: BiLSTM 0.4199 vs Logistic Regression/Balanced 0.3757, ΔF1 +0.0442, 95%CI [+0.0235, +0.0580], BH p 0.0025  [source stage5 A3 / stage6 D3]
+  Power best RNN vs strongest baseline: BiLSTM 0.4119 vs Extra Trees/Unweighted 0.3980, ΔF1 +0.0138, 95%CI [-0.0104, +0.0244], BH p 0.3373  [source stage5 A3 / stage6 D3]
+  US-Med best RNN vs strongest baseline: BiLSTM 0.3367 vs Logistic Regression/Balanced 0.3535, ΔF1 -0.0168, 95%CI [-0.0518, +0.0111], BH p 0.8751  [source stage5 A3 / stage6 D3]
+  US-Pow best RNN vs strongest baseline: BiLSTM 0.3337 vs Logistic Regression/Balanced 0.3429, ΔF1 -0.0092, 95%CI [-0.0487, +0.0157], BH p 0.8751  [source stage5 A3 / stage6 D3]
+
+[3.2]
+  Feature ρ range (15): 0.7857–0.9790; significant after BH 15/15; max adjusted p 0.0015  [source L2]
+  Perturbation test (45 comparisons): mean extra drop > 0: 44/45; 2.5th percentile > 0: 21/45; mean <= 0: US-Pow GRU k=1 (-0.0081)  [source B3]
+  k=1 extra-drop range: China 0.0287–0.0552; U.S. -0.0081–0.0316; 2.5th percentile > 0: 0/15  [source B3]
+  k=3 extra-drop range: China 0.0335–0.0568; U.S. 0.0077–0.0297; 2.5th percentile > 0: 11/15  [source B3]
+  k=5 extra-drop range: China 0.0241–0.0439; U.S. 0.0093–0.0242; 2.5th percentile > 0: 10/15  [source B3]
+
+[3.3]
+  China / U.S. feature ρ range: China 0.7857–0.9790; U.S. 0.8544–0.9300  [source L2]
+  Strongest / weakest feature agreement: strongest Power BiLSTM 0.9790; weakest Medical-1 LSTM 0.7857; strongest U.S. US-Med LSTM 0.9300  [source L2]
+
+[3.4]
+  IG last 10 days > first 10 days (50 samples, same definition as the original text and Table 4): 14/15; not satisfied: US-Med GRU  [source F5]
+  IG ratio range (satisfying combinations): 1.95 (US-Pow LSTM)–23.68 (Medical-2 LSTM); range over all 15 combinations 0.39–23.68  [source F5]
+  KernelSHAP last 10 days > first 10 days: 14/15; not satisfied: US-Med GRU  [source F5]
+  IG peak in days 51–60: 14/15; exceptions: US-Med GRU (11–20)  [source F5 / A3]
+  KernelSHAP peak in days 51–60: 14/15; exceptions: US-Med GRU (11–20)  [source F5 / A3]
+  Occlusion peak in days 51–60: 13/15; exceptions: US-Med GRU (1–10), US-Pow LSTM (41–50)  [source F5 / A3]
+  Same IG and KernelSHAP peak block: 15/15  [source F5]
+  Temporal ρ range and max adjusted p: 0.4821–0.8852; significant after BH 15/15; max adjusted p 9.59e-05  [source L2]
+  Cross-check: IG recency on 500 samples (A2): last 10 days > first 10 days 14/15; ratio range 0.37–24.70  [source A2]
+
+[3.5]
+  Final parameter-randomization stage (15): feature ρ 0.081–0.687; map ρ 0.267–0.773  [source A1]
+  Label randomization: random-label Macro-F1 0.154–0.248; original models 0.252–0.420; mean ρ (14 combinations) map 0.386, feature 0.248, temporal 0.513; highest temporal ρ 0.997 (US-Med BiLSTM); not applicable: US-Med GRU  [source E1]
+  U.S. temporal ρ after label randomization: 0.819–0.997 (5 combinations)  [source E1]
+  Noise 0.5%: map 0.99999, feature 1.00000, temporal 0.99974, prediction agreement 0.9972; min temporal ρ 0.9987, min prediction agreement 0.9931  [source D2 / D1]
+  Noise 1%: map 0.99998, feature 0.99988, temporal 0.99939, prediction agreement 0.9944; min temporal ρ 0.9968, min prediction agreement 0.9889  [source D2 / D1]
+  Noise 2%: map 0.99993, feature 0.99988, temporal 0.99823, prediction agreement 0.9886; min temporal ρ 0.9841, min prediction agreement 0.9762  [source D2 / D1]
+  China five-seed (8 combinations, all seeds): Macro-F1 SD 0.0032–0.0140; mean feature ρ 0.7587–0.9354; mean temporal ρ 0.8632–0.9940; mean prediction agreement 0.6955–0.8388; last 10 days > first 10 days for all seeds 8/8  [source K V7 / J V1]
+  U.S. five-seed (6 combinations, all seeds): Macro-F1 SD 0.0092–0.0505; mean feature ρ 0.5136–0.8325; mean temporal ρ -0.0625–0.9370; mean prediction agreement 0.5290–0.8795; last 10 days > first 10 days for all seeds 4/6  [source K V7 / J V1]
+  Seeds consistent with single-class prediction: US-Med GRU seed123, US-Med GRU seed777, US-Pow GRU seed123, US-Pow GRU seed777, US-Pow GRU seed0, US-Pow GRU seed2024 (6 in total)  [source K V7 / K V1 / J V1]
+
+[3.6]
+  k=1 agreement significant and lower-tail criterion positive / non-positive: 0 / 15 (determinable 15); after removing identical draws 12 / 3; combination-level Spearman r = 0.261 (p = 0.348, n = 15)  [source L3]
+  k=3 agreement significant and lower-tail criterion positive / non-positive: 11 / 4 (determinable 15); after removing identical draws 11 / 4; combination-level Spearman r = 0.354 (p = 0.196, n = 15)  [source L3]
+  k=5 agreement significant and lower-tail criterion positive / non-positive: 10 / 5 (determinable 15); after removing identical draws 10 / 5; combination-level Spearman r = 0.221 (p = 0.428, n = 15)  [source L3]
+
+[3.7]
+  Main_Include_All All Feature: positive gap 14/14; median 0.178 (0.065–0.486); noise mean 0.9999, seed mean 0.8202; descriptive Wilcoxon p 0.0001221  [source L4]
+  Main_Include_All China Feature: positive gap 8/8; median 0.112 (0.065–0.241); noise mean 0.9998, seed mean 0.8708; descriptive Wilcoxon p 0.007812  [source L4]
+  Main_Include_All US Feature: positive gap 6/6; median 0.191 (0.168–0.486); noise mean 1.0000, seed mean 0.7527; descriptive Wilcoxon p 0.03125  [source L4]
+  Main_Include_All All Temporal: positive gap 14/14; median 0.072 (0.006–1.062); noise mean 0.9981, seed mean 0.7861; descriptive Wilcoxon p 0.0001221  [source L4]
+  Main_Include_All China Temporal: positive gap 8/8; median 0.041 (0.006–0.134); noise mean 0.9974, seed mean 0.9477; descriptive Wilcoxon p 0.007812  [source L4]
+  Main_Include_All US Temporal: positive gap 6/6; median 0.218 (0.063–1.062); noise mean 0.9991, seed mean 0.5706; descriptive Wilcoxon p 0.03125  [source L4]
+  Main_Include_All All Prediction: positive gap 14/14; median 0.231 (0.117–0.460); noise mean 0.9884, seed mean 0.7335; descriptive Wilcoxon p 0.0001221  [source L4]
+  Main_Include_All China Prediction: positive gap 8/8; median 0.203 (0.146–0.284); noise mean 0.9864, seed mean 0.7821; descriptive Wilcoxon p 0.007812  [source L4]
+  Main_Include_All US Prediction: positive gap 6/6; median 0.355 (0.117–0.460); noise mean 0.9911, seed mean 0.6688; descriptive Wilcoxon p 0.03125  [source L4]
+  Sensitivity_Exclude_Flagged All Feature: positive gap 13/13; median 0.168 (0.065–0.241); noise mean 0.9999, seed mean 0.8470; descriptive Wilcoxon p 0.0002441  [source L4]
+  Sensitivity_Exclude_Flagged China Feature: positive gap 8/8; median 0.112 (0.065–0.241); noise mean 0.9998, seed mean 0.8708; descriptive Wilcoxon p 0.007812  [source L4]
+  Sensitivity_Exclude_Flagged US Feature: positive gap 5/5; median 0.190 (0.168–0.216); noise mean 1.0000, seed mean 0.8090; descriptive Wilcoxon p 0.0625  [source L4]
+  Sensitivity_Exclude_Flagged All Temporal: positive gap 13/13; median 0.063 (0.006–0.662); noise mean 0.9980, seed mean 0.8717; descriptive Wilcoxon p 0.0002441  [source L4]
+  Sensitivity_Exclude_Flagged China Temporal: positive gap 8/8; median 0.041 (0.006–0.134); noise mean 0.9974, seed mean 0.9477; descriptive Wilcoxon p 0.007812  [source L4]
+  Sensitivity_Exclude_Flagged US Temporal: positive gap 5/5; median 0.187 (0.063–0.662); noise mean 0.9991, seed mean 0.7500; descriptive Wilcoxon p 0.0625  [source L4]
+  Sensitivity_Exclude_Flagged All Prediction: positive gap 13/13; median 0.225 (0.112–0.460); noise mean 0.9879, seed mean 0.7409; descriptive Wilcoxon p 0.0002441  [source L4]
+  Sensitivity_Exclude_Flagged China Prediction: positive gap 8/8; median 0.203 (0.146–0.284); noise mean 0.9864, seed mean 0.7821; descriptive Wilcoxon p 0.007812  [source L4]
+  Sensitivity_Exclude_Flagged US Prediction: positive gap 5/5; median 0.359 (0.112–0.460); noise mean 0.9904, seed mean 0.6749; descriptive Wilcoxon p 0.0625  [source L4]
+
+58 checks in total (56 gate), 58 passed, 0 failed (of which 0 gate)
+Output files under ./stage6/stage6_cell_N_data_paperstats_V5/: N_Table1–6, N_TableS1, N_TableS2, N_text_numbers.csv, N_consistency_checks.csv, N_time_alignment_check.csv, N_file_order_check.csv, N_label_window_check.csv, N_recency_F5_vs_A2.csv
+All gate checks passed; stage6_cell_N_data_paperstats_V5 finished, total time 0h00m04s
+
+
+

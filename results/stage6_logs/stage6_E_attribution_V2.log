@@ -1,0 +1,300 @@
+Input directories: ./stage6/stage6_cell_A_data_preprocessing_V1/, ./stage6/stage6_cell_C_data_training_V2/
+Output directory: ./stage6/stage6_cell_E_data_attribution_V2/
+cuDNN disabled (cuDNN cannot be initialized on the server); using PyTorch native CUDA RNN kernels
+Input file check passed (19 files)
+US-Med: 22 features: ['roc_5', 'close_to_ma20', 'low', 'rsi', 'high_low_range', 'roc_20', 'dayofyear_sin', 'bb_position', 'macd', 'roc_10', 'bb_width', 'macd_signal', 'dayofweek_sin', 'dayofyear_cos', 'dayofweek_cos', 'year', 'month', 'day', 'dayofweek', 'quarter', 'dayofyear', 'weekofyear']
+US-Pow: 19 features: ['roc_5', 'dayofyear_sin', 'ma10', 'macd_signal', 'dayofyear_cos', 'macd', 'dayofweek_cos', 'high_low_range', 'close_to_ma20', 'momentum_5', 'roc_20', 'rsi', 'year', 'month', 'day', 'dayofweek', 'quarter', 'dayofyear', 'weekofyear']
+Device: cuda
+Tasks: parameter randomization test, IG attribution, recency summary, temporal occlusion
+Parameter randomization: fixed target + layer-by-layer accumulation
+IG baseline: training-set mean trajectory
+Main temporal-occlusion metric: drop in the original predicted-class probability
+--------------------
+Dataset: US-Med
+Step 1: data preparation and checks
+US-Med: data directory ./stage6/stage6_cell_A_data_preprocessing_V1/us_med
+US-Med: train (63061, 60, 22), validation (6280, 60, 22), test (5720, 60, 22)
+Number of features: 22
+Features: roc_5, close_to_ma20, low, rsi, high_low_range, roc_20, dayofyear_sin, bb_position, macd, roc_10, bb_width, macd_signal, dayofweek_sin, dayofyear_cos, dayofweek_cos, year, month, day, dayofweek, quarter, dayofyear, weekofyear
+Training samples: 63061, validation samples: 6280, test samples: 5720
+Training missing values: 0, validation missing values: 0, test missing values: 0
+Data check: passed
+--------------------
+US-Med / GRU
+Step 2: load and check models
+US-Med-GRU: ./stage6/stage6_cell_C_data_training_V2/us_med/gru_seed42_selected.pth | input dim 22, hidden dim 128, layers 2
+Number of RNN layers: 2
+Model check: test Macro-F1 0.251911, accuracy 0.366434
+Model check: passed
+Step 3: cascading parameter randomization
+Result rows: 4
+                    Stage  Map_Spearman_vs_Original  Feature_Spearman_vs_Original  Fixed_Target_0  Fixed_Target_1  Fixed_Target_2
+                 Original                  1.000000                      1.000000               0              26             174
+             Randomize_FC                  0.838202                      0.948052               0              26             174
+Randomize_FC_RNN_L1_to_L1                  0.713693                      0.937888               0              26             174
+Randomize_FC_RNN_L0_to_L1                  0.266593                      0.501976               0              26             174
+Parameter randomization: done
+Step 4: IG feature-level / timestep-level attribution
+IG recency:
+Dataset Model  IG_Last10_Mass  IG_First10_Mass  IG_Last10_to_First10  N_IG_Samples  IG_Steps
+ US-Med   GRU        0.088014         0.235222              0.374172           500        64
+Top 5 IG feature importances:
+       Feature  IG_Importance  IG_Share
+     dayofyear       0.002646  0.245029
+           day       0.001852  0.171522
+high_low_range       0.000918  0.084998
+    weekofyear       0.000817  0.075625
+           low       0.000805  0.074581
+IG attribution: done
+Step 5: 6x10-day temporal occlusion
+ Block  Timestep_Start  Timestep_End  Delta_OriginalPredProb  Delta_MacroF1  Delta_TrueProb
+     1               1            10                0.006940       0.003994        0.001137
+     2              11            20                0.004196       0.003433        0.000498
+     3              21            30                0.003958       0.009244        0.000950
+     4              31            40                0.003423       0.009317        0.000567
+     5              41            50                0.003837       0.014482        0.000807
+     6              51            60                0.004343       0.022829        0.001216
+Peak block of the main metric: block 1, timesteps 1-10, drop in original predicted-class probability 0.006940
+Temporal occlusion: done
+--------------------
+US-Med / BiLSTM
+Step 2: load and check models
+US-Med-BiLSTM: ./stage6/stage6_cell_C_data_training_V2/us_med/bilstm_seed42_selected.pth | input dim 22, hidden dim 128, layers 2
+Number of RNN layers: 2
+Model check: test Macro-F1 0.336737, accuracy 0.365559
+Model check: passed
+Step 3: cascading parameter randomization
+Result rows: 4
+                    Stage  Map_Spearman_vs_Original  Feature_Spearman_vs_Original  Fixed_Target_0  Fixed_Target_1  Fixed_Target_2
+                 Original                  1.000000                      1.000000              97              11              92
+             Randomize_FC                  0.960417                      0.967250              97              11              92
+Randomize_FC_RNN_L1_to_L1                  0.785291                      0.830604              97              11              92
+Randomize_FC_RNN_L0_to_L1                  0.560048                      0.644269              97              11              92
+Parameter randomization: done
+Step 4: IG feature-level / timestep-level attribution
+IG recency:
+Dataset  Model  IG_Last10_Mass  IG_First10_Mass  IG_Last10_to_First10  N_IG_Samples  IG_Steps
+ US-Med BiLSTM        0.578565         0.031634             18.289282           500        64
+Top 5 IG feature importances:
+       Feature  IG_Importance  IG_Share
+     dayofyear       0.002749  0.190946
+high_low_range       0.002310  0.160440
+           day       0.001752  0.121682
+         month       0.001638  0.113785
+          macd       0.001021  0.070928
+IG attribution: done
+Step 5: 6x10-day temporal occlusion
+ Block  Timestep_Start  Timestep_End  Delta_OriginalPredProb  Delta_MacroF1  Delta_TrueProb
+     1               1            10               -0.000757       0.007073       -0.000033
+     2              11            20               -0.000989       0.007020       -0.000072
+     3              21            30               -0.000499       0.008260        0.000073
+     4              31            40                0.000841       0.008836        0.000070
+     5              41            50                0.003413       0.018547        0.000758
+     6              51            60                0.023003       0.011500        0.004767
+Peak block of the main metric: block 6, timesteps 51-60, drop in original predicted-class probability 0.023003
+Temporal occlusion: done
+--------------------
+US-Med / LSTM
+Step 2: load and check models
+US-Med-LSTM: ./stage6/stage6_cell_C_data_training_V2/us_med/lstm_seed42_selected.pth | input dim 22, hidden dim 128, layers 2
+Number of RNN layers: 2
+Model check: test Macro-F1 0.301719, accuracy 0.352972
+Model check: passed
+Step 3: cascading parameter randomization
+Result rows: 4
+                    Stage  Map_Spearman_vs_Original  Feature_Spearman_vs_Original  Fixed_Target_0  Fixed_Target_1  Fixed_Target_2
+                 Original                  1.000000                      1.000000             111               5              84
+             Randomize_FC                  0.944944                      0.988707             111               5              84
+Randomize_FC_RNN_L1_to_L1                  0.723525                      0.838509             111               5              84
+Randomize_FC_RNN_L0_to_L1                  0.466375                      0.396951             111               5              84
+Parameter randomization: done
+Step 4: IG feature-level / timestep-level attribution
+IG recency:
+Dataset Model  IG_Last10_Mass  IG_First10_Mass  IG_Last10_to_First10  N_IG_Samples  IG_Steps
+ US-Med  LSTM        0.622744         0.079625               7.82097           500        64
+Top 5 IG feature importances:
+       Feature  IG_Importance  IG_Share
+     dayofyear       0.004969  0.324120
+    weekofyear       0.003038  0.198123
+high_low_range       0.001726  0.112598
+           day       0.001122  0.073215
+      bb_width       0.000795  0.051833
+IG attribution: done
+Step 5: 6x10-day temporal occlusion
+ Block  Timestep_Start  Timestep_End  Delta_OriginalPredProb  Delta_MacroF1  Delta_TrueProb
+     1               1            10                0.002205       0.008340        0.000384
+     2              11            20                0.000493       0.002529        0.000177
+     3              21            30                0.000378       0.003689        0.000278
+     4              31            40                0.000534      -0.000210        0.000350
+     5              41            50                0.002655      -0.004629        0.000653
+     6              51            60                0.014486       0.000333        0.004358
+Peak block of the main metric: block 6, timesteps 51-60, drop in original predicted-class probability 0.014486
+Temporal occlusion: done
+--------------------
+Dataset: US-Pow
+Step 1: data preparation and checks
+US-Pow: data directory ./stage6/stage6_cell_A_data_preprocessing_V1/us_pow
+US-Pow: train (63799, 60, 19), validation (6280, 60, 19), test (5720, 60, 19)
+Number of features: 19
+Features: roc_5, dayofyear_sin, ma10, macd_signal, dayofyear_cos, macd, dayofweek_cos, high_low_range, close_to_ma20, momentum_5, roc_20, rsi, year, month, day, dayofweek, quarter, dayofyear, weekofyear
+Training samples: 63799, validation samples: 6280, test samples: 5720
+Training missing values: 0, validation missing values: 0, test missing values: 0
+Data check: passed
+--------------------
+US-Pow / GRU
+Step 2: load and check models
+US-Pow-GRU: ./stage6/stage6_cell_C_data_training_V2/us_pow/gru_seed42_selected.pth | input dim 19, hidden dim 64, layers 2
+Number of RNN layers: 2
+Model check: test Macro-F1 0.288881, accuracy 0.361538
+Model check: passed
+Step 3: cascading parameter randomization
+Result rows: 4
+                    Stage  Map_Spearman_vs_Original  Feature_Spearman_vs_Original  Fixed_Target_0  Fixed_Target_1  Fixed_Target_2
+                 Original                  1.000000                      1.000000               3              69             128
+             Randomize_FC                  0.991379                      0.998246               3              69             128
+Randomize_FC_RNN_L1_to_L1                  0.664576                      0.919298               3              69             128
+Randomize_FC_RNN_L0_to_L1                  0.425958                      0.378947               3              69             128
+Parameter randomization: done
+Step 4: IG feature-level / timestep-level attribution
+IG recency:
+Dataset Model  IG_Last10_Mass  IG_First10_Mass  IG_Last10_to_First10  N_IG_Samples  IG_Steps
+ US-Pow   GRU        0.384862         0.093189              4.129897           500        64
+Top 5 IG feature importances:
+       Feature  IG_Importance  IG_Share
+     dayofyear       0.004307  0.240966
+high_low_range       0.002681  0.150000
+           day       0.002367  0.132436
+    weekofyear       0.001789  0.100062
+    momentum_5       0.001155  0.064643
+IG attribution: done
+Step 5: 6x10-day temporal occlusion
+ Block  Timestep_Start  Timestep_End  Delta_OriginalPredProb  Delta_MacroF1  Delta_TrueProb
+     1               1            10                0.001046       0.017899        0.000127
+     2              11            20                0.001304       0.023488        0.000338
+     3              21            30                0.002017       0.021733        0.000151
+     4              31            40                0.002765       0.019625        0.000580
+     5              41            50                0.004977       0.020095        0.000653
+     6              51            60                0.012843       0.009919        0.001504
+Peak block of the main metric: block 6, timesteps 51-60, drop in original predicted-class probability 0.012843
+Temporal occlusion: done
+--------------------
+US-Pow / BiLSTM
+Step 2: load and check models
+US-Pow-BiLSTM: ./stage6/stage6_cell_C_data_training_V2/us_pow/bilstm_seed42_selected.pth | input dim 19, hidden dim 128, layers 2
+Number of RNN layers: 2
+Model check: test Macro-F1 0.333694, accuracy 0.361014
+Model check: passed
+Step 3: cascading parameter randomization
+Result rows: 4
+                    Stage  Map_Spearman_vs_Original  Feature_Spearman_vs_Original  Fixed_Target_0  Fixed_Target_1  Fixed_Target_2
+                 Original                  1.000000                      1.000000              70              35              95
+             Randomize_FC                  0.988226                      0.985965              70              35              95
+Randomize_FC_RNN_L1_to_L1                  0.553058                      0.682456              70              35              95
+Randomize_FC_RNN_L0_to_L1                  0.542717                      0.292982              70              35              95
+Parameter randomization: done
+Step 4: IG feature-level / timestep-level attribution
+IG recency:
+Dataset  Model  IG_Last10_Mass  IG_First10_Mass  IG_Last10_to_First10  N_IG_Samples  IG_Steps
+ US-Pow BiLSTM        0.384292         0.110285              3.484536           500        64
+Top 5 IG feature importances:
+       Feature  IG_Importance  IG_Share
+     dayofyear       0.003084  0.298854
+    weekofyear       0.001800  0.174429
+high_low_range       0.001444  0.139882
+    momentum_5       0.000583  0.056465
+         roc_5       0.000482  0.046675
+IG attribution: done
+Step 5: 6x10-day temporal occlusion
+ Block  Timestep_Start  Timestep_End  Delta_OriginalPredProb  Delta_MacroF1  Delta_TrueProb
+     1               1            10                0.001880       0.013403        0.000120
+     2              11            20                0.001079       0.009460        0.000100
+     3              21            30                0.001676       0.004946       -0.000058
+     4              31            40                0.002787       0.001205        0.000490
+     5              41            50                0.004922      -0.002427        0.000726
+     6              51            60                0.021856      -0.007792        0.002222
+Peak block of the main metric: block 6, timesteps 51-60, drop in original predicted-class probability 0.021856
+Temporal occlusion: done
+--------------------
+US-Pow / LSTM
+Step 2: load and check models
+US-Pow-LSTM: ./stage6/stage6_cell_C_data_training_V2/us_pow/lstm_seed42_selected.pth | input dim 19, hidden dim 128, layers 2
+Number of RNN layers: 2
+Model check: test Macro-F1 0.333218, accuracy 0.362238
+Model check: passed
+Step 3: cascading parameter randomization
+Result rows: 4
+                    Stage  Map_Spearman_vs_Original  Feature_Spearman_vs_Original  Fixed_Target_0  Fixed_Target_1  Fixed_Target_2
+                 Original                  1.000000                      1.000000              99              26              75
+             Randomize_FC                  0.952945                      0.996491              99              26              75
+Randomize_FC_RNN_L1_to_L1                  0.459684                      0.777193              99              26              75
+Randomize_FC_RNN_L0_to_L1                  0.446279                      0.457895              99              26              75
+Parameter randomization: done
+Step 4: IG feature-level / timestep-level attribution
+IG recency:
+Dataset Model  IG_Last10_Mass  IG_First10_Mass  IG_Last10_to_First10  N_IG_Samples  IG_Steps
+ US-Pow  LSTM        0.243713         0.132576              1.838292           500        64
+Top 5 IG feature importances:
+       Feature  IG_Importance  IG_Share
+     dayofyear       0.009611  0.493995
+    weekofyear       0.002735  0.140590
+high_low_range       0.001952  0.100333
+    momentum_5       0.000768  0.039483
+           day       0.000612  0.031453
+IG attribution: done
+Step 5: 6x10-day temporal occlusion
+ Block  Timestep_Start  Timestep_End  Delta_OriginalPredProb  Delta_MacroF1  Delta_TrueProb
+     1               1            10                0.022586      -0.001107        0.000436
+     2              11            20                0.015666       0.014997        0.001064
+     3              21            30                0.022139       0.023395        0.002725
+     4              31            40                0.023641       0.007615        0.001880
+     5              41            50                0.023971       0.015880        0.003680
+     6              51            60                0.023364       0.011249        0.002755
+Peak block of the main metric: block 5, timesteps 41-50, drop in original predicted-class probability 0.023971
+Temporal occlusion: done
+--------------------
+Step 6: save results and produce the final summary
+Model check rows: 6
+Parameter randomization result rows: 24
+IG timestep result rows: 360
+IG feature result rows: 123
+IG recency result rows: 6
+Temporal occlusion result rows: 36
+Error records: 0
+--------------------
+Final summary 1: final parameter-randomization stage
+Dataset  Model                     Stage  Map_Spearman_vs_Original  Feature_Spearman_vs_Original
+ US-Med    GRU Randomize_FC_RNN_L0_to_L1                  0.266593                      0.501976
+ US-Med BiLSTM Randomize_FC_RNN_L0_to_L1                  0.560048                      0.644269
+ US-Med   LSTM Randomize_FC_RNN_L0_to_L1                  0.466375                      0.396951
+ US-Pow    GRU Randomize_FC_RNN_L0_to_L1                  0.425958                      0.378947
+ US-Pow BiLSTM Randomize_FC_RNN_L0_to_L1                  0.542717                      0.292982
+ US-Pow   LSTM Randomize_FC_RNN_L0_to_L1                  0.446279                      0.457895
+--------------------
+Final summary 2: IG recency
+Dataset  Model  IG_Last10_Mass  IG_First10_Mass  IG_Last10_to_First10  N_IG_Samples  IG_Steps
+ US-Med BiLSTM        0.578565         0.031634             18.289282           500        64
+ US-Med    GRU        0.088014         0.235222              0.374172           500        64
+ US-Med   LSTM        0.622744         0.079625              7.820970           500        64
+ US-Pow BiLSTM        0.384292         0.110285              3.484536           500        64
+ US-Pow    GRU        0.384862         0.093189              4.129897           500        64
+ US-Pow   LSTM        0.243713         0.132576              1.838292           500        64
+--------------------
+Final summary 3: temporal occlusion peaks
+Dataset  Model  Block  Timestep_Start  Timestep_End  Delta_OriginalPredProb  Delta_MacroF1  Delta_TrueProb
+ US-Med BiLSTM      6              51            60                0.023003       0.011500        0.004767
+ US-Med    GRU      1               1            10                0.006940       0.003994        0.001137
+ US-Med   LSTM      6              51            60                0.014486       0.000333        0.004358
+ US-Pow BiLSTM      6              51            60                0.021856      -0.007792        0.002222
+ US-Pow    GRU      6              51            60                0.012843       0.009919        0.001504
+ US-Pow   LSTM      5              41            50                0.023971       0.015880        0.003680
+Combinations whose main-metric peak falls in days 51-60: 4/6
+--------------------
+Final summary 4: errors
+Errors: 0, all steps completed
+--------------------
+stage6_cell_E_data_attribution_V2 finished
+Results directory: ./stage6/stage6_cell_E_data_attribution_V2/
+
+
+
+

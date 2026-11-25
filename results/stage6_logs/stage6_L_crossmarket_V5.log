@@ -1,0 +1,296 @@
+Input directories: 0924/xai_cell_B_V6/, 0924/xai_cell_F_V1/, 0924/xai_cell_D_V1/, xai_cell_K_V1/, ./stage6/stage6_cell_K_data_cnmultiseed_V7/, ./stage6/stage6_cell_F_data_kernelshap_V4/, ./stage6/stage6_cell_G_data_temporal_V2/, ./stage6/stage6_cell_H_data_robustness_V4/, ./stage6/stage6_cell_J_data_multiseed_V1/
+Output directory: ./stage6/stage6_cell_L_data_crossmarket_V5/
+Input file check passed (13 files)
+  cn_agree_feat: 0924/xai_cell_B_V6/B2_ig_vs_kernelshap.csv
+  cn_faith: 0924/xai_cell_B_V6/B3_paired_faithfulness_summary.csv
+  cn_faith_detail: 0924/xai_cell_B_V6/B3_paired_faithfulness_detail.csv
+  cn_agree_time: 0924/xai_cell_F_V1/F5_temporal_method_summary.csv
+  cn_noise: 0924/xai_cell_D_V1/D2_input_noise_robustness_summary.csv
+  cn_seed_k1: xai_cell_K_V1/multiseed_detail.csv
+  cn_seed_v7: ./stage6/stage6_cell_K_data_cnmultiseed_V7/multiseed_detail_corrected.csv
+  us_agree_feat: ./stage6/stage6_cell_F_data_kernelshap_V4/B2_ig_vs_kernelshap.csv
+  us_faith: ./stage6/stage6_cell_F_data_kernelshap_V4/B3_paired_faithfulness_summary.csv
+  us_faith_detail: ./stage6/stage6_cell_F_data_kernelshap_V4/B3_paired_faithfulness_detail.csv
+  us_agree_time: ./stage6/stage6_cell_G_data_temporal_V2/F5_temporal_method_summary.csv
+  us_noise: ./stage6/stage6_cell_H_data_robustness_V4/D2_input_noise_robustness_summary.csv
+  us_seed: ./stage6/stage6_cell_J_data_multiseed_V1/multiseed_detail.csv
+
+====================================================================================================
+Step 1: read and merge 15 combinations, total 0h00m00s
+====================================================================================================
+  China feature agreement B2: 15 rows in the original file, rows of Medical-1, Medical-2, Power: 9
+  U.S. feature agreement B2: 6 rows in the original file, rows of US-Med, US-Pow: 6
+  feature agreement: expected 15, present 15, extra 0
+  China temporal agreement F5: 15 rows in the original file, rows of Medical-1, Medical-2, Power: 9
+  U.S. temporal agreement F5: 6 rows in the original file, rows of US-Med, US-Pow: 6
+  temporal agreement: expected 15, present 15, extra 0
+  China perturbation test B3: 45 rows in the original file, rows of Medical-1, Medical-2, Power: 27
+  U.S. perturbation test B3: 18 rows in the original file, rows of US-Med, US-Pow: 18
+  perturbation test: expected 45, present 45, extra 0
+  China perturbation-test details B3: 2250 rows in the original file, rows of Medical-1, Medical-2, Power: 1350
+  U.S. perturbation-test details B3: 900 rows in the original file, rows of US-Med, US-Pow: 900
+  perturbation-test details (combination x k): expected 45, present 45, extra 0
+  Perturbation-test detail format check passed: Top-k and Random-k in every row are K distinct features; repetition numbers complete for 45 (combination x k), counts consistent with the summary table
+  Perturbation-test detail check: 2250 detail rows, max difference between detail means and summary table 4.80e-10; repetitions with Random-k identical to Top-k: 57 (k=1: 57, k=3: 0, k=5: 0)
+  Perturbation-test detail completeness check passed: 45/45 (combination x k) have complete details with means matching the summary table
+  China input noise D2: 45 rows in the original file, rows of Medical-1, Medical-2, Power: 27
+  U.S. input noise D2: 18 rows in the original file, rows of US-Med, US-Pow: 18
+  input noise: expected 45, present 45, extra 0
+  China Medical-2 GRU five-seed xai_cell_K_V1: 5 rows in the original file, rows of Medical-2: 5
+  China five-seed corrected K V7: 40 rows in the original file, rows of Medical-1, Medical-2, Power: 40
+  U.S. five-seed J V1: 30 rows in the original file, rows of US-Med, US-Pow: 30
+  five-seed: expected 75, present 75, extra 0
+  Consistent with single-class prediction (|Macro-F1 − 2·accuracy/(3·(1+accuracy))| < 1e-06; necessary condition; prediction distributions not saved, not confirmed): 6/75 seed models; additionally low performance (Macro-F1 < 0.2, but not single-class) 1
+  Seed models with low Macro-F1 (< 0.26) or consistent with single-class prediction:
+Dataset Model  Seed  MacroF1  Accuracy  SingleClass_F1_If_One_Class  SingleClass_Residual  SingleClass  Low_Performance
+ US-Med   GRU    42 0.251911  0.366434                     0.178779              0.073132        False            False
+ US-Med   GRU   123 0.172007  0.347727                     0.172007           5.55112e-17         True            False
+ US-Med   GRU   777 0.172007  0.347727                     0.172007           5.55112e-17         True            False
+ US-Med   GRU     0 0.254278  0.360315                     0.176584             0.0776939        False            False
+ US-Med   GRU  2024 0.197666  0.350175                     0.172903             0.0247623        False             True
+ US-Pow   GRU   123  0.17589  0.358392                      0.17589                     0         True            False
+ US-Pow   GRU   777  0.17589  0.358392                      0.17589                     0         True            False
+ US-Pow   GRU     0  0.17589  0.358392                      0.17589                     0         True            False
+ US-Pow   GRU  2024  0.17589  0.358392                      0.17589                     0         True            False
+
+Combination source table:
+Market   Dataset  Model         Source_Agreement_Feature      Source_Agreement_Temporal              Source_Faithfulness                     Source_Noise                       Source_Seed           Seed_Reference  Seed42_MacroF1  N_SingleClass_Other_Seeds  In_Stability_Main
+ China Medical-1    GRU                    xai_cell_B_V6                  xai_cell_F_V1                    xai_cell_B_V6                    xai_cell_D_V1 stage6_cell_K_data_cnmultiseed_V7          original_seed42          0.4132                          0               True
+ China Medical-1 BiLSTM                    xai_cell_B_V6                  xai_cell_F_V1                    xai_cell_B_V6                    xai_cell_D_V1 stage6_cell_K_data_cnmultiseed_V7          original_seed42          0.4035                          0               True
+ China Medical-1   LSTM                    xai_cell_B_V6                  xai_cell_F_V1                    xai_cell_B_V6                    xai_cell_D_V1 stage6_cell_K_data_cnmultiseed_V7          original_seed42          0.4130                          0               True
+ China Medical-2    GRU                    xai_cell_B_V6                  xai_cell_F_V1                    xai_cell_B_V6                    xai_cell_D_V1                     xai_cell_K_V1 reconstructed_new_seed42          0.3889                          0              False
+ China Medical-2 BiLSTM                    xai_cell_B_V6                  xai_cell_F_V1                    xai_cell_B_V6                    xai_cell_D_V1 stage6_cell_K_data_cnmultiseed_V7          original_seed42          0.4199                          0               True
+ China Medical-2   LSTM                    xai_cell_B_V6                  xai_cell_F_V1                    xai_cell_B_V6                    xai_cell_D_V1 stage6_cell_K_data_cnmultiseed_V7          original_seed42          0.4123                          0               True
+ China     Power    GRU                    xai_cell_B_V6                  xai_cell_F_V1                    xai_cell_B_V6                    xai_cell_D_V1 stage6_cell_K_data_cnmultiseed_V7          original_seed42          0.4103                          0               True
+ China     Power BiLSTM                    xai_cell_B_V6                  xai_cell_F_V1                    xai_cell_B_V6                    xai_cell_D_V1 stage6_cell_K_data_cnmultiseed_V7          original_seed42          0.4119                          0               True
+ China     Power   LSTM                    xai_cell_B_V6                  xai_cell_F_V1                    xai_cell_B_V6                    xai_cell_D_V1 stage6_cell_K_data_cnmultiseed_V7          original_seed42          0.4021                          0               True
+    US    US-Med    GRU stage6_cell_F_data_kernelshap_V4 stage6_cell_G_data_temporal_V2 stage6_cell_F_data_kernelshap_V4 stage6_cell_H_data_robustness_V4   stage6_cell_J_data_multiseed_V1          original_seed42          0.2519                          2               True
+    US    US-Med BiLSTM stage6_cell_F_data_kernelshap_V4 stage6_cell_G_data_temporal_V2 stage6_cell_F_data_kernelshap_V4 stage6_cell_H_data_robustness_V4   stage6_cell_J_data_multiseed_V1          original_seed42          0.3367                          0               True
+    US    US-Med   LSTM stage6_cell_F_data_kernelshap_V4 stage6_cell_G_data_temporal_V2 stage6_cell_F_data_kernelshap_V4 stage6_cell_H_data_robustness_V4   stage6_cell_J_data_multiseed_V1          original_seed42          0.3017                          0               True
+    US    US-Pow    GRU stage6_cell_F_data_kernelshap_V4 stage6_cell_G_data_temporal_V2 stage6_cell_F_data_kernelshap_V4 stage6_cell_H_data_robustness_V4   stage6_cell_J_data_multiseed_V1          original_seed42          0.2889                          4               True
+    US    US-Pow BiLSTM stage6_cell_F_data_kernelshap_V4 stage6_cell_G_data_temporal_V2 stage6_cell_F_data_kernelshap_V4 stage6_cell_H_data_robustness_V4   stage6_cell_J_data_multiseed_V1          original_seed42          0.3337                          0               True
+    US    US-Pow   LSTM stage6_cell_F_data_kernelshap_V4 stage6_cell_G_data_temporal_V2 stage6_cell_F_data_kernelshap_V4 stage6_cell_H_data_robustness_V4   stage6_cell_J_data_multiseed_V1          original_seed42          0.3332                          0               True
+
+====================================================================================================
+Step 2: BH-FDR correction (original test p-values), total 0h00m00s
+====================================================================================================
+BH input check: 30 tests, missing p-values 0, invalid (non-finite or outside 0–1) 0, non-finite ρ 0
+Market   Dataset  Model    rho     p_raw                    Family  p_BH_within_family  p_BH_all30  Significant_within_family  Significant_all30
+ China Medical-1    GRU 0.9176 9.906e-06  Feature_IG_vs_KernelSHAP           1.486e-05   1.292e-05                       True               True
+ China Medical-1 BiLSTM 0.8736 9.529e-05  Feature_IG_vs_KernelSHAP           0.0001099   0.0001028                       True               True
+ China Medical-1   LSTM 0.7857  0.001454  Feature_IG_vs_KernelSHAP            0.001454    0.001454                       True               True
+ China Medical-2    GRU 0.8681  5.68e-05  Feature_IG_vs_KernelSHAP           7.497e-05   6.816e-05                       True               True
+ China Medical-2 BiLSTM 0.9121 5.502e-06  Feature_IG_vs_KernelSHAP            9.17e-06   7.503e-06                       True               True
+ China Medical-2   LSTM 0.9341 1.028e-06  Feature_IG_vs_KernelSHAP           2.203e-06   1.608e-06                       True               True
+ China     Power    GRU 0.9021 5.998e-05  Feature_IG_vs_KernelSHAP           7.497e-05   6.921e-05                       True               True
+ China     Power BiLSTM  0.979  3.09e-08  Feature_IG_vs_KernelSHAP           1.545e-07    6.18e-08                       True               True
+ China     Power   LSTM 0.8881 0.0001141  Feature_IG_vs_KernelSHAP           0.0001223   0.0001181                       True               True
+    US    US-Med    GRU 0.9018 1.003e-08  Feature_IG_vs_KernelSHAP           7.523e-08   2.149e-08                       True               True
+    US    US-Med BiLSTM 0.8713 1.313e-07  Feature_IG_vs_KernelSHAP           4.924e-07   2.462e-07                       True               True
+    US    US-Med   LSTM   0.93  3.82e-10  Feature_IG_vs_KernelSHAP            5.73e-09   1.042e-09                       True               True
+    US    US-Pow    GRU 0.8544 3.217e-06  Feature_IG_vs_KernelSHAP           6.032e-06   4.596e-06                       True               True
+    US    US-Pow BiLSTM 0.8825 5.757e-07  Feature_IG_vs_KernelSHAP           1.439e-06   9.595e-07                       True               True
+    US    US-Pow   LSTM 0.8982 1.786e-07  Feature_IG_vs_KernelSHAP           5.357e-07   3.151e-07                       True               True
+ China Medical-1    GRU 0.5232 1.794e-05 Temporal_IG_vs_KernelSHAP           1.922e-05   2.243e-05                       True               True
+ China Medical-1 BiLSTM 0.7203 8.763e-11 Temporal_IG_vs_KernelSHAP           1.314e-10   2.629e-10                       True               True
+ China Medical-1   LSTM 0.5821 1.072e-06 Temporal_IG_vs_KernelSHAP           1.237e-06   1.608e-06                       True               True
+ China Medical-2    GRU 0.8651 4.969e-19 Temporal_IG_vs_KernelSHAP           2.484e-18   4.969e-18                       True               True
+ China Medical-2 BiLSTM 0.8655 4.638e-19 Temporal_IG_vs_KernelSHAP           2.484e-18   4.969e-18                       True               True
+ China Medical-2   LSTM 0.8852 6.243e-21 Temporal_IG_vs_KernelSHAP           9.365e-20   1.873e-19                       True               True
+ China     Power    GRU 0.8484 1.166e-17 Temporal_IG_vs_KernelSHAP           4.372e-17   8.743e-17                       True               True
+ China     Power BiLSTM 0.7449 8.856e-12 Temporal_IG_vs_KernelSHAP           1.476e-11   2.952e-11                       True               True
+ China     Power   LSTM 0.6944  7.58e-10 Temporal_IG_vs_KernelSHAP           1.034e-09   1.895e-09                       True               True
+    US    US-Med    GRU 0.6921  9.07e-10 Temporal_IG_vs_KernelSHAP           1.134e-09   2.093e-09                       True               True
+    US    US-Med BiLSTM 0.8371 7.893e-17 Temporal_IG_vs_KernelSHAP           2.368e-16   4.736e-16                       True               True
+    US    US-Med   LSTM 0.8182 1.451e-15 Temporal_IG_vs_KernelSHAP           3.109e-15   6.218e-15                       True               True
+    US    US-Pow    GRU 0.8098  4.74e-15 Temporal_IG_vs_KernelSHAP           8.888e-15   1.778e-14                       True               True
+    US    US-Pow BiLSTM 0.8268 3.998e-16 Temporal_IG_vs_KernelSHAP           9.996e-16   1.999e-15                       True               True
+    US    US-Pow   LSTM 0.4821 9.592e-05 Temporal_IG_vs_KernelSHAP           9.592e-05   0.0001028                       True               True
+Feature_IG_vs_KernelSHAP: valid 15/15; ρ range 0.786–0.979; positive and significant after within-family correction 15/15; after correction across all 30 15/15
+Temporal_IG_vs_KernelSHAP: valid 15/15; ρ range 0.482–0.885; positive and significant after within-family correction 15/15; after correction across all 30 15/15
+
+====================================================================================================
+Step 3: new analysis 1: explanation agreement and behavioral faithfulness (paired by combination), total 0h00m00s
+====================================================================================================
+Undetermined (combination x k): 0/45
+Market   Dataset  Model  K  Feature_Agreement_rho  Feature_Agreement_Significant  Extra_Delta_OriginalPredProb_Mean  Extra_Delta_OriginalPredProb_Q025  Positive_ExtraProb_Rate  Relative_Extra_Drop  Decoupled  N_Identical_Set  Extra_Q025_NonIdentical  Decoupled_NonIdentical
+ China Medical-1 BiLSTM  1                 0.8736                           True                             0.0287                             0.0000                   0.9400               0.0675     1.0000                3                   0.0216                  0.0000
+ China Medical-1 BiLSTM  3                 0.8736                           True                             0.0350                             0.0037                   1.0000               0.0821     0.0000                0                   0.0037                  0.0000
+ China Medical-1 BiLSTM  5                 0.8736                           True                             0.0241                             0.0049                   0.9800               0.0567     0.0000                0                   0.0049                  0.0000
+ China Medical-1    GRU  1                 0.9176                           True                             0.0376                             0.0000                   0.9400               0.0902     1.0000                3                   0.0323                  0.0000
+ China Medical-1    GRU  3                 0.9176                           True                             0.0335                             0.0013                   1.0000               0.0805     0.0000                0                   0.0013                  0.0000
+ China Medical-1    GRU  5                 0.9176                           True                             0.0294                             0.0035                   1.0000               0.0706     0.0000                0                   0.0035                  0.0000
+ China Medical-1   LSTM  1                 0.7857                           True                             0.0405                             0.0000                   0.9400               0.0954     1.0000                3                   0.0339                  0.0000
+ China Medical-1   LSTM  3                 0.7857                           True                             0.0433                             0.0095                   1.0000               0.1020     0.0000                0                   0.0095                  0.0000
+ China Medical-1   LSTM  5                 0.7857                           True                             0.0296                             0.0020                   1.0000               0.0697     0.0000                0                   0.0020                  0.0000
+ China Medical-2 BiLSTM  1                 0.9121                           True                             0.0401                             0.0000                   0.9200               0.0992     1.0000                4                   0.0240                  0.0000
+ China Medical-2 BiLSTM  3                 0.9121                           True                             0.0478                             0.0118                   1.0000               0.1182     0.0000                0                   0.0118                  0.0000
+ China Medical-2 BiLSTM  5                 0.9121                           True                             0.0384                             0.0093                   1.0000               0.0951     0.0000                0                   0.0093                  0.0000
+ China Medical-2    GRU  1                 0.8681                           True                             0.0541                             0.0000                   0.9200               0.1268     1.0000                4                   0.0496                  0.0000
+ China Medical-2    GRU  3                 0.8681                           True                             0.0512                             0.0049                   1.0000               0.1201     0.0000                0                   0.0049                  0.0000
+ China Medical-2    GRU  5                 0.8681                           True                             0.0439                             0.0083                   1.0000               0.1029     0.0000                0                   0.0083                  0.0000
+ China Medical-2   LSTM  1                 0.9341                           True                             0.0497                             0.0000                   0.9200               0.1187     1.0000                4                   0.0377                  0.0000
+ China Medical-2   LSTM  3                 0.9341                           True                             0.0516                             0.0094                   1.0000               0.1232     0.0000                0                   0.0094                  0.0000
+ China Medical-2   LSTM  5                 0.9341                           True                             0.0432                             0.0090                   1.0000               0.1033     0.0000                0                   0.0090                  0.0000
+ China     Power BiLSTM  1                 0.9790                           True                             0.0486                             0.0000                   0.9000               0.1091     1.0000                5                   0.0213                  0.0000
+ China     Power BiLSTM  3                 0.9790                           True                             0.0543                             0.0133                   1.0000               0.1218     0.0000                0                   0.0133                  0.0000
+ China     Power BiLSTM  5                 0.9790                           True                             0.0296                            -0.0038                   0.9200               0.0663     1.0000                0                  -0.0038                  1.0000
+ China     Power    GRU  1                 0.9021                           True                             0.0552                             0.0000                   0.9000               0.1257     1.0000                5                   0.0473                  0.0000
+ China     Power    GRU  3                 0.9021                           True                             0.0568                             0.0068                   1.0000               0.1295     0.0000                0                   0.0068                  0.0000
+ China     Power    GRU  5                 0.9021                           True                             0.0431                             0.0032                   1.0000               0.0981     0.0000                0                   0.0032                  0.0000
+ China     Power   LSTM  1                 0.8881                           True                             0.0542                             0.0000                   0.9000               0.1213     1.0000                5                   0.0405                  0.0000
+ China     Power   LSTM  3                 0.8881                           True                             0.0463                            -0.0016                   0.9600               0.1036     1.0000                0                  -0.0016                  1.0000
+ China     Power   LSTM  5                 0.8881                           True                             0.0381                            -0.0039                   0.9200               0.0852     1.0000                0                  -0.0039                  1.0000
+    US    US-Med BiLSTM  1                 0.8713                           True                             0.0071                             0.0000                   0.9000               0.0184     1.0000                4                   0.0026                  0.0000
+    US    US-Med BiLSTM  3                 0.8713                           True                             0.0117                            -0.0041                   0.9000               0.0301     1.0000                0                  -0.0041                  1.0000
+    US    US-Med BiLSTM  5                 0.8713                           True                             0.0242                             0.0052                   1.0000               0.0623     0.0000                0                   0.0052                  0.0000
+    US    US-Med    GRU  1                 0.9018                           True                             0.0061                            -0.0006                   0.8800               0.0153     1.0000                4                  -0.0006                  1.0000
+    US    US-Med    GRU  3                 0.9018                           True                             0.0146                             0.0055                   1.0000               0.0364     0.0000                0                   0.0055                  0.0000
+    US    US-Med    GRU  5                 0.9018                           True                             0.0219                             0.0116                   1.0000               0.0547     0.0000                0                   0.0116                  0.0000
+    US    US-Med   LSTM  1                 0.9300                           True                             0.0171                             0.0000                   0.9200               0.0427     1.0000                4                   0.0028                  0.0000
+    US    US-Med   LSTM  3                 0.9300                           True                             0.0099                            -0.0081                   0.8200               0.0249     1.0000                0                  -0.0081                  1.0000
+    US    US-Med   LSTM  5                 0.9300                           True                             0.0148                            -0.0032                   0.9600               0.0372     1.0000                0                  -0.0032                  1.0000
+    US    US-Pow BiLSTM  1                 0.8825                           True                             0.0058                            -0.0036                   0.8800               0.0154     1.0000                3                  -0.0039                  1.0000
+    US    US-Pow BiLSTM  3                 0.8825                           True                             0.0145                             0.0055                   1.0000               0.0385     0.0000                0                   0.0055                  0.0000
+    US    US-Pow BiLSTM  5                 0.8825                           True                             0.0145                             0.0023                   1.0000               0.0386     0.0000                0                   0.0023                  0.0000
+    US    US-Pow    GRU  1                 0.8544                           True                            -0.0081                            -0.0257                   0.0000              -0.0207     1.0000                3                  -0.0267                  1.0000
+    US    US-Pow    GRU  3                 0.8544                           True                             0.0077                            -0.0172                   0.8000               0.0198     1.0000                0                  -0.0172                  1.0000
+    US    US-Pow    GRU  5                 0.8544                           True                             0.0093                            -0.0112                   0.7400               0.0239     1.0000                0                  -0.0112                  1.0000
+    US    US-Pow   LSTM  1                 0.8982                           True                             0.0316                             0.0000                   0.9400               0.0776     1.0000                3                   0.0200                  0.0000
+    US    US-Pow   LSTM  3                 0.8982                           True                             0.0297                             0.0066                   1.0000               0.0728     0.0000                0                   0.0066                  0.0000
+    US    US-Pow   LSTM  5                 0.8982                           True                             0.0237                            -0.0016                   0.9600               0.0582     1.0000                0                  -0.0016                  1.0000
+
+Cross-table (agreement significant after BH correction x Monte Carlo lower-tail criterion: extra-drop 2.5th percentile > 0; determinable combinations only):
+ K Scope  N_Combos  N_Complete  N_Undetermined  Agreement_Sig_and_Q025_Positive  Agreement_Sig_and_Q025_NotPositive  Agreement_NotSig_and_Q025_Positive  Agreement_NotSig_and_Q025_NotPositive  Mean_Extra_Drop_Positive  Sens_N_Complete  Sens_Agreement_Sig_and_Q025NI_Positive  Sens_Agreement_Sig_and_Q025NI_NotPositive  Feature_Agreement_rho_Min  Feature_Agreement_rho_Max  Extra_Drop_Min  Extra_Drop_Max
+ 1   All        15          15               0                                0                                  15                                   0                                      0                        14               15                                      12                                          3                     0.7857                     0.9790         -0.0081          0.0552
+ 1 China         9           9               0                                0                                   9                                   0                                      0                         9                9                                       9                                          0                     0.7857                     0.9790          0.0287          0.0552
+ 1    US         6           6               0                                0                                   6                                   0                                      0                         5                6                                       3                                          3                     0.8544                     0.9300         -0.0081          0.0316
+ 3   All        15          15               0                               11                                   4                                   0                                      0                        15               15                                      11                                          4                     0.7857                     0.9790          0.0077          0.0568
+ 3 China         9           9               0                                8                                   1                                   0                                      0                         9                9                                       8                                          1                     0.7857                     0.9790          0.0335          0.0568
+ 3    US         6           6               0                                3                                   3                                   0                                      0                         6                6                                       3                                          3                     0.8544                     0.9300          0.0077          0.0297
+ 5   All        15          15               0                               10                                   5                                   0                                      0                        15               15                                      10                                          5                     0.7857                     0.9790          0.0093          0.0439
+ 5 China         9           9               0                                7                                   2                                   0                                      0                         9                9                                       7                                          2                     0.7857                     0.9790          0.0241          0.0439
+ 5    US         6           6               0                                3                                   3                                   0                                      0                         6                6                                       3                                          3                     0.8544                     0.9300          0.0093          0.0242
+
+Combination-level association (Spearman, descriptive):
+ K Scope  N_Combos  Spearman_FeatureAgreement_vs_ExtraDrop  p_FeatureAgreement  Spearman_TemporalAgreement_vs_ExtraDrop  p_TemporalAgreement
+ 1   All        15                                  0.2607              0.3480                                   0.2143               0.4431
+ 1 China         9                                 -0.0333              0.9322                                   0.3167               0.4064
+ 1    US         6                                  0.6000              0.2080                                  -0.2571               0.6228
+ 3   All        15                                  0.3536              0.1961                                   0.3107               0.2597
+ 3 China         9                                  0.3667              0.3317                                   0.6833               0.0424
+ 3    US         6                                  0.3714              0.4685                                  -0.4857               0.3287
+ 5   All        15                                  0.2214              0.4277                                   0.4500               0.0924
+ 5 China         9                                  0.0667              0.8647                                   0.7833               0.0125
+ 5    US         6                                  0.2000              0.7040                                   0.0286               0.9572
+k=1 (determinable 15/15): of the 15 combinations with significant agreement, lower-tail criterion positive (2.5th percentile > 0) 0, non-positive (decoupled) 15; mean extra drop > 0 14/15; sensitivity (repetitions with Random-k identical to Top-k removed): > 0 12, non-positive 3 (determinable 15)
+k=3 (determinable 15/15): of the 15 combinations with significant agreement, lower-tail criterion positive (2.5th percentile > 0) 11, non-positive (decoupled) 4; mean extra drop > 0 15/15; sensitivity (repetitions with Random-k identical to Top-k removed): > 0 11, non-positive 4 (determinable 15)
+k=5 (determinable 15/15): of the 15 combinations with significant agreement, lower-tail criterion positive (2.5th percentile > 0) 10, non-positive (decoupled) 5; mean extra drop > 0 15/15; sensitivity (repetitions with Random-k identical to Top-k removed): > 0 10, non-positive 5 (determinable 15)
+
+====================================================================================================
+Step 4: new analysis 2: difference in explanation stability between local input perturbations and training seeds, total 0h00m00s
+====================================================================================================
+Main analysis by combination (noise at 2% SD; seeds are the mean and minimum of all other 4 seeds relative to seed 42; gap = noise − seed mean):
+Market   Dataset  Model  In_Stability_Main  N_Other_Seeds_Used  Noise2_Feature  Seed_Feature_Mean  Seed_Feature_Min  Gap_Feature  Noise2_Temporal  Seed_Temporal_Mean  Seed_Temporal_Min  Gap_Temporal  Noise2_Prediction  Seed_Prediction_Mean  Seed_Prediction_Min  Gap_Prediction
+ China Medical-1    GRU               True                   4          1.0000             0.9354            0.8407       0.0646           0.9936              0.9532             0.9254        0.0404             0.9850                0.8388               0.8045          0.1463
+ China Medical-1 BiLSTM               True                   4          1.0000             0.9011            0.8407       0.0989           0.9970              0.8632             0.8226        0.1337             0.9800                0.6955               0.6854          0.2845
+ China Medical-1   LSTM               True                   4          0.9982             0.8626            0.7912       0.1355           0.9917              0.9097             0.8922        0.0820             0.9858                0.7641               0.7339          0.2216
+ China Medical-2    GRU              False                   4          1.0000             0.5319            0.3143       0.4681           0.9999              0.8451             0.7395        0.1548             0.9917                0.6823               0.6321          0.3094
+ China Medical-2 BiLSTM               True                   4          1.0000             0.8780            0.6879       0.1220           0.9999              0.9940             0.9926        0.0059             0.9953                0.7592               0.6571          0.2361
+ China Medical-2   LSTM               True                   4          1.0000             0.8000            0.7538       0.2000           1.0000              0.9587             0.8941        0.0412             0.9940                0.7573               0.7256          0.2366
+ China     Power    GRU               True                   4          1.0000             0.9318            0.9091       0.0682           0.9989              0.9633             0.8670        0.0355             0.9856                0.8323               0.7891          0.1533
+ China     Power BiLSTM               True                   4          1.0000             0.8986            0.8462       0.1014           0.9993              0.9853             0.9712        0.0140             0.9876                0.8166               0.7935          0.1710
+ China     Power   LSTM               True                   4          1.0000             0.7587            0.6503       0.2413           0.9984              0.9538             0.8732        0.0446             0.9777                0.7929               0.7667          0.1848
+    US    US-Med    GRU               True                   4          1.0000             0.7414            0.6714       0.2586           0.9991              0.0728            -0.4322        0.9263             0.9969                0.8795               0.8549          0.1175
+    US    US-Med BiLSTM               True                   4          1.0000             0.8100            0.7357       0.1900           1.0000              0.9370             0.7858        0.0630             0.9929                0.7680               0.6358          0.2249
+    US    US-Med   LSTM               True                   4          1.0000             0.8072            0.7753       0.1928           0.9998              0.8124             0.6689        0.1875             0.9890                0.5290               0.3948          0.4601
+    US    US-Pow    GRU               True                   4          1.0000             0.5136            0.3807       0.4864           0.9995             -0.0625            -0.4790        1.0620             0.9945                0.6439               0.6439          0.3506
+    US    US-Pow BiLSTM               True                   4          1.0000             0.8114            0.6912       0.1886           0.9995              0.9167             0.8872        0.0829             0.9899                0.6309               0.5337          0.3590
+    US    US-Pow   LSTM               True                   4          1.0000             0.8325            0.7877       0.1675           0.9968              0.7473             0.4303        0.2495             0.9832                0.5614               0.5301          0.4218
+
+Combinations excluded from the main stability analysis:
+  Medical-2 / GRU: the five-seed reference model is seed 42 retrained under the reconstructed configuration, which differs from the noise-experiment reference
+  Contains seeds consistent with single-class prediction (kept in the main analysis): US-Med / GRU, 2
+  Contains seeds consistent with single-class prediction (kept in the main analysis): US-Pow / GRU, 4
+
+Combinations whose values change in the sensitivity analysis (seeds consistent with single-class prediction removed; combinations with all seeds removed are not counted in the sensitivity analysis):
+Market Dataset Model  In_Stability_Main  N_Other_Seeds_Used  Noise2_Feature  Seed_Feature_Mean  Seed_Feature_Min  Gap_Feature  Noise2_Temporal  Seed_Temporal_Mean  Seed_Temporal_Min  Gap_Temporal  Noise2_Prediction  Seed_Prediction_Mean  Seed_Prediction_Min  Gap_Prediction
+    US  US-Med   GRU               True                   2          1.0000             0.7837            0.7719       0.2163           0.9991              0.3368            -0.2137        0.6623             0.9969                0.8851               0.8549          0.1118
+    US  US-Pow   GRU               True                   0          1.0000                NaN               NaN          NaN           0.9995                 NaN                NaN           NaN             0.9945                   NaN                  NaN             NaN
+
+Stability difference summary (two versions; Wilcoxon for descriptive reference only, combinations are not independent):
+                   Seed_Set Scope     Metric  N_Combos  Noise_Mean  Noise_Min  Seed_Mean_of_Means  Seed_Min_of_Means  Gap_Mean  Gap_Median  Gap_Min  Gap_Max  N_Gap_Positive  Wilcoxon_Stat  Wilcoxon_p_Descriptive
+           Main_Include_All   All    Feature        14      0.9999     0.9982              0.8202             0.5136    0.1797      0.1781  0.06456   0.4864              14              0               0.0001221
+           Main_Include_All   All   Temporal        14      0.9981     0.9917              0.7861            -0.0625     0.212     0.07249 0.005891    1.062              14              0               0.0001221
+           Main_Include_All   All Prediction        14      0.9884     0.9777              0.7335              0.529    0.2549      0.2305   0.1175   0.4601              14              0               0.0001221
+           Main_Include_All China    Feature         8      0.9998     0.9982              0.8708             0.7587     0.129      0.1117  0.06456   0.2413               8              0                0.007812
+           Main_Include_All China   Temporal         8      0.9974     0.9917              0.9477             0.8632   0.04968     0.04083 0.005891   0.1337               8              0                0.007812
+           Main_Include_All China Prediction         8      0.9864     0.9777              0.7821             0.6955    0.2043      0.2032   0.1463   0.2845               8              0                0.007812
+           Main_Include_All    US    Feature         6           1          1              0.7527             0.5136    0.2473      0.1914   0.1675   0.4864               6              0                 0.03125
+           Main_Include_All    US   Temporal         6      0.9991     0.9968              0.5706            -0.0625    0.4285      0.2185  0.06295    1.062               6              0                 0.03125
+           Main_Include_All    US Prediction         6      0.9911     0.9832              0.6688              0.529    0.3223      0.3548   0.1175   0.4601               6              0                 0.03125
+Sensitivity_Exclude_Flagged   All    Feature        13      0.9999     0.9982               0.847             0.7587    0.1528      0.1675  0.06456   0.2413              13              0               0.0002441
+Sensitivity_Exclude_Flagged   All   Temporal        13       0.998     0.9917              0.8717             0.3368    0.1263     0.06295 0.005891   0.6623              13              0               0.0002441
+Sensitivity_Exclude_Flagged   All Prediction        13      0.9879     0.9777              0.7409              0.529    0.2471      0.2249   0.1118   0.4601              13              0               0.0002441
+Sensitivity_Exclude_Flagged China    Feature         8      0.9998     0.9982              0.8708             0.7587     0.129      0.1117  0.06456   0.2413               8              0                0.007812
+Sensitivity_Exclude_Flagged China   Temporal         8      0.9974     0.9917              0.9477             0.8632   0.04968     0.04083 0.005891   0.1337               8              0                0.007812
+Sensitivity_Exclude_Flagged China Prediction         8      0.9864     0.9777              0.7821             0.6955    0.2043      0.2032   0.1463   0.2845               8              0                0.007812
+Sensitivity_Exclude_Flagged    US    Feature         5           1          1               0.809             0.7837     0.191        0.19   0.1675   0.2163               5              0                  0.0625
+Sensitivity_Exclude_Flagged    US   Temporal         5      0.9991     0.9968                0.75             0.3368     0.249      0.1875  0.06295   0.6623               5              0                  0.0625
+Sensitivity_Exclude_Flagged    US Prediction         5      0.9904     0.9832              0.6749              0.529    0.3155       0.359   0.1118   0.4601               5              0                  0.0625
+
+Sensitivity (seeds consistent with single-class prediction removed, 50): median |ΔMacro-F1| 0.0086, median disagreement 0.2232
+Prediction level (main analysis, all 56 seed models): median |ΔMacro-F1| vs seed 42 0.0092, max 0.1130; median disagreement 0.2249, range 0.0846–0.6052
+  China: 32 seed models, median |ΔMacro-F1| 0.0069, prediction agreement 0.6571–0.8639
+  US: 24 seed models, median |ΔMacro-F1| 0.0311, prediction agreement 0.3948–0.9154
+
+====================================================================================================
+Step 5: paper summary table, total 0h00m00s
+====================================================================================================
+Market   Dataset  Model  Seed42_MacroF1  Feature_Agreement_rho  Feature_Agreement_p_BH  Feature_Agreement_Significant  Temporal_Agreement_rho  Temporal_Agreement_p_BH  Temporal_Agreement_Significant  ExtraDrop_k3  ExtraDrop_k3_Q025  N_k_Q025_Positive  N_k_Valid  In_Stability_Main  N_Other_Seeds_Used  Noise2_Feature  Seed_Feature_Mean  Seed_Feature_Min  Noise2_Temporal  Seed_Temporal_Mean  Noise2_Prediction  Seed_Prediction_Mean  MacroF1_SD_Used
+ China Medical-1    GRU          0.4132                 0.9176                  0.0000                           True                  0.5232                   0.0000                            True        0.0335             0.0013                  2          3               True                   4          1.0000             0.9354            0.8407           0.9936              0.9532             0.9850                0.8388           0.0041
+ China Medical-1 BiLSTM          0.4035                 0.8736                  0.0001                           True                  0.7203                   0.0000                            True        0.0350             0.0037                  2          3               True                   4          1.0000             0.9011            0.8407           0.9970              0.8632             0.9800                0.6955           0.0032
+ China Medical-1   LSTM          0.4130                 0.7857                  0.0015                           True                  0.5821                   0.0000                            True        0.0433             0.0095                  2          3               True                   4          0.9982             0.8626            0.7912           0.9917              0.9097             0.9858                0.7641           0.0041
+ China Medical-2    GRU          0.3889                 0.8681                  0.0001                           True                  0.8651                   0.0000                            True        0.0512             0.0049                  2          3              False                   4          1.0000             0.5319            0.3143           0.9999              0.8451             0.9917                0.6823           0.0109
+ China Medical-2 BiLSTM          0.4199                 0.9121                  0.0000                           True                  0.8655                   0.0000                            True        0.0478             0.0118                  2          3               True                   4          1.0000             0.8780            0.6879           0.9999              0.9940             0.9953                0.7592           0.0140
+ China Medical-2   LSTM          0.4123                 0.9341                  0.0000                           True                  0.8852                   0.0000                            True        0.0516             0.0094                  2          3               True                   4          1.0000             0.8000            0.7538           1.0000              0.9587             0.9940                0.7573           0.0052
+ China     Power    GRU          0.4103                 0.9021                  0.0001                           True                  0.8484                   0.0000                            True        0.0568             0.0068                  2          3               True                   4          1.0000             0.9318            0.9091           0.9989              0.9633             0.9856                0.8323           0.0034
+ China     Power BiLSTM          0.4119                 0.9790                  0.0000                           True                  0.7449                   0.0000                            True        0.0543             0.0133                  1          3               True                   4          1.0000             0.8986            0.8462           0.9993              0.9853             0.9876                0.8166           0.0069
+ China     Power   LSTM          0.4021                 0.8881                  0.0001                           True                  0.6944                   0.0000                            True        0.0463            -0.0016                  0          3               True                   4          1.0000             0.7587            0.6503           0.9984              0.9538             0.9777                0.7929           0.0067
+    US    US-Med    GRU          0.2519                 0.9018                  0.0000                           True                  0.6921                   0.0000                            True        0.0146             0.0055                  2          3               True                   4          1.0000             0.7414            0.6714           0.9991              0.0728             0.9969                0.8795           0.0411
+    US    US-Med BiLSTM          0.3367                 0.8713                  0.0000                           True                  0.8371                   0.0000                            True        0.0117            -0.0041                  1          3               True                   4          1.0000             0.8100            0.7357           1.0000              0.9370             0.9929                0.7680           0.0092
+    US    US-Med   LSTM          0.3017                 0.9300                  0.0000                           True                  0.8182                   0.0000                            True        0.0099            -0.0081                  0          3               True                   4          1.0000             0.8072            0.7753           0.9998              0.8124             0.9890                0.5290           0.0237
+    US    US-Pow    GRU          0.2889                 0.8544                  0.0000                           True                  0.8098                   0.0000                            True        0.0077            -0.0172                  0          3               True                   4          1.0000             0.5136            0.3807           0.9995             -0.0625             0.9945                0.6439           0.0505
+    US    US-Pow BiLSTM          0.3337                 0.8825                  0.0000                           True                  0.8268                   0.0000                            True        0.0145             0.0055                  2          3               True                   4          1.0000             0.8114            0.6912           0.9995              0.9167             0.9899                0.6309           0.0134
+    US    US-Pow   LSTM          0.3332                 0.8982                  0.0000                           True                  0.4821                   0.0001                            True        0.0297             0.0066                  1          3               True                   4          1.0000             0.8325            0.7877           0.9968              0.7473             0.9832                0.5614           0.0218
+Table note: p-values of IG-KernelSHAP agreement are BH-corrected separately for features and time within the 15 combinations; extra drop is the additional drop in the original predicted-class probability of Top-k relative to Random-k at k=3; N_k_Q025_Positive / N_k_Valid is the number of k=1/3/5 with a positive Monte Carlo lower-tail criterion / the number determinable; noise is 2% of the training-set SD (IG on 200 fixed samples); seeds are the mean of all other 4 seeds relative to seed 42 (IG on 500 fixed samples; sensitivity results without seeds consistent with single-class prediction are in L4).
+
+====================================================================================================
+Step 6: plotting (png, jpg, tif, eps, 600 dpi), total 0h00m00s
+====================================================================================================
+  Figure 1: points not drawn because agreement or extra drop is missing: 0; points with undetermined lower-tail criterion drawn as grey x: 0
+  Saved: ./stage6/stage6_cell_L_data_crossmarket_V5/Figure1_agreement_vs_faithfulness.png/.jpg/.tif/.eps
+  Saved: ./stage6/stage6_cell_L_data_crossmarket_V5/Figure2_noise_vs_seed_stability.png/.jpg/.tif/.eps
+  Saved: ./stage6/stage6_cell_L_data_crossmarket_V5/Figure3_performance_vs_prediction_agreement.png/.jpg/.tif/.eps
+
+====================================================================================================
+Step 7: conclusion check (determined by actual results, not preset), total 0h00m05s
+====================================================================================================
+1. Explanation agreement: features 15/15, time 15/15 combinations positive and significant after BH correction
+2. k=1: combinations with significant agreement but a non-positive lower-tail criterion 15 (sensitivity 3); combination-level Spearman r between agreement and extra drop = 0.261 (p = 0.348, n = 15)
+2. k=3: combinations with significant agreement but a non-positive lower-tail criterion 4 (sensitivity 4); combination-level Spearman r between agreement and extra drop = 0.354 (p = 0.196, n = 15)
+2. k=5: combinations with significant agreement but a non-positive lower-tail criterion 5 (sensitivity 5); combination-level Spearman r between agreement and extra drop = 0.221 (p = 0.428, n = 15)
+3. Feature: of 14 combinations in the main analysis, noise stability higher than cross-seed stability in 14; median gap 0.178 (range 0.065–0.486); descriptive Wilcoxon p = 0.0001221
+   Sensitivity (seeds consistent with single-class prediction removed) Feature: of 13 combinations, positive gap in 13, median gap 0.168
+3. Temporal: of 14 combinations in the main analysis, noise stability higher than cross-seed stability in 14; median gap 0.072 (range 0.006–1.062); descriptive Wilcoxon p = 0.0001221
+   Sensitivity (seeds consistent with single-class prediction removed) Temporal: of 13 combinations, positive gap in 13, median gap 0.063
+3. Prediction: of 14 combinations in the main analysis, noise stability higher than cross-seed stability in 14; median gap 0.231 (range 0.117–0.460); descriptive Wilcoxon p = 0.0001221
+   Sensitivity (seeds consistent with single-class prediction removed) Prediction: of 13 combinations, positive gap in 13, median gap 0.225
+Note: item 2 assesses whether agreement and faithfulness are decoupled, item 3 whether the stability difference exists; rely on the actual numbers above.
+
+Output files under ./stage6/stage6_cell_L_data_crossmarket_V5/: L1_combination_sources.csv, L2_bh_fdr.csv, L3_agreement_faithfulness_by_combo.csv, L3_agreement_faithfulness_crosstab.csv, L3_agreement_faithfulness_association.csv, L4_stability_gap_by_combo.csv, L4_stability_gap_by_combo_exclude_flagged.csv, L4_stability_gap_summary.csv, L5_seed_performance_vs_agreement.csv, L6_crossmarket_summary_table.csv, and Figures 1–3 in 4 formats each
+stage6_cell_L_data_crossmarket_V5 finished, total time 0h00m05s
+
+
+
+

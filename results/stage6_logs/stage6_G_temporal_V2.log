@@ -1,0 +1,367 @@
+Input directories: ./stage6/stage6_cell_A_data_preprocessing_V1/, ./stage6/stage6_cell_C_data_training_V2/
+Output directory: ./stage6/stage6_cell_G_data_temporal_V2/
+cuDNN disabled (cuDNN cannot be initialized on the server); using PyTorch native CUDA RNN kernels
+Input file check passed (19 files)
+US-Med: 22 features: ['roc_5', 'close_to_ma20', 'low', 'rsi', 'high_low_range', 'roc_20', 'dayofyear_sin', 'bb_position', 'macd', 'roc_10', 'bb_width', 'macd_signal', 'dayofweek_sin', 'dayofyear_cos', 'dayofweek_cos', 'year', 'month', 'day', 'dayofweek', 'quarter', 'dayofyear', 'weekofyear']
+US-Pow: 19 features: ['roc_5', 'dayofyear_sin', 'ma10', 'macd_signal', 'dayofyear_cos', 'macd', 'dayofweek_cos', 'high_low_range', 'close_to_ma20', 'momentum_5', 'roc_20', 'rsi', 'year', 'month', 'day', 'dayofweek', 'quarter', 'dayofyear', 'weekofyear']
+Device: cuda
+Task: non-gradient-path SHAP check of the temporal dimension
+Temporal KernelSHAP: 60 timesteps = 60 independent players
+Explained samples: 50, training backgrounds: 10
+KernelSHAP coalition samples: 512, IG integration steps: 64
+Main comparison: same samples, same fixed target of the original model, IG vs temporal KernelSHAP
+--------------------
+Dataset: US-Med
+Step 1: data preparation and checks
+US-Med: data directory ./stage6/stage6_cell_A_data_preprocessing_V1/us_med
+US-Med: train (63061, 60, 22), validation (6280, 60, 22), test (5720, 60, 22)
+Number of features: 22
+Training samples: 63061, validation samples: 6280, test samples: 5720
+Training missing values: 0, validation missing values: 0, test missing values: 0
+Fixed explained samples: 50
+Data check: passed
+--------------------
+US-Med / GRU
+Step 2: load and check models
+US-Med-GRU: ./stage6/stage6_cell_C_data_training_V2/us_med/gru_seed42_selected.pth | input dim 22, hidden dim 128, layers 2
+Model check: test Macro-F1 0.251911, accuracy 0.366434
+Fixed target-class distribution: {1: 8, 2: 42}
+Model check: passed
+Step 3: temporal KernelSHAP (60 timestep players)
+  Temporal KernelSHAP progress: 10/50
+  Temporal KernelSHAP progress: 20/50
+  Temporal KernelSHAP progress: 30/50
+  Temporal KernelSHAP progress: 40/50
+  Temporal KernelSHAP progress: 50/50
+Temporal KernelSHAP first 10 timesteps:
+ Timestep  KernelSHAP_Importance  KernelSHAP_Share
+       20               0.001787          0.035327
+       25               0.001667          0.032956
+       19               0.001657          0.032773
+       26               0.001614          0.031917
+        5               0.001406          0.027791
+       24               0.001311          0.025920
+       13               0.001273          0.025165
+       15               0.001265          0.025003
+       16               0.001194          0.023607
+       28               0.001139          0.022526
+Temporal KernelSHAP: done
+Step 4: IG temporal attribution on the same samples
+IG timestep result rows: 60
+IG temporal attribution: done
+Step 5: IG vs temporal KernelSHAP comparison
+60-timestep Spearman: rho=0.692137, p=9.07018e-10
+6-block Spearman: rho=0.942857, p=0.00480466
+IG recency: last 10 days 0.081229, first 10 days 0.209274, ratio 0.388147
+KernelSHAP recency: last 10 days 0.082551, first 10 days 0.180389, ratio 0.457628
+Peak block: IG=2, KernelSHAP=2, same True
+6x10-day block attribution mass:
+ Block  Timestep_Start  Timestep_End  IG_Mass  KernelSHAP_Mass
+     1               1            10 0.209274         0.180389
+     2              11            20 0.223567         0.226834
+     3              21            30 0.202238         0.204713
+     4              31            40 0.155388         0.170356
+     5              41            50 0.128304         0.135158
+     6              51            60 0.081229         0.082551
+Temporal method comparison: done
+--------------------
+US-Med / BiLSTM
+Step 2: load and check models
+US-Med-BiLSTM: ./stage6/stage6_cell_C_data_training_V2/us_med/bilstm_seed42_selected.pth | input dim 22, hidden dim 128, layers 2
+Model check: test Macro-F1 0.336737, accuracy 0.365559
+Fixed target-class distribution: {0: 20, 1: 8, 2: 22}
+Model check: passed
+Step 3: temporal KernelSHAP (60 timestep players)
+  Temporal KernelSHAP progress: 10/50
+  Temporal KernelSHAP progress: 20/50
+  Temporal KernelSHAP progress: 30/50
+  Temporal KernelSHAP progress: 40/50
+  Temporal KernelSHAP progress: 50/50
+Temporal KernelSHAP first 10 timesteps:
+ Timestep  KernelSHAP_Importance  KernelSHAP_Share
+       60               0.012056          0.235979
+       59               0.004594          0.089922
+       57               0.003168          0.062007
+       58               0.003090          0.060477
+       55               0.002541          0.049738
+       56               0.002501          0.048948
+       54               0.002149          0.042056
+       53               0.001955          0.038265
+       52               0.001807          0.035363
+       50               0.001454          0.028457
+Temporal KernelSHAP: done
+Step 4: IG temporal attribution on the same samples
+IG timestep result rows: 60
+IG temporal attribution: done
+Step 5: IG vs temporal KernelSHAP comparison
+60-timestep Spearman: rho=0.837112, p=7.89263e-17
+6-block Spearman: rho=0.942857, p=0.00480466
+IG recency: last 10 days 0.582164, first 10 days 0.025758, ratio 22.601474
+KernelSHAP recency: last 10 days 0.688393, first 10 days 0.021891, ratio 31.446284
+Peak block: IG=6, KernelSHAP=6, same True
+6x10-day block attribution mass:
+ Block  Timestep_Start  Timestep_End  IG_Mass  KernelSHAP_Mass
+     1               1            10 0.025758         0.021891
+     2              11            20 0.037623         0.024766
+     3              21            30 0.059551         0.021991
+     4              31            40 0.100608         0.056865
+     5              41            50 0.194296         0.186093
+     6              51            60 0.582164         0.688393
+Temporal method comparison: done
+--------------------
+US-Med / LSTM
+Step 2: load and check models
+US-Med-LSTM: ./stage6/stage6_cell_C_data_training_V2/us_med/lstm_seed42_selected.pth | input dim 22, hidden dim 128, layers 2
+Model check: test Macro-F1 0.301719, accuracy 0.352972
+Fixed target-class distribution: {0: 30, 1: 3, 2: 17}
+Model check: passed
+Step 3: temporal KernelSHAP (60 timestep players)
+  Temporal KernelSHAP progress: 10/50
+  Temporal KernelSHAP progress: 20/50
+  Temporal KernelSHAP progress: 30/50
+  Temporal KernelSHAP progress: 40/50
+  Temporal KernelSHAP progress: 50/50
+Temporal KernelSHAP first 10 timesteps:
+ Timestep  KernelSHAP_Importance  KernelSHAP_Share
+       60               0.007241          0.157124
+       59               0.004996          0.108423
+       58               0.004223          0.091633
+       57               0.002328          0.050511
+       55               0.002269          0.049233
+       56               0.002061          0.044727
+       52               0.001945          0.042210
+       53               0.001857          0.040298
+       54               0.001810          0.039280
+       49               0.001054          0.022880
+Temporal KernelSHAP: done
+Step 4: IG temporal attribution on the same samples
+IG timestep result rows: 60
+IG temporal attribution: done
+Step 5: IG vs temporal KernelSHAP comparison
+60-timestep Spearman: rho=0.818172, p=1.45077e-15
+6-block Spearman: rho=0.942857, p=0.00480466
+IG recency: last 10 days 0.585237, first 10 days 0.084459, ratio 6.929221
+KernelSHAP recency: last 10 days 0.639831, first 10 days 0.062655, ratio 10.211982
+Peak block: IG=6, KernelSHAP=6, same True
+6x10-day block attribution mass:
+ Block  Timestep_Start  Timestep_End  IG_Mass  KernelSHAP_Mass
+     1               1            10 0.084459         0.062655
+     2              11            20 0.063769         0.040172
+     3              21            30 0.062515         0.046375
+     4              31            40 0.081802         0.059312
+     5              41            50 0.122218         0.151656
+     6              51            60 0.585237         0.639831
+Temporal method comparison: done
+--------------------
+Dataset: US-Pow
+Step 1: data preparation and checks
+US-Pow: data directory ./stage6/stage6_cell_A_data_preprocessing_V1/us_pow
+US-Pow: train (63799, 60, 19), validation (6280, 60, 19), test (5720, 60, 19)
+Number of features: 19
+Training samples: 63799, validation samples: 6280, test samples: 5720
+Training missing values: 0, validation missing values: 0, test missing values: 0
+Fixed explained samples: 50
+Data check: passed
+--------------------
+US-Pow / GRU
+Step 2: load and check models
+US-Pow-GRU: ./stage6/stage6_cell_C_data_training_V2/us_pow/gru_seed42_selected.pth | input dim 19, hidden dim 64, layers 2
+Model check: test Macro-F1 0.288881, accuracy 0.361538
+Fixed target-class distribution: {1: 17, 2: 33}
+Model check: passed
+Step 3: temporal KernelSHAP (60 timestep players)
+  Temporal KernelSHAP progress: 10/50
+  Temporal KernelSHAP progress: 20/50
+  Temporal KernelSHAP progress: 30/50
+  Temporal KernelSHAP progress: 40/50
+  Temporal KernelSHAP progress: 50/50
+Temporal KernelSHAP first 10 timesteps:
+ Timestep  KernelSHAP_Importance  KernelSHAP_Share
+       60               0.005637          0.108559
+       59               0.002894          0.055728
+       58               0.002205          0.042463
+       56               0.001989          0.038301
+       57               0.001812          0.034889
+       43               0.001430          0.027543
+       42               0.001413          0.027216
+       52               0.001385          0.026673
+       34               0.001380          0.026579
+       50               0.001346          0.025910
+Temporal KernelSHAP: done
+Step 4: IG temporal attribution on the same samples
+IG timestep result rows: 60
+IG temporal attribution: done
+Step 5: IG vs temporal KernelSHAP comparison
+60-timestep Spearman: rho=0.809780, p=4.74036e-15
+6-block Spearman: rho=1.000000, p=0
+IG recency: last 10 days 0.376920, first 10 days 0.080181, ratio 4.700887
+KernelSHAP recency: last 10 days 0.392979, first 10 days 0.077646, ratio 5.061140
+Peak block: IG=6, KernelSHAP=6, same True
+6x10-day block attribution mass:
+ Block  Timestep_Start  Timestep_End  IG_Mass  KernelSHAP_Mass
+     1               1            10 0.080181         0.077646
+     2              11            20 0.098377         0.096279
+     3              21            30 0.112973         0.111519
+     4              31            40 0.135852         0.127277
+     5              41            50 0.195697         0.194300
+     6              51            60 0.376920         0.392979
+Temporal method comparison: done
+--------------------
+US-Pow / BiLSTM
+Step 2: load and check models
+US-Pow-BiLSTM: ./stage6/stage6_cell_C_data_training_V2/us_pow/bilstm_seed42_selected.pth | input dim 19, hidden dim 128, layers 2
+Model check: test Macro-F1 0.333694, accuracy 0.361014
+Fixed target-class distribution: {0: 23, 1: 6, 2: 21}
+Model check: passed
+Step 3: temporal KernelSHAP (60 timestep players)
+  Temporal KernelSHAP progress: 10/50
+  Temporal KernelSHAP progress: 20/50
+  Temporal KernelSHAP progress: 30/50
+  Temporal KernelSHAP progress: 40/50
+  Temporal KernelSHAP progress: 50/50
+Temporal KernelSHAP first 10 timesteps:
+ Timestep  KernelSHAP_Importance  KernelSHAP_Share
+       60               0.006530          0.179878
+       59               0.003497          0.096313
+       58               0.002608          0.071825
+       57               0.002319          0.063871
+       56               0.001719          0.047348
+       55               0.001176          0.032388
+       43               0.001146          0.031553
+       54               0.001029          0.028344
+       46               0.000898          0.024748
+       52               0.000781          0.021521
+Temporal KernelSHAP: done
+Step 4: IG temporal attribution on the same samples
+IG timestep result rows: 60
+IG temporal attribution: done
+Step 5: IG vs temporal KernelSHAP comparison
+60-timestep Spearman: rho=0.826841, p=3.9984e-16
+6-block Spearman: rho=1.000000, p=0
+IG recency: last 10 days 0.391968, first 10 days 0.093037, ratio 4.213022
+KernelSHAP recency: last 10 days 0.567612, first 10 days 0.047796, ratio 11.875617
+Peak block: IG=6, KernelSHAP=6, same True
+6x10-day block attribution mass:
+ Block  Timestep_Start  Timestep_End  IG_Mass  KernelSHAP_Mass
+     1               1            10 0.093037         0.047796
+     2              11            20 0.096609         0.062974
+     3              21            30 0.105424         0.068412
+     4              31            40 0.140781         0.088019
+     5              41            50 0.172181         0.165187
+     6              51            60 0.391968         0.567612
+Temporal method comparison: done
+--------------------
+US-Pow / LSTM
+Step 2: load and check models
+US-Pow-LSTM: ./stage6/stage6_cell_C_data_training_V2/us_pow/lstm_seed42_selected.pth | input dim 19, hidden dim 128, layers 2
+Model check: test Macro-F1 0.333218, accuracy 0.362238
+Fixed target-class distribution: {0: 31, 1: 4, 2: 15}
+Model check: passed
+Step 3: temporal KernelSHAP (60 timestep players)
+  Temporal KernelSHAP progress: 10/50
+  Temporal KernelSHAP progress: 20/50
+  Temporal KernelSHAP progress: 30/50
+  Temporal KernelSHAP progress: 40/50
+  Temporal KernelSHAP progress: 50/50
+Temporal KernelSHAP first 10 timesteps:
+ Timestep  KernelSHAP_Importance  KernelSHAP_Share
+       60               0.003562          0.047360
+       50               0.003029          0.040278
+       56               0.002687          0.035725
+       53               0.002677          0.035591
+       49               0.002577          0.034264
+       52               0.002397          0.031869
+       59               0.002391          0.031790
+        1               0.002351          0.031257
+       57               0.002295          0.030511
+       19               0.002167          0.028815
+Temporal KernelSHAP: done
+Step 4: IG temporal attribution on the same samples
+IG timestep result rows: 60
+IG temporal attribution: done
+Step 5: IG vs temporal KernelSHAP comparison
+60-timestep Spearman: rho=0.482134, p=9.59159e-05
+6-block Spearman: rho=0.257143, p=0.622787
+IG recency: last 10 days 0.224565, first 10 days 0.115197, ratio 1.949397
+KernelSHAP recency: last 10 days 0.308363, first 10 days 0.169101, ratio 1.823543
+Peak block: IG=6, KernelSHAP=6, same True
+6x10-day block attribution mass:
+ Block  Timestep_Start  Timestep_End  IG_Mass  KernelSHAP_Mass
+     1               1            10 0.115197         0.169101
+     2              11            20 0.143955         0.130294
+     3              21            30 0.153490         0.146680
+     4              31            40 0.170905         0.086279
+     5              41            50 0.191887         0.159284
+     6              51            60 0.224565         0.308363
+Temporal method comparison: done
+--------------------
+Step 6: save results and produce the final summary
+Model check rows: 6
+Temporal KernelSHAP detail rows: 18000
+Temporal KernelSHAP timestep rows: 360
+IG timestep rows: 360
+Block attribution-mass rows: 36
+Method comparison rows: 6
+Error records: 0
+--------------------
+Final summary 1: IG vs temporal KernelSHAP
+Dataset  Model  Timestep_Spearman  Timestep_p_value  Block_Spearman  Block_p_value  IG_Last10_Mass  KernelSHAP_Last10_Mass  IG_Last10_to_First10  KernelSHAP_Last10_to_First10  IG_Peak_Block  KernelSHAP_Peak_Block  Same_Peak_Block
+ US-Med BiLSTM           0.837112      7.892626e-17        0.942857       0.004805        0.582164                0.688393             22.601474                     31.446284              6                      6             True
+ US-Med    GRU           0.692137      9.070177e-10        0.942857       0.004805        0.081229                0.082551              0.388147                      0.457628              2                      2             True
+ US-Med   LSTM           0.818172      1.450765e-15        0.942857       0.004805        0.585237                0.639831              6.929221                     10.211982              6                      6             True
+ US-Pow BiLSTM           0.826841      3.998396e-16        1.000000       0.000000        0.391968                0.567612              4.213022                     11.875617              6                      6             True
+ US-Pow    GRU           0.809780      4.740361e-15        1.000000       0.000000        0.376920                0.392979              4.700887                      5.061140              6                      6             True
+ US-Pow   LSTM           0.482134      9.591586e-05        0.257143       0.622787        0.224565                0.308363              1.949397                      1.823543              6                      6             True
+60-timestep rho range: 0.482134 - 0.837112
+Combinations with positive 60-timestep correlation and p<0.05: 6/6
+Combinations with KernelSHAP last 10 days > first 10 days: 5/6
+Combinations with the same IG and KernelSHAP peak block: 6/6
+Combinations with the KernelSHAP peak in days 51-60: 5/6
+--------------------
+Final summary 2: 6x10-day block attribution mass
+Dataset  Model  Block  Timestep_Start  Timestep_End  IG_Mass  KernelSHAP_Mass
+ US-Med BiLSTM      1               1            10 0.025758         0.021891
+ US-Med BiLSTM      2              11            20 0.037623         0.024766
+ US-Med BiLSTM      3              21            30 0.059551         0.021991
+ US-Med BiLSTM      4              31            40 0.100608         0.056865
+ US-Med BiLSTM      5              41            50 0.194296         0.186093
+ US-Med BiLSTM      6              51            60 0.582164         0.688393
+ US-Med    GRU      1               1            10 0.209274         0.180389
+ US-Med    GRU      2              11            20 0.223567         0.226834
+ US-Med    GRU      3              21            30 0.202238         0.204713
+ US-Med    GRU      4              31            40 0.155388         0.170356
+ US-Med    GRU      5              41            50 0.128304         0.135158
+ US-Med    GRU      6              51            60 0.081229         0.082551
+ US-Med   LSTM      1               1            10 0.084459         0.062655
+ US-Med   LSTM      2              11            20 0.063769         0.040172
+ US-Med   LSTM      3              21            30 0.062515         0.046375
+ US-Med   LSTM      4              31            40 0.081802         0.059312
+ US-Med   LSTM      5              41            50 0.122218         0.151656
+ US-Med   LSTM      6              51            60 0.585237         0.639831
+ US-Pow BiLSTM      1               1            10 0.093037         0.047796
+ US-Pow BiLSTM      2              11            20 0.096609         0.062974
+ US-Pow BiLSTM      3              21            30 0.105424         0.068412
+ US-Pow BiLSTM      4              31            40 0.140781         0.088019
+ US-Pow BiLSTM      5              41            50 0.172181         0.165187
+ US-Pow BiLSTM      6              51            60 0.391968         0.567612
+ US-Pow    GRU      1               1            10 0.080181         0.077646
+ US-Pow    GRU      2              11            20 0.098377         0.096279
+ US-Pow    GRU      3              21            30 0.112973         0.111519
+ US-Pow    GRU      4              31            40 0.135852         0.127277
+ US-Pow    GRU      5              41            50 0.195697         0.194300
+ US-Pow    GRU      6              51            60 0.376920         0.392979
+ US-Pow   LSTM      1               1            10 0.115197         0.169101
+ US-Pow   LSTM      2              11            20 0.143955         0.130294
+ US-Pow   LSTM      3              21            30 0.153490         0.146680
+ US-Pow   LSTM      4              31            40 0.170905         0.086279
+ US-Pow   LSTM      5              41            50 0.191887         0.159284
+ US-Pow   LSTM      6              51            60 0.224565         0.308363
+--------------------
+Final summary 3: errors
+Errors: 0, all steps completed
+--------------------
+stage6_cell_G_data_temporal_V2 finished
+Results directory: ./stage6/stage6_cell_G_data_temporal_V2/
+
+
+

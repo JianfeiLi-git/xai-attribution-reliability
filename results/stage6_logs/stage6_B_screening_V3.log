@@ -1,0 +1,616 @@
+Input directories: ./stage6/stage6_cell_A_data_preprocessing_V1/ (us_med/, us_pow/, feature_config.json), XAI_cn/e3/datasets/processed/dataset2_AB_grade/
+Output directory: ./stage6/stage6_cell_B_data_screening_V3/
+Input file check passed (13 files)
+
+Device: cuda (NVIDIA GeForce RTX 3090)
+
+[cn_power] 22 first-stage features: ['dayofyear_sin', 'dayofweek_sin', 'dayofyear_cos', 'close_open_range', 'close', 'roc_5', 'high_low_range', 'amount', 'close_to_ma5', 'roc_10', 'macd_signal', 'atr', 'macd', 'turnover_rate', 'volatility_5', 'year', 'month', 'day', 'dayofweek', 'quarter', 'dayofyear', 'weekofyear']
+  Thresholds q33 = -0.7800, q67 = 0.8116; sequence construction 0.8s: train (111124, 60, 22), validation (8969, 60, 22)
+  Validation label distribution: down 32.9% | hold 38.2% | up 28.9%
+
+[us_med] 22 first-stage features: ['roc_5', 'close_to_ma20', 'low', 'rsi', 'high_low_range', 'roc_20', 'dayofyear_sin', 'bb_position', 'macd', 'roc_10', 'bb_width', 'macd_signal', 'dayofweek_sin', 'dayofyear_cos', 'dayofweek_cos', 'year', 'month', 'day', 'dayofweek', 'quarter', 'dayofyear', 'weekofyear']
+  Thresholds q33 = -0.4192, q67 = 0.5571; sequence construction 0.5s: train (63061, 60, 22), validation (6280, 60, 22)
+  Validation label distribution: down 32.5% | hold 36.9% | up 30.6%
+
+[us_pow] 19 first-stage features: ['roc_5', 'dayofyear_sin', 'ma10', 'macd_signal', 'dayofyear_cos', 'macd', 'dayofweek_cos', 'high_low_range', 'close_to_ma20', 'momentum_5', 'roc_20', 'rsi', 'year', 'month', 'day', 'dayofweek', 'quarter', 'dayofyear', 'weekofyear']
+  Thresholds q33 = -0.3413, q67 = 0.4854; sequence construction 0.4s: train (63799, 60, 19), validation (6280, 60, 19)
+  Validation label distribution: down 36.6% | hold 30.8% | up 32.6%
+
+##########################################################################################
+Run 1/9: dataset cn_power, seed 42, total 0m03s
+##########################################################################################
+  Training probe model (30 epochs, same as China)
+    [cn_power-seed42] Epoch  1/30 | train loss 0.4897 | val Macro-F1 0.1844 | best so far 0.1844 (epoch 1) | this epoch 4.3s | est. remaining 2.1m | total 0m07s
+    [cn_power-seed42] Epoch  2/30 | train loss 0.4889 | val Macro-F1 0.1493 | best so far 0.1844 (epoch 1) | this epoch 4.2s | est. remaining 2.0m | total 0m11s
+    [cn_power-seed42] Epoch  3/30 | train loss 0.4888 | val Macro-F1 0.1493 | best so far 0.1844 (epoch 1) | this epoch 4.2s | est. remaining 1.9m | total 0m15s
+    [cn_power-seed42] Epoch  4/30 | train loss 0.4889 | val Macro-F1 0.1844 | best so far 0.1844 (epoch 1) | this epoch 4.2s | est. remaining 1.8m | total 0m20s
+    [cn_power-seed42] Epoch  5/30 | train loss 0.4887 | val Macro-F1 0.2871 | best so far 0.2871 (epoch 5) | this epoch 4.2s | est. remaining 1.8m | total 0m24s
+    [cn_power-seed42] Epoch  6/30 | train loss 0.4886 | val Macro-F1 0.2779 | best so far 0.2871 (epoch 5) | this epoch 4.2s | est. remaining 1.7m | total 0m28s
+    [cn_power-seed42] Epoch  7/30 | train loss 0.4885 | val Macro-F1 0.1650 | best so far 0.2871 (epoch 5) | this epoch 4.3s | est. remaining 1.6m | total 0m32s
+    [cn_power-seed42] Epoch  8/30 | train loss 0.4885 | val Macro-F1 0.1650 | best so far 0.2871 (epoch 5) | this epoch 4.2s | est. remaining 1.5m | total 0m36s
+    [cn_power-seed42] Epoch  9/30 | train loss 0.4885 | val Macro-F1 0.1650 | best so far 0.2871 (epoch 5) | this epoch 4.2s | est. remaining 1.5m | total 0m41s
+    [cn_power-seed42] Epoch 10/30 | train loss 0.4885 | val Macro-F1 0.2243 | best so far 0.2871 (epoch 5) | this epoch 4.3s | est. remaining 1.4m | total 0m45s
+    [cn_power-seed42] Epoch 11/30 | train loss 0.4885 | val Macro-F1 0.2255 | best so far 0.2871 (epoch 5) | this epoch 4.2s | est. remaining 1.3m | total 0m49s
+    [cn_power-seed42] Epoch 12/30 | train loss 0.4884 | val Macro-F1 0.1653 | best so far 0.2871 (epoch 5) | this epoch 4.2s | est. remaining 1.3m | total 0m53s
+    [cn_power-seed42] Epoch 13/30 | train loss 0.4883 | val Macro-F1 0.2758 | best so far 0.2871 (epoch 5) | this epoch 4.3s | est. remaining 1.2m | total 0m58s
+    [cn_power-seed42] Epoch 14/30 | train loss 0.4885 | val Macro-F1 0.1650 | best so far 0.2871 (epoch 5) | this epoch 4.2s | est. remaining 1.1m | total 1m02s
+    [cn_power-seed42] Epoch 15/30 | train loss 0.4884 | val Macro-F1 0.2840 | best so far 0.2871 (epoch 5) | this epoch 4.2s | est. remaining 1.1m | total 1m06s
+    [cn_power-seed42] Epoch 16/30 | train loss 0.4884 | val Macro-F1 0.1844 | best so far 0.2871 (epoch 5) | this epoch 4.3s | est. remaining 1.0m | total 1m10s
+    [cn_power-seed42] Epoch 17/30 | train loss 0.4883 | val Macro-F1 0.1844 | best so far 0.2871 (epoch 5) | this epoch 4.2s | est. remaining 0.9m | total 1m14s
+    [cn_power-seed42] Epoch 18/30 | train loss 0.4883 | val Macro-F1 0.2645 | best so far 0.2871 (epoch 5) | this epoch 4.2s | est. remaining 0.8m | total 1m19s
+    [cn_power-seed42] Epoch 19/30 | train loss 0.4883 | val Macro-F1 0.1844 | best so far 0.2871 (epoch 5) | this epoch 4.3s | est. remaining 0.8m | total 1m23s
+    [cn_power-seed42] Epoch 20/30 | train loss 0.4883 | val Macro-F1 0.3032 | best so far 0.3032 (epoch 20) | this epoch 4.2s | est. remaining 0.7m | total 1m27s
+    [cn_power-seed42] Epoch 21/30 | train loss 0.4883 | val Macro-F1 0.2541 | best so far 0.3032 (epoch 20) | this epoch 4.2s | est. remaining 0.6m | total 1m31s
+    [cn_power-seed42] Epoch 22/30 | train loss 0.4882 | val Macro-F1 0.2322 | best so far 0.3032 (epoch 20) | this epoch 4.2s | est. remaining 0.6m | total 1m36s
+    [cn_power-seed42] Epoch 23/30 | train loss 0.4882 | val Macro-F1 0.2746 | best so far 0.3032 (epoch 20) | this epoch 4.3s | est. remaining 0.5m | total 1m40s
+    [cn_power-seed42] Epoch 24/30 | train loss 0.4882 | val Macro-F1 0.1844 | best so far 0.3032 (epoch 20) | this epoch 4.2s | est. remaining 0.4m | total 1m44s
+    [cn_power-seed42] Epoch 25/30 | train loss 0.4882 | val Macro-F1 0.2662 | best so far 0.3032 (epoch 20) | this epoch 4.2s | est. remaining 0.4m | total 1m48s
+    [cn_power-seed42] Epoch 26/30 | train loss 0.4881 | val Macro-F1 0.3088 | best so far 0.3088 (epoch 26) | this epoch 4.3s | est. remaining 0.3m | total 1m53s
+    [cn_power-seed42] Epoch 27/30 | train loss 0.4881 | val Macro-F1 0.2121 | best so far 0.3088 (epoch 26) | this epoch 4.3s | est. remaining 0.2m | total 1m57s
+    [cn_power-seed42] Epoch 28/30 | train loss 0.4880 | val Macro-F1 0.2820 | best so far 0.3088 (epoch 26) | this epoch 4.3s | est. remaining 0.1m | total 2m01s
+    [cn_power-seed42] Epoch 29/30 | train loss 0.4880 | val Macro-F1 0.3682 | best so far 0.3682 (epoch 29) | this epoch 4.5s | est. remaining 0.1m | total 2m06s
+    [cn_power-seed42] Epoch 30/30 | train loss 0.4880 | val Macro-F1 0.3632 | best so far 0.3682 (epoch 29) | this epoch 4.4s | est. remaining 0.0m | total 2m10s
+  Note: as in the Chinese script, permutation importance uses the model at the end of epoch 30 (no rollback to the best epoch)
+  Validation predicted-class distribution of the epoch-30 model: down 50.3% | hold 30.2% | up 19.5% -> multiple classes
+
+  [cn_power-seed42] Permutation importance: baseline validation Macro-F1 = 0.3632 (8,969 validation sequences)
+    Feature  1/22 dayofyear_sin      F1 after shuffling 0.3631 | importance +0.0001 | kept
+    Feature  2/22 dayofweek_sin      F1 after shuffling 0.3631 | importance +0.0001 | kept
+    Feature  3/22 dayofyear_cos      F1 after shuffling 0.3628 | importance +0.0004 | kept
+    Feature  4/22 close_open_range   F1 after shuffling 0.3631 | importance +0.0002 | kept
+    Feature  5/22 close              F1 after shuffling 0.3626 | importance +0.0006 | kept
+    Feature  6/22 roc_5              F1 after shuffling 0.3629 | importance +0.0003 | kept
+    Feature  7/22 high_low_range     F1 after shuffling 0.3628 | importance +0.0005 | kept
+    Feature  8/22 amount             F1 after shuffling 0.3637 | importance -0.0005 | removed
+    Feature  9/22 close_to_ma5       F1 after shuffling 0.3633 | importance -0.0000 | removed
+    Feature 10/22 roc_10             F1 after shuffling 0.3628 | importance +0.0004 | kept
+    Feature 11/22 macd_signal        F1 after shuffling 0.3633 | importance -0.0000 | removed
+    Feature 12/22 atr                F1 after shuffling 0.3623 | importance +0.0010 | kept
+    Feature 13/22 macd               F1 after shuffling 0.3631 | importance +0.0001 | kept
+    Feature 14/22 turnover_rate      F1 after shuffling 0.3632 | importance +0.0000 | kept
+    Feature 15/22 volatility_5       F1 after shuffling 0.3626 | importance +0.0006 | kept
+    Feature 16/22 year               F1 after shuffling 0.3632 | importance +0.0000 | kept
+    Feature 17/22 month              F1 after shuffling 0.3630 | importance +0.0002 | kept
+    Feature 18/22 day                F1 after shuffling 0.3628 | importance +0.0004 | kept
+    Feature 19/22 dayofweek          F1 after shuffling 0.3631 | importance +0.0002 | kept
+    Feature 20/22 quarter            F1 after shuffling 0.3632 | importance +0.0000 | removed
+    Feature 21/22 dayofyear          F1 after shuffling 0.3283 | importance +0.0350 | kept
+    Feature 22/22 weekofyear         F1 after shuffling 0.3629 | importance +0.0003 | kept
+
+  [cn_power-seed42] 18 kept: ['dayofyear_sin', 'dayofweek_sin', 'dayofyear_cos', 'close_open_range', 'close', 'roc_5', 'high_low_range', 'roc_10', 'atr', 'macd', 'turnover_rate', 'volatility_5', 'year', 'month', 'day', 'dayofweek', 'dayofyear', 'weekofyear']
+  Overlap with the 12 features finally used for Chinese Power 9/12: ['close', 'roc_5', 'high_low_range', 'roc_10', 'atr', 'macd', 'turnover_rate', 'month', 'dayofyear']
+  Time for this run 2.2m, total 2m12s
+
+##########################################################################################
+Run 2/9: dataset cn_power, seed 0, total 2m12s
+##########################################################################################
+  Training probe model (30 epochs, same as China)
+    [cn_power-seed0] Epoch  1/30 | train loss 0.4900 | val Macro-F1 0.2170 | best so far 0.2170 (epoch 1) | this epoch 4.3s | est. remaining 2.1m | total 2m16s
+    [cn_power-seed0] Epoch  2/30 | train loss 0.4890 | val Macro-F1 0.1844 | best so far 0.2170 (epoch 1) | this epoch 4.5s | est. remaining 2.0m | total 2m21s
+    [cn_power-seed0] Epoch  3/30 | train loss 0.4888 | val Macro-F1 0.1650 | best so far 0.2170 (epoch 1) | this epoch 4.6s | est. remaining 2.0m | total 2m25s
+    [cn_power-seed0] Epoch  4/30 | train loss 0.4888 | val Macro-F1 0.1844 | best so far 0.2170 (epoch 1) | this epoch 4.5s | est. remaining 1.9m | total 2m30s
+    [cn_power-seed0] Epoch  5/30 | train loss 0.4886 | val Macro-F1 0.1844 | best so far 0.2170 (epoch 1) | this epoch 4.6s | est. remaining 1.9m | total 2m35s
+    [cn_power-seed0] Epoch  6/30 | train loss 0.4887 | val Macro-F1 0.1493 | best so far 0.2170 (epoch 1) | this epoch 4.5s | est. remaining 1.8m | total 2m39s
+    [cn_power-seed0] Epoch  7/30 | train loss 0.4886 | val Macro-F1 0.1844 | best so far 0.2170 (epoch 1) | this epoch 4.5s | est. remaining 1.7m | total 2m44s
+    [cn_power-seed0] Epoch  8/30 | train loss 0.4885 | val Macro-F1 0.1650 | best so far 0.2170 (epoch 1) | this epoch 4.7s | est. remaining 1.7m | total 2m48s
+    [cn_power-seed0] Epoch  9/30 | train loss 0.4885 | val Macro-F1 0.2371 | best so far 0.2371 (epoch 9) | this epoch 4.6s | est. remaining 1.6m | total 2m53s
+    [cn_power-seed0] Epoch 10/30 | train loss 0.4885 | val Macro-F1 0.2450 | best so far 0.2450 (epoch 10) | this epoch 4.5s | est. remaining 1.5m | total 2m57s
+    [cn_power-seed0] Epoch 11/30 | train loss 0.4884 | val Macro-F1 0.2645 | best so far 0.2645 (epoch 11) | this epoch 4.5s | est. remaining 1.4m | total 3m02s
+    [cn_power-seed0] Epoch 12/30 | train loss 0.4883 | val Macro-F1 0.1844 | best so far 0.2645 (epoch 11) | this epoch 4.5s | est. remaining 1.4m | total 3m06s
+    [cn_power-seed0] Epoch 13/30 | train loss 0.4884 | val Macro-F1 0.1650 | best so far 0.2645 (epoch 11) | this epoch 4.5s | est. remaining 1.3m | total 3m11s
+    [cn_power-seed0] Epoch 14/30 | train loss 0.4883 | val Macro-F1 0.1844 | best so far 0.2645 (epoch 11) | this epoch 4.5s | est. remaining 1.2m | total 3m15s
+    [cn_power-seed0] Epoch 15/30 | train loss 0.4883 | val Macro-F1 0.2912 | best so far 0.2912 (epoch 15) | this epoch 4.5s | est. remaining 1.1m | total 3m20s
+    [cn_power-seed0] Epoch 16/30 | train loss 0.4882 | val Macro-F1 0.1674 | best so far 0.2912 (epoch 15) | this epoch 4.5s | est. remaining 1.1m | total 3m24s
+    [cn_power-seed0] Epoch 17/30 | train loss 0.4882 | val Macro-F1 0.3076 | best so far 0.3076 (epoch 17) | this epoch 4.5s | est. remaining 1.0m | total 3m29s
+    [cn_power-seed0] Epoch 18/30 | train loss 0.4882 | val Macro-F1 0.2293 | best so far 0.3076 (epoch 17) | this epoch 4.6s | est. remaining 0.9m | total 3m33s
+    [cn_power-seed0] Epoch 19/30 | train loss 0.4881 | val Macro-F1 0.3018 | best so far 0.3076 (epoch 17) | this epoch 4.5s | est. remaining 0.8m | total 3m38s
+    [cn_power-seed0] Epoch 20/30 | train loss 0.4881 | val Macro-F1 0.2430 | best so far 0.3076 (epoch 17) | this epoch 4.5s | est. remaining 0.8m | total 3m42s
+    [cn_power-seed0] Epoch 21/30 | train loss 0.4880 | val Macro-F1 0.2462 | best so far 0.3076 (epoch 17) | this epoch 4.5s | est. remaining 0.7m | total 3m47s
+    [cn_power-seed0] Epoch 22/30 | train loss 0.4880 | val Macro-F1 0.2690 | best so far 0.3076 (epoch 17) | this epoch 4.5s | est. remaining 0.6m | total 3m51s
+    [cn_power-seed0] Epoch 23/30 | train loss 0.4879 | val Macro-F1 0.3545 | best so far 0.3545 (epoch 23) | this epoch 4.5s | est. remaining 0.5m | total 3m56s
+    [cn_power-seed0] Epoch 24/30 | train loss 0.4879 | val Macro-F1 0.3035 | best so far 0.3545 (epoch 23) | this epoch 4.6s | est. remaining 0.5m | total 4m00s
+    [cn_power-seed0] Epoch 25/30 | train loss 0.4878 | val Macro-F1 0.3405 | best so far 0.3545 (epoch 23) | this epoch 4.5s | est. remaining 0.4m | total 4m05s
+    [cn_power-seed0] Epoch 26/30 | train loss 0.4877 | val Macro-F1 0.2064 | best so far 0.3545 (epoch 23) | this epoch 4.5s | est. remaining 0.3m | total 4m09s
+    [cn_power-seed0] Epoch 27/30 | train loss 0.4877 | val Macro-F1 0.3409 | best so far 0.3545 (epoch 23) | this epoch 4.6s | est. remaining 0.2m | total 4m14s
+    [cn_power-seed0] Epoch 28/30 | train loss 0.4874 | val Macro-F1 0.3668 | best so far 0.3668 (epoch 28) | this epoch 4.5s | est. remaining 0.2m | total 4m18s
+    [cn_power-seed0] Epoch 29/30 | train loss 0.4876 | val Macro-F1 0.3791 | best so far 0.3791 (epoch 29) | this epoch 4.5s | est. remaining 0.1m | total 4m23s
+    [cn_power-seed0] Epoch 30/30 | train loss 0.4869 | val Macro-F1 0.2973 | best so far 0.3791 (epoch 29) | this epoch 4.6s | est. remaining 0.0m | total 4m27s
+  Note: as in the Chinese script, permutation importance uses the model at the end of epoch 30 (no rollback to the best epoch)
+  Validation predicted-class distribution of the epoch-30 model: down 19.5% | hold 77.9% | up 2.6% -> multiple classes
+
+  [cn_power-seed0] Permutation importance: baseline validation Macro-F1 = 0.2973 (8,969 validation sequences)
+    Feature  1/22 dayofyear_sin      F1 after shuffling 0.2974 | importance -0.0001 | removed
+    Feature  2/22 dayofweek_sin      F1 after shuffling 0.2974 | importance -0.0001 | removed
+    Feature  3/22 dayofyear_cos      F1 after shuffling 0.2972 | importance +0.0001 | kept
+    Feature  4/22 close_open_range   F1 after shuffling 0.2959 | importance +0.0015 | kept
+    Feature  5/22 close              F1 after shuffling 0.2961 | importance +0.0012 | kept
+    Feature  6/22 roc_5              F1 after shuffling 0.2958 | importance +0.0015 | kept
+    Feature  7/22 high_low_range     F1 after shuffling 0.2912 | importance +0.0061 | kept
+    Feature  8/22 amount             F1 after shuffling 0.2869 | importance +0.0104 | kept
+    Feature  9/22 close_to_ma5       F1 after shuffling 0.2990 | importance -0.0017 | removed
+    Feature 10/22 roc_10             F1 after shuffling 0.2968 | importance +0.0005 | kept
+    Feature 11/22 macd_signal        F1 after shuffling 0.2936 | importance +0.0037 | kept
+    Feature 12/22 atr                F1 after shuffling 0.2918 | importance +0.0055 | kept
+    Feature 13/22 macd               F1 after shuffling 0.2943 | importance +0.0030 | kept
+    Feature 14/22 turnover_rate      F1 after shuffling 0.2863 | importance +0.0110 | kept
+    Feature 15/22 volatility_5       F1 after shuffling 0.2921 | importance +0.0052 | kept
+    Feature 16/22 year               F1 after shuffling 0.2972 | importance +0.0001 | kept
+    Feature 17/22 month              F1 after shuffling 0.2960 | importance +0.0013 | kept
+    Feature 18/22 day                F1 after shuffling 0.2955 | importance +0.0018 | kept
+    Feature 19/22 dayofweek          F1 after shuffling 0.2954 | importance +0.0019 | kept
+    Feature 20/22 quarter            F1 after shuffling 0.2969 | importance +0.0004 | kept
+    Feature 21/22 dayofyear          F1 after shuffling 0.2810 | importance +0.0163 | kept
+    Feature 22/22 weekofyear         F1 after shuffling 0.3005 | importance -0.0031 | removed
+
+  [cn_power-seed0] 18 kept: ['dayofyear_cos', 'close_open_range', 'close', 'roc_5', 'high_low_range', 'amount', 'roc_10', 'macd_signal', 'atr', 'macd', 'turnover_rate', 'volatility_5', 'year', 'month', 'day', 'dayofweek', 'quarter', 'dayofyear']
+  Overlap with the 12 features finally used for Chinese Power 11/12: ['close', 'roc_5', 'high_low_range', 'amount', 'roc_10', 'macd_signal', 'atr', 'macd', 'turnover_rate', 'month', 'dayofyear']
+  Time for this run 2.3m, total 4m29s
+
+##########################################################################################
+Run 3/9: dataset cn_power, seed 123, total 4m29s
+##########################################################################################
+  Training probe model (30 epochs, same as China)
+    [cn_power-seed123] Epoch  1/30 | train loss 0.4899 | val Macro-F1 0.1493 | best so far 0.1493 (epoch 1) | this epoch 4.5s | est. remaining 2.2m | total 4m34s
+    [cn_power-seed123] Epoch  2/30 | train loss 0.4891 | val Macro-F1 0.1650 | best so far 0.1650 (epoch 2) | this epoch 4.5s | est. remaining 2.1m | total 4m38s
+    [cn_power-seed123] Epoch  3/30 | train loss 0.4888 | val Macro-F1 0.2541 | best so far 0.2541 (epoch 3) | this epoch 4.6s | est. remaining 2.0m | total 4m43s
+    [cn_power-seed123] Epoch  4/30 | train loss 0.4887 | val Macro-F1 0.2188 | best so far 0.2541 (epoch 3) | this epoch 4.5s | est. remaining 2.0m | total 4m47s
+    [cn_power-seed123] Epoch  5/30 | train loss 0.4887 | val Macro-F1 0.2026 | best so far 0.2541 (epoch 3) | this epoch 4.5s | est. remaining 1.9m | total 4m52s
+    [cn_power-seed123] Epoch  6/30 | train loss 0.4886 | val Macro-F1 0.1844 | best so far 0.2541 (epoch 3) | this epoch 4.5s | est. remaining 1.8m | total 4m56s
+    [cn_power-seed123] Epoch  7/30 | train loss 0.4887 | val Macro-F1 0.2529 | best so far 0.2541 (epoch 3) | this epoch 4.6s | est. remaining 1.7m | total 5m01s
+    [cn_power-seed123] Epoch  8/30 | train loss 0.4885 | val Macro-F1 0.2788 | best so far 0.2788 (epoch 8) | this epoch 4.5s | est. remaining 1.7m | total 5m05s
+    [cn_power-seed123] Epoch  9/30 | train loss 0.4885 | val Macro-F1 0.1650 | best so far 0.2788 (epoch 8) | this epoch 4.5s | est. remaining 1.6m | total 5m10s
+    [cn_power-seed123] Epoch 10/30 | train loss 0.4884 | val Macro-F1 0.2936 | best so far 0.2936 (epoch 10) | this epoch 4.6s | est. remaining 1.5m | total 5m14s
+    [cn_power-seed123] Epoch 11/30 | train loss 0.4884 | val Macro-F1 0.2886 | best so far 0.2936 (epoch 10) | this epoch 4.5s | est. remaining 1.4m | total 5m19s
+    [cn_power-seed123] Epoch 12/30 | train loss 0.4884 | val Macro-F1 0.1650 | best so far 0.2936 (epoch 10) | this epoch 4.5s | est. remaining 1.4m | total 5m23s
+    [cn_power-seed123] Epoch 13/30 | train loss 0.4884 | val Macro-F1 0.2912 | best so far 0.2936 (epoch 10) | this epoch 4.6s | est. remaining 1.3m | total 5m28s
+    [cn_power-seed123] Epoch 14/30 | train loss 0.4883 | val Macro-F1 0.2649 | best so far 0.2936 (epoch 10) | this epoch 4.5s | est. remaining 1.2m | total 5m33s
+    [cn_power-seed123] Epoch 15/30 | train loss 0.4883 | val Macro-F1 0.2507 | best so far 0.2936 (epoch 10) | this epoch 4.5s | est. remaining 1.1m | total 5m37s
+    [cn_power-seed123] Epoch 16/30 | train loss 0.4883 | val Macro-F1 0.2700 | best so far 0.2936 (epoch 10) | this epoch 4.6s | est. remaining 1.1m | total 5m42s
+    [cn_power-seed123] Epoch 17/30 | train loss 0.4883 | val Macro-F1 0.1844 | best so far 0.2936 (epoch 10) | this epoch 4.5s | est. remaining 1.0m | total 5m46s
+    [cn_power-seed123] Epoch 18/30 | train loss 0.4882 | val Macro-F1 0.2646 | best so far 0.2936 (epoch 10) | this epoch 4.5s | est. remaining 0.9m | total 5m51s
+    [cn_power-seed123] Epoch 19/30 | train loss 0.4882 | val Macro-F1 0.1887 | best so far 0.2936 (epoch 10) | this epoch 4.6s | est. remaining 0.8m | total 5m55s
+    [cn_power-seed123] Epoch 20/30 | train loss 0.4882 | val Macro-F1 0.1844 | best so far 0.2936 (epoch 10) | this epoch 4.5s | est. remaining 0.8m | total 6m00s
+    [cn_power-seed123] Epoch 21/30 | train loss 0.4881 | val Macro-F1 0.1876 | best so far 0.2936 (epoch 10) | this epoch 4.5s | est. remaining 0.7m | total 6m04s
+    [cn_power-seed123] Epoch 22/30 | train loss 0.4881 | val Macro-F1 0.2855 | best so far 0.2936 (epoch 10) | this epoch 4.6s | est. remaining 0.6m | total 6m09s
+    [cn_power-seed123] Epoch 23/30 | train loss 0.4881 | val Macro-F1 0.3026 | best so far 0.3026 (epoch 23) | this epoch 4.5s | est. remaining 0.5m | total 6m13s
+    [cn_power-seed123] Epoch 24/30 | train loss 0.4881 | val Macro-F1 0.2575 | best so far 0.3026 (epoch 23) | this epoch 4.5s | est. remaining 0.5m | total 6m18s
+    [cn_power-seed123] Epoch 25/30 | train loss 0.4879 | val Macro-F1 0.3064 | best so far 0.3064 (epoch 25) | this epoch 4.5s | est. remaining 0.4m | total 6m22s
+    [cn_power-seed123] Epoch 26/30 | train loss 0.4880 | val Macro-F1 0.3545 | best so far 0.3545 (epoch 26) | this epoch 4.6s | est. remaining 0.3m | total 6m27s
+    [cn_power-seed123] Epoch 27/30 | train loss 0.4879 | val Macro-F1 0.3484 | best so far 0.3545 (epoch 26) | this epoch 4.5s | est. remaining 0.2m | total 6m31s
+    [cn_power-seed123] Epoch 28/30 | train loss 0.4878 | val Macro-F1 0.3667 | best so far 0.3667 (epoch 28) | this epoch 4.5s | est. remaining 0.2m | total 6m36s
+    [cn_power-seed123] Epoch 29/30 | train loss 0.4879 | val Macro-F1 0.3307 | best so far 0.3667 (epoch 28) | this epoch 4.6s | est. remaining 0.1m | total 6m40s
+    [cn_power-seed123] Epoch 30/30 | train loss 0.4878 | val Macro-F1 0.3723 | best so far 0.3723 (epoch 30) | this epoch 4.5s | est. remaining 0.0m | total 6m45s
+  Note: as in the Chinese script, permutation importance uses the model at the end of epoch 30 (no rollback to the best epoch)
+  Validation predicted-class distribution of the epoch-30 model: down 40.9% | hold 40.5% | up 18.6% -> multiple classes
+
+  [cn_power-seed123] Permutation importance: baseline validation Macro-F1 = 0.3723 (8,969 validation sequences)
+    Feature  1/22 dayofyear_sin      F1 after shuffling 0.3723 | importance +0.0000 | removed
+    Feature  2/22 dayofweek_sin      F1 after shuffling 0.3721 | importance +0.0003 | kept
+    Feature  3/22 dayofyear_cos      F1 after shuffling 0.3721 | importance +0.0002 | kept
+    Feature  4/22 close_open_range   F1 after shuffling 0.3723 | importance +0.0001 | kept
+    Feature  5/22 close              F1 after shuffling 0.3718 | importance +0.0005 | kept
+    Feature  6/22 roc_5              F1 after shuffling 0.3721 | importance +0.0003 | kept
+    Feature  7/22 high_low_range     F1 after shuffling 0.3708 | importance +0.0015 | kept
+    Feature  8/22 amount             F1 after shuffling 0.3704 | importance +0.0019 | kept
+    Feature  9/22 close_to_ma5       F1 after shuffling 0.3723 | importance -0.0000 | removed
+    Feature 10/22 roc_10             F1 after shuffling 0.3720 | importance +0.0003 | kept
+    Feature 11/22 macd_signal        F1 after shuffling 0.3719 | importance +0.0004 | kept
+    Feature 12/22 atr                F1 after shuffling 0.3714 | importance +0.0009 | kept
+    Feature 13/22 macd               F1 after shuffling 0.3716 | importance +0.0007 | kept
+    Feature 14/22 turnover_rate      F1 after shuffling 0.3706 | importance +0.0017 | kept
+    Feature 15/22 volatility_5       F1 after shuffling 0.3714 | importance +0.0010 | kept
+    Feature 16/22 year               F1 after shuffling 0.3722 | importance +0.0001 | kept
+    Feature 17/22 month              F1 after shuffling 0.3724 | importance -0.0001 | removed
+    Feature 18/22 day                F1 after shuffling 0.3715 | importance +0.0008 | kept
+    Feature 19/22 dayofweek          F1 after shuffling 0.3721 | importance +0.0003 | kept
+    Feature 20/22 quarter            F1 after shuffling 0.3721 | importance +0.0002 | kept
+    Feature 21/22 dayofyear          F1 after shuffling 0.3198 | importance +0.0525 | kept
+    Feature 22/22 weekofyear         F1 after shuffling 0.3720 | importance +0.0003 | kept
+
+  [cn_power-seed123] 19 kept: ['dayofweek_sin', 'dayofyear_cos', 'close_open_range', 'close', 'roc_5', 'high_low_range', 'amount', 'roc_10', 'macd_signal', 'atr', 'macd', 'turnover_rate', 'volatility_5', 'year', 'day', 'dayofweek', 'quarter', 'dayofyear', 'weekofyear']
+  Overlap with the 12 features finally used for Chinese Power 10/12: ['close', 'roc_5', 'high_low_range', 'amount', 'roc_10', 'macd_signal', 'atr', 'macd', 'turnover_rate', 'dayofyear']
+  Time for this run 2.3m, total 6m47s
+
+##########################################################################################
+Run 4/9: dataset us_med, seed 42, total 6m47s
+##########################################################################################
+  Training probe model (30 epochs, same as China)
+    [us_med-seed42] Epoch  1/30 | train loss 0.4903 | val Macro-F1 0.1797 | best so far 0.1797 (epoch 1) | this epoch 2.6s | est. remaining 1.2m | total 6m50s
+    [us_med-seed42] Epoch  2/30 | train loss 0.4891 | val Macro-F1 0.1635 | best so far 0.1797 (epoch 1) | this epoch 2.6s | est. remaining 1.2m | total 6m52s
+    [us_med-seed42] Epoch  3/30 | train loss 0.4890 | val Macro-F1 0.1562 | best so far 0.1797 (epoch 1) | this epoch 2.7s | est. remaining 1.2m | total 6m55s
+    [us_med-seed42] Epoch  4/30 | train loss 0.4890 | val Macro-F1 0.1797 | best so far 0.1797 (epoch 1) | this epoch 2.6s | est. remaining 1.1m | total 6m57s
+    [us_med-seed42] Epoch  5/30 | train loss 0.4890 | val Macro-F1 0.1635 | best so far 0.1797 (epoch 1) | this epoch 2.6s | est. remaining 1.1m | total 7m00s
+    [us_med-seed42] Epoch  6/30 | train loss 0.4890 | val Macro-F1 0.1797 | best so far 0.1797 (epoch 1) | this epoch 2.6s | est. remaining 1.0m | total 7m02s
+    [us_med-seed42] Epoch  7/30 | train loss 0.4888 | val Macro-F1 0.1635 | best so far 0.1797 (epoch 1) | this epoch 2.7s | est. remaining 1.0m | total 7m05s
+    [us_med-seed42] Epoch  8/30 | train loss 0.4888 | val Macro-F1 0.1562 | best so far 0.1797 (epoch 1) | this epoch 2.7s | est. remaining 1.0m | total 7m08s
+    [us_med-seed42] Epoch  9/30 | train loss 0.4886 | val Macro-F1 0.1797 | best so far 0.1797 (epoch 1) | this epoch 2.6s | est. remaining 0.9m | total 7m10s
+    [us_med-seed42] Epoch 10/30 | train loss 0.4888 | val Macro-F1 0.2560 | best so far 0.2560 (epoch 10) | this epoch 2.6s | est. remaining 0.9m | total 7m13s
+    [us_med-seed42] Epoch 11/30 | train loss 0.4887 | val Macro-F1 0.1562 | best so far 0.2560 (epoch 10) | this epoch 2.6s | est. remaining 0.8m | total 7m16s
+    [us_med-seed42] Epoch 12/30 | train loss 0.4885 | val Macro-F1 0.1797 | best so far 0.2560 (epoch 10) | this epoch 2.6s | est. remaining 0.8m | total 7m18s
+    [us_med-seed42] Epoch 13/30 | train loss 0.4886 | val Macro-F1 0.1635 | best so far 0.2560 (epoch 10) | this epoch 2.7s | est. remaining 0.7m | total 7m21s
+    [us_med-seed42] Epoch 14/30 | train loss 0.4885 | val Macro-F1 0.1797 | best so far 0.2560 (epoch 10) | this epoch 2.6s | est. remaining 0.7m | total 7m23s
+    [us_med-seed42] Epoch 15/30 | train loss 0.4885 | val Macro-F1 0.1797 | best so far 0.2560 (epoch 10) | this epoch 2.6s | est. remaining 0.7m | total 7m26s
+    [us_med-seed42] Epoch 16/30 | train loss 0.4886 | val Macro-F1 0.1562 | best so far 0.2560 (epoch 10) | this epoch 2.6s | est. remaining 0.6m | total 7m29s
+    [us_med-seed42] Epoch 17/30 | train loss 0.4886 | val Macro-F1 0.2075 | best so far 0.2560 (epoch 10) | this epoch 2.7s | est. remaining 0.6m | total 7m31s
+    [us_med-seed42] Epoch 18/30 | train loss 0.4884 | val Macro-F1 0.1562 | best so far 0.2560 (epoch 10) | this epoch 2.6s | est. remaining 0.5m | total 7m34s
+    [us_med-seed42] Epoch 19/30 | train loss 0.4885 | val Macro-F1 0.1562 | best so far 0.2560 (epoch 10) | this epoch 2.7s | est. remaining 0.5m | total 7m37s
+    [us_med-seed42] Epoch 20/30 | train loss 0.4885 | val Macro-F1 0.1562 | best so far 0.2560 (epoch 10) | this epoch 2.7s | est. remaining 0.4m | total 7m39s
+    [us_med-seed42] Epoch 21/30 | train loss 0.4886 | val Macro-F1 0.1797 | best so far 0.2560 (epoch 10) | this epoch 2.6s | est. remaining 0.4m | total 7m42s
+    [us_med-seed42] Epoch 22/30 | train loss 0.4885 | val Macro-F1 0.1562 | best so far 0.2560 (epoch 10) | this epoch 2.6s | est. remaining 0.3m | total 7m44s
+    [us_med-seed42] Epoch 23/30 | train loss 0.4885 | val Macro-F1 0.1635 | best so far 0.2560 (epoch 10) | this epoch 2.7s | est. remaining 0.3m | total 7m47s
+    [us_med-seed42] Epoch 24/30 | train loss 0.4884 | val Macro-F1 0.1562 | best so far 0.2560 (epoch 10) | this epoch 2.8s | est. remaining 0.3m | total 7m50s
+    [us_med-seed42] Epoch 25/30 | train loss 0.4884 | val Macro-F1 0.1562 | best so far 0.2560 (epoch 10) | this epoch 2.7s | est. remaining 0.2m | total 7m53s
+    [us_med-seed42] Epoch 26/30 | train loss 0.4884 | val Macro-F1 0.1797 | best so far 0.2560 (epoch 10) | this epoch 2.7s | est. remaining 0.2m | total 7m55s
+    [us_med-seed42] Epoch 27/30 | train loss 0.4884 | val Macro-F1 0.1562 | best so far 0.2560 (epoch 10) | this epoch 2.6s | est. remaining 0.1m | total 7m58s
+    [us_med-seed42] Epoch 28/30 | train loss 0.4884 | val Macro-F1 0.1797 | best so far 0.2560 (epoch 10) | this epoch 2.7s | est. remaining 0.1m | total 8m01s
+    [us_med-seed42] Epoch 29/30 | train loss 0.4884 | val Macro-F1 0.1562 | best so far 0.2560 (epoch 10) | this epoch 2.6s | est. remaining 0.0m | total 8m03s
+    [us_med-seed42] Epoch 30/30 | train loss 0.4884 | val Macro-F1 0.1635 | best so far 0.2560 (epoch 10) | this epoch 2.7s | est. remaining 0.0m | total 8m06s
+  Note: as in the Chinese script, permutation importance uses the model at the end of epoch 30 (no rollback to the best epoch)
+  Validation predicted-class distribution of the epoch-30 model: down 100.0% | hold 0.0% | up 0.0% -> single class only (nothing learned)
+
+  [us_med-seed42] Permutation importance: baseline validation Macro-F1 = 0.1635 (6,280 validation sequences)
+    Feature  1/22 roc_5              F1 after shuffling 0.1635 | importance +0.0000 | removed
+    Feature  2/22 close_to_ma20      F1 after shuffling 0.1635 | importance +0.0000 | removed
+    Feature  3/22 low                F1 after shuffling 0.1635 | importance +0.0000 | removed
+    Feature  4/22 rsi                F1 after shuffling 0.1635 | importance +0.0000 | removed
+    Feature  5/22 high_low_range     F1 after shuffling 0.1635 | importance +0.0000 | removed
+    Feature  6/22 roc_20             F1 after shuffling 0.1635 | importance +0.0000 | removed
+    Feature  7/22 dayofyear_sin      F1 after shuffling 0.1635 | importance +0.0000 | removed
+    Feature  8/22 bb_position        F1 after shuffling 0.1635 | importance +0.0000 | removed
+    Feature  9/22 macd               F1 after shuffling 0.1635 | importance +0.0000 | removed
+    Feature 10/22 roc_10             F1 after shuffling 0.1635 | importance +0.0000 | removed
+    Feature 11/22 bb_width           F1 after shuffling 0.1635 | importance +0.0000 | removed
+    Feature 12/22 macd_signal        F1 after shuffling 0.1635 | importance +0.0000 | removed
+    Feature 13/22 dayofweek_sin      F1 after shuffling 0.1635 | importance +0.0000 | removed
+    Feature 14/22 dayofyear_cos      F1 after shuffling 0.1635 | importance +0.0000 | removed
+    Feature 15/22 dayofweek_cos      F1 after shuffling 0.1635 | importance +0.0000 | removed
+    Feature 16/22 year               F1 after shuffling 0.1635 | importance +0.0000 | removed
+    Feature 17/22 month              F1 after shuffling 0.1635 | importance +0.0000 | removed
+    Feature 18/22 day                F1 after shuffling 0.1635 | importance +0.0000 | removed
+    Feature 19/22 dayofweek          F1 after shuffling 0.1635 | importance +0.0000 | removed
+    Feature 20/22 quarter            F1 after shuffling 0.1635 | importance +0.0000 | removed
+    Feature 21/22 dayofyear          F1 after shuffling 0.1635 | importance +0.0000 | removed
+    Feature 22/22 weekofyear         F1 after shuffling 0.1635 | importance +0.0000 | removed
+
+  [us_med-seed42] 0 kept: []
+  Time for this run 1.3m, total 8m07s
+
+##########################################################################################
+Run 5/9: dataset us_med, seed 0, total 8m07s
+##########################################################################################
+  Training probe model (30 epochs, same as China)
+    [us_med-seed0] Epoch  1/30 | train loss 0.4905 | val Macro-F1 0.1635 | best so far 0.1635 (epoch 1) | this epoch 2.6s | est. remaining 1.2m | total 8m10s
+    [us_med-seed0] Epoch  2/30 | train loss 0.4891 | val Macro-F1 0.2132 | best so far 0.2132 (epoch 2) | this epoch 2.6s | est. remaining 1.2m | total 8m13s
+    [us_med-seed0] Epoch  3/30 | train loss 0.4889 | val Macro-F1 0.1797 | best so far 0.2132 (epoch 2) | this epoch 2.6s | est. remaining 1.2m | total 8m15s
+    [us_med-seed0] Epoch  4/30 | train loss 0.4889 | val Macro-F1 0.1797 | best so far 0.2132 (epoch 2) | this epoch 2.6s | est. remaining 1.1m | total 8m18s
+    [us_med-seed0] Epoch  5/30 | train loss 0.4889 | val Macro-F1 0.1797 | best so far 0.2132 (epoch 2) | this epoch 2.7s | est. remaining 1.1m | total 8m20s
+    [us_med-seed0] Epoch  6/30 | train loss 0.4889 | val Macro-F1 0.1635 | best so far 0.2132 (epoch 2) | this epoch 2.6s | est. remaining 1.0m | total 8m23s
+    [us_med-seed0] Epoch  7/30 | train loss 0.4888 | val Macro-F1 0.1562 | best so far 0.2132 (epoch 2) | this epoch 2.6s | est. remaining 1.0m | total 8m26s
+    [us_med-seed0] Epoch  8/30 | train loss 0.4887 | val Macro-F1 0.2581 | best so far 0.2581 (epoch 8) | this epoch 2.6s | est. remaining 1.0m | total 8m28s
+    [us_med-seed0] Epoch  9/30 | train loss 0.4887 | val Macro-F1 0.1562 | best so far 0.2581 (epoch 8) | this epoch 2.7s | est. remaining 0.9m | total 8m31s
+    [us_med-seed0] Epoch 10/30 | train loss 0.4887 | val Macro-F1 0.1562 | best so far 0.2581 (epoch 8) | this epoch 2.6s | est. remaining 0.9m | total 8m34s
+    [us_med-seed0] Epoch 11/30 | train loss 0.4887 | val Macro-F1 0.1635 | best so far 0.2581 (epoch 8) | this epoch 2.7s | est. remaining 0.8m | total 8m36s
+    [us_med-seed0] Epoch 12/30 | train loss 0.4885 | val Macro-F1 0.1635 | best so far 0.2581 (epoch 8) | this epoch 2.6s | est. remaining 0.8m | total 8m39s
+    [us_med-seed0] Epoch 13/30 | train loss 0.4886 | val Macro-F1 0.2316 | best so far 0.2581 (epoch 8) | this epoch 2.6s | est. remaining 0.7m | total 8m41s
+    [us_med-seed0] Epoch 14/30 | train loss 0.4887 | val Macro-F1 0.1562 | best so far 0.2581 (epoch 8) | this epoch 2.6s | est. remaining 0.7m | total 8m44s
+    [us_med-seed0] Epoch 15/30 | train loss 0.4885 | val Macro-F1 0.1635 | best so far 0.2581 (epoch 8) | this epoch 2.6s | est. remaining 0.7m | total 8m47s
+    [us_med-seed0] Epoch 16/30 | train loss 0.4886 | val Macro-F1 0.1635 | best so far 0.2581 (epoch 8) | this epoch 2.7s | est. remaining 0.6m | total 8m49s
+    [us_med-seed0] Epoch 17/30 | train loss 0.4885 | val Macro-F1 0.1635 | best so far 0.2581 (epoch 8) | this epoch 2.6s | est. remaining 0.6m | total 8m52s
+    [us_med-seed0] Epoch 18/30 | train loss 0.4886 | val Macro-F1 0.1562 | best so far 0.2581 (epoch 8) | this epoch 2.6s | est. remaining 0.5m | total 8m54s
+    [us_med-seed0] Epoch 19/30 | train loss 0.4884 | val Macro-F1 0.1562 | best so far 0.2581 (epoch 8) | this epoch 2.6s | est. remaining 0.5m | total 8m57s
+    [us_med-seed0] Epoch 20/30 | train loss 0.4886 | val Macro-F1 0.1562 | best so far 0.2581 (epoch 8) | this epoch 2.6s | est. remaining 0.4m | total 9m00s
+    [us_med-seed0] Epoch 21/30 | train loss 0.4885 | val Macro-F1 0.1635 | best so far 0.2581 (epoch 8) | this epoch 2.6s | est. remaining 0.4m | total 9m02s
+    [us_med-seed0] Epoch 22/30 | train loss 0.4884 | val Macro-F1 0.1797 | best so far 0.2581 (epoch 8) | this epoch 2.7s | est. remaining 0.3m | total 9m05s
+    [us_med-seed0] Epoch 23/30 | train loss 0.4884 | val Macro-F1 0.1562 | best so far 0.2581 (epoch 8) | this epoch 2.6s | est. remaining 0.3m | total 9m07s
+    [us_med-seed0] Epoch 24/30 | train loss 0.4885 | val Macro-F1 0.1562 | best so far 0.2581 (epoch 8) | this epoch 2.6s | est. remaining 0.3m | total 9m10s
+    [us_med-seed0] Epoch 25/30 | train loss 0.4884 | val Macro-F1 0.1562 | best so far 0.2581 (epoch 8) | this epoch 2.6s | est. remaining 0.2m | total 9m12s
+    [us_med-seed0] Epoch 26/30 | train loss 0.4884 | val Macro-F1 0.1635 | best so far 0.2581 (epoch 8) | this epoch 2.6s | est. remaining 0.2m | total 9m15s
+    [us_med-seed0] Epoch 27/30 | train loss 0.4884 | val Macro-F1 0.1797 | best so far 0.2581 (epoch 8) | this epoch 2.7s | est. remaining 0.1m | total 9m18s
+    [us_med-seed0] Epoch 28/30 | train loss 0.4884 | val Macro-F1 0.1562 | best so far 0.2581 (epoch 8) | this epoch 2.6s | est. remaining 0.1m | total 9m20s
+    [us_med-seed0] Epoch 29/30 | train loss 0.4884 | val Macro-F1 0.1562 | best so far 0.2581 (epoch 8) | this epoch 2.6s | est. remaining 0.0m | total 9m23s
+    [us_med-seed0] Epoch 30/30 | train loss 0.4884 | val Macro-F1 0.1797 | best so far 0.2581 (epoch 8) | this epoch 2.6s | est. remaining 0.0m | total 9m25s
+  Note: as in the Chinese script, permutation importance uses the model at the end of epoch 30 (no rollback to the best epoch)
+  Validation predicted-class distribution of the epoch-30 model: down 0.0% | hold 100.0% | up 0.0% -> single class only (nothing learned)
+
+  [us_med-seed0] Permutation importance: baseline validation Macro-F1 = 0.1797 (6,280 validation sequences)
+    Feature  1/22 roc_5              F1 after shuffling 0.1797 | importance +0.0000 | removed
+    Feature  2/22 close_to_ma20      F1 after shuffling 0.1797 | importance +0.0000 | removed
+    Feature  3/22 low                F1 after shuffling 0.1797 | importance +0.0000 | removed
+    Feature  4/22 rsi                F1 after shuffling 0.1797 | importance +0.0000 | removed
+    Feature  5/22 high_low_range     F1 after shuffling 0.1797 | importance +0.0000 | removed
+    Feature  6/22 roc_20             F1 after shuffling 0.1797 | importance +0.0000 | removed
+    Feature  7/22 dayofyear_sin      F1 after shuffling 0.1797 | importance +0.0000 | removed
+    Feature  8/22 bb_position        F1 after shuffling 0.1797 | importance +0.0000 | removed
+    Feature  9/22 macd               F1 after shuffling 0.1797 | importance +0.0000 | removed
+    Feature 10/22 roc_10             F1 after shuffling 0.1797 | importance +0.0000 | removed
+    Feature 11/22 bb_width           F1 after shuffling 0.1797 | importance +0.0000 | removed
+    Feature 12/22 macd_signal        F1 after shuffling 0.1797 | importance +0.0000 | removed
+    Feature 13/22 dayofweek_sin      F1 after shuffling 0.1797 | importance +0.0000 | removed
+    Feature 14/22 dayofyear_cos      F1 after shuffling 0.1797 | importance +0.0000 | removed
+    Feature 15/22 dayofweek_cos      F1 after shuffling 0.1797 | importance +0.0000 | removed
+    Feature 16/22 year               F1 after shuffling 0.1797 | importance +0.0000 | removed
+    Feature 17/22 month              F1 after shuffling 0.1797 | importance +0.0000 | removed
+    Feature 18/22 day                F1 after shuffling 0.1797 | importance +0.0000 | removed
+    Feature 19/22 dayofweek          F1 after shuffling 0.1797 | importance +0.0000 | removed
+    Feature 20/22 quarter            F1 after shuffling 0.1797 | importance +0.0000 | removed
+    Feature 21/22 dayofyear          F1 after shuffling 0.1797 | importance +0.0000 | removed
+    Feature 22/22 weekofyear         F1 after shuffling 0.1797 | importance +0.0000 | removed
+
+  [us_med-seed0] 0 kept: []
+  Time for this run 1.3m, total 9m27s
+
+##########################################################################################
+Run 6/9: dataset us_med, seed 123, total 9m27s
+##########################################################################################
+  Training probe model (30 epochs, same as China)
+    [us_med-seed123] Epoch  1/30 | train loss 0.4906 | val Macro-F1 0.1797 | best so far 0.1797 (epoch 1) | this epoch 2.6s | est. remaining 1.2m | total 9m30s
+    [us_med-seed123] Epoch  2/30 | train loss 0.4895 | val Macro-F1 0.1797 | best so far 0.1797 (epoch 1) | this epoch 2.6s | est. remaining 1.2m | total 9m32s
+    [us_med-seed123] Epoch  3/30 | train loss 0.4892 | val Macro-F1 0.1635 | best so far 0.1797 (epoch 1) | this epoch 2.5s | est. remaining 1.2m | total 9m35s
+    [us_med-seed123] Epoch  4/30 | train loss 0.4891 | val Macro-F1 0.1562 | best so far 0.1797 (epoch 1) | this epoch 2.6s | est. remaining 1.1m | total 9m37s
+    [us_med-seed123] Epoch  5/30 | train loss 0.4889 | val Macro-F1 0.1797 | best so far 0.1797 (epoch 1) | this epoch 2.5s | est. remaining 1.1m | total 9m40s
+    [us_med-seed123] Epoch  6/30 | train loss 0.4888 | val Macro-F1 0.1635 | best so far 0.1797 (epoch 1) | this epoch 2.5s | est. remaining 1.0m | total 9m42s
+    [us_med-seed123] Epoch  7/30 | train loss 0.4888 | val Macro-F1 0.1635 | best so far 0.1797 (epoch 1) | this epoch 2.6s | est. remaining 1.0m | total 9m45s
+    [us_med-seed123] Epoch  8/30 | train loss 0.4887 | val Macro-F1 0.1562 | best so far 0.1797 (epoch 1) | this epoch 2.7s | est. remaining 0.9m | total 9m48s
+    [us_med-seed123] Epoch  9/30 | train loss 0.4887 | val Macro-F1 0.1635 | best so far 0.1797 (epoch 1) | this epoch 2.6s | est. remaining 0.9m | total 9m50s
+    [us_med-seed123] Epoch 10/30 | train loss 0.4887 | val Macro-F1 0.1562 | best so far 0.1797 (epoch 1) | this epoch 2.6s | est. remaining 0.9m | total 9m53s
+    [us_med-seed123] Epoch 11/30 | train loss 0.4887 | val Macro-F1 0.1797 | best so far 0.1797 (epoch 1) | this epoch 2.6s | est. remaining 0.8m | total 9m55s
+    [us_med-seed123] Epoch 12/30 | train loss 0.4886 | val Macro-F1 0.1562 | best so far 0.1797 (epoch 1) | this epoch 2.5s | est. remaining 0.8m | total 9m58s
+    [us_med-seed123] Epoch 13/30 | train loss 0.4887 | val Macro-F1 0.1635 | best so far 0.1797 (epoch 1) | this epoch 2.6s | est. remaining 0.7m | total 10m00s
+    [us_med-seed123] Epoch 14/30 | train loss 0.4885 | val Macro-F1 0.1635 | best so far 0.1797 (epoch 1) | this epoch 2.5s | est. remaining 0.7m | total 10m03s
+    [us_med-seed123] Epoch 15/30 | train loss 0.4886 | val Macro-F1 0.1562 | best so far 0.1797 (epoch 1) | this epoch 2.5s | est. remaining 0.6m | total 10m06s
+    [us_med-seed123] Epoch 16/30 | train loss 0.4885 | val Macro-F1 0.1797 | best so far 0.1797 (epoch 1) | this epoch 2.6s | est. remaining 0.6m | total 10m08s
+    [us_med-seed123] Epoch 17/30 | train loss 0.4885 | val Macro-F1 0.1635 | best so far 0.1797 (epoch 1) | this epoch 2.5s | est. remaining 0.6m | total 10m11s
+    [us_med-seed123] Epoch 18/30 | train loss 0.4886 | val Macro-F1 0.1562 | best so far 0.1797 (epoch 1) | this epoch 2.5s | est. remaining 0.5m | total 10m13s
+    [us_med-seed123] Epoch 19/30 | train loss 0.4885 | val Macro-F1 0.1562 | best so far 0.1797 (epoch 1) | this epoch 2.6s | est. remaining 0.5m | total 10m16s
+    [us_med-seed123] Epoch 20/30 | train loss 0.4885 | val Macro-F1 0.2727 | best so far 0.2727 (epoch 20) | this epoch 2.5s | est. remaining 0.4m | total 10m18s
+    [us_med-seed123] Epoch 21/30 | train loss 0.4885 | val Macro-F1 0.1635 | best so far 0.2727 (epoch 20) | this epoch 2.5s | est. remaining 0.4m | total 10m21s
+    [us_med-seed123] Epoch 22/30 | train loss 0.4885 | val Macro-F1 0.1635 | best so far 0.2727 (epoch 20) | this epoch 2.6s | est. remaining 0.3m | total 10m23s
+    [us_med-seed123] Epoch 23/30 | train loss 0.4884 | val Macro-F1 0.1635 | best so far 0.2727 (epoch 20) | this epoch 2.5s | est. remaining 0.3m | total 10m26s
+    [us_med-seed123] Epoch 24/30 | train loss 0.4884 | val Macro-F1 0.1562 | best so far 0.2727 (epoch 20) | this epoch 2.6s | est. remaining 0.3m | total 10m29s
+    [us_med-seed123] Epoch 25/30 | train loss 0.4884 | val Macro-F1 0.1562 | best so far 0.2727 (epoch 20) | this epoch 2.5s | est. remaining 0.2m | total 10m31s
+    [us_med-seed123] Epoch 26/30 | train loss 0.4884 | val Macro-F1 0.1797 | best so far 0.2727 (epoch 20) | this epoch 2.5s | est. remaining 0.2m | total 10m34s
+    [us_med-seed123] Epoch 27/30 | train loss 0.4884 | val Macro-F1 0.1635 | best so far 0.2727 (epoch 20) | this epoch 2.5s | est. remaining 0.1m | total 10m36s
+    [us_med-seed123] Epoch 28/30 | train loss 0.4884 | val Macro-F1 0.1562 | best so far 0.2727 (epoch 20) | this epoch 2.5s | est. remaining 0.1m | total 10m39s
+    [us_med-seed123] Epoch 29/30 | train loss 0.4884 | val Macro-F1 0.1562 | best so far 0.2727 (epoch 20) | this epoch 2.5s | est. remaining 0.0m | total 10m41s
+    [us_med-seed123] Epoch 30/30 | train loss 0.4884 | val Macro-F1 0.1562 | best so far 0.2727 (epoch 20) | this epoch 2.6s | est. remaining 0.0m | total 10m44s
+  Note: as in the Chinese script, permutation importance uses the model at the end of epoch 30 (no rollback to the best epoch)
+  Validation predicted-class distribution of the epoch-30 model: down 0.0% | hold 0.0% | up 100.0% -> single class only (nothing learned)
+
+  [us_med-seed123] Permutation importance: baseline validation Macro-F1 = 0.1562 (6,280 validation sequences)
+    Feature  1/22 roc_5              F1 after shuffling 0.1562 | importance +0.0000 | removed
+    Feature  2/22 close_to_ma20      F1 after shuffling 0.1562 | importance +0.0000 | removed
+    Feature  3/22 low                F1 after shuffling 0.1562 | importance +0.0000 | removed
+    Feature  4/22 rsi                F1 after shuffling 0.1562 | importance +0.0000 | removed
+    Feature  5/22 high_low_range     F1 after shuffling 0.1562 | importance +0.0000 | removed
+    Feature  6/22 roc_20             F1 after shuffling 0.1562 | importance +0.0000 | removed
+    Feature  7/22 dayofyear_sin      F1 after shuffling 0.1562 | importance +0.0000 | removed
+    Feature  8/22 bb_position        F1 after shuffling 0.1562 | importance +0.0000 | removed
+    Feature  9/22 macd               F1 after shuffling 0.1562 | importance +0.0000 | removed
+    Feature 10/22 roc_10             F1 after shuffling 0.1562 | importance +0.0000 | removed
+    Feature 11/22 bb_width           F1 after shuffling 0.1562 | importance +0.0000 | removed
+    Feature 12/22 macd_signal        F1 after shuffling 0.1562 | importance +0.0000 | removed
+    Feature 13/22 dayofweek_sin      F1 after shuffling 0.1562 | importance +0.0000 | removed
+    Feature 14/22 dayofyear_cos      F1 after shuffling 0.1562 | importance +0.0000 | removed
+    Feature 15/22 dayofweek_cos      F1 after shuffling 0.1562 | importance +0.0000 | removed
+    Feature 16/22 year               F1 after shuffling 0.1562 | importance +0.0000 | removed
+    Feature 17/22 month              F1 after shuffling 0.1562 | importance +0.0000 | removed
+    Feature 18/22 day                F1 after shuffling 0.1562 | importance +0.0000 | removed
+    Feature 19/22 dayofweek          F1 after shuffling 0.1562 | importance +0.0000 | removed
+    Feature 20/22 quarter            F1 after shuffling 0.1562 | importance +0.0000 | removed
+    Feature 21/22 dayofyear          F1 after shuffling 0.1562 | importance +0.0000 | removed
+    Feature 22/22 weekofyear         F1 after shuffling 0.1562 | importance +0.0000 | removed
+
+  [us_med-seed123] 0 kept: []
+  Time for this run 1.3m, total 10m45s
+
+##########################################################################################
+Run 7/9: dataset us_pow, seed 42, total 10m45s
+##########################################################################################
+  Training probe model (30 epochs, same as China)
+    [us_pow-seed42] Epoch  1/30 | train loss 0.4909 | val Macro-F1 0.2624 | best so far 0.2624 (epoch 1) | this epoch 2.6s | est. remaining 1.2m | total 10m48s
+    [us_pow-seed42] Epoch  2/30 | train loss 0.4892 | val Macro-F1 0.1786 | best so far 0.2624 (epoch 1) | this epoch 2.6s | est. remaining 1.2m | total 10m51s
+    [us_pow-seed42] Epoch  3/30 | train loss 0.4890 | val Macro-F1 0.1568 | best so far 0.2624 (epoch 1) | this epoch 2.6s | est. remaining 1.2m | total 10m53s
+    [us_pow-seed42] Epoch  4/30 | train loss 0.4890 | val Macro-F1 0.2635 | best so far 0.2635 (epoch 4) | this epoch 2.6s | est. remaining 1.1m | total 10m56s
+    [us_pow-seed42] Epoch  5/30 | train loss 0.4890 | val Macro-F1 0.1568 | best so far 0.2635 (epoch 4) | this epoch 2.6s | est. remaining 1.1m | total 10m58s
+    [us_pow-seed42] Epoch  6/30 | train loss 0.4888 | val Macro-F1 0.2732 | best so far 0.2732 (epoch 6) | this epoch 2.5s | est. remaining 1.0m | total 11m01s
+    [us_pow-seed42] Epoch  7/30 | train loss 0.4888 | val Macro-F1 0.2643 | best so far 0.2732 (epoch 6) | this epoch 2.6s | est. remaining 1.0m | total 11m03s
+    [us_pow-seed42] Epoch  8/30 | train loss 0.4889 | val Macro-F1 0.2629 | best so far 0.2732 (epoch 6) | this epoch 2.6s | est. remaining 0.9m | total 11m06s
+    [us_pow-seed42] Epoch  9/30 | train loss 0.4887 | val Macro-F1 0.1641 | best so far 0.2732 (epoch 6) | this epoch 2.6s | est. remaining 0.9m | total 11m09s
+    [us_pow-seed42] Epoch 10/30 | train loss 0.4887 | val Macro-F1 0.1641 | best so far 0.2732 (epoch 6) | this epoch 2.7s | est. remaining 0.9m | total 11m11s
+    [us_pow-seed42] Epoch 11/30 | train loss 0.4887 | val Macro-F1 0.2256 | best so far 0.2732 (epoch 6) | this epoch 2.6s | est. remaining 0.8m | total 11m14s
+    [us_pow-seed42] Epoch 12/30 | train loss 0.4886 | val Macro-F1 0.1568 | best so far 0.2732 (epoch 6) | this epoch 2.6s | est. remaining 0.8m | total 11m16s
+    [us_pow-seed42] Epoch 13/30 | train loss 0.4886 | val Macro-F1 0.1641 | best so far 0.2732 (epoch 6) | this epoch 2.6s | est. remaining 0.7m | total 11m19s
+    [us_pow-seed42] Epoch 14/30 | train loss 0.4887 | val Macro-F1 0.1568 | best so far 0.2732 (epoch 6) | this epoch 2.6s | est. remaining 0.7m | total 11m21s
+    [us_pow-seed42] Epoch 15/30 | train loss 0.4886 | val Macro-F1 0.1641 | best so far 0.2732 (epoch 6) | this epoch 2.6s | est. remaining 0.6m | total 11m24s
+    [us_pow-seed42] Epoch 16/30 | train loss 0.4886 | val Macro-F1 0.1768 | best so far 0.2732 (epoch 6) | this epoch 2.6s | est. remaining 0.6m | total 11m27s
+    [us_pow-seed42] Epoch 17/30 | train loss 0.4885 | val Macro-F1 0.2507 | best so far 0.2732 (epoch 6) | this epoch 2.6s | est. remaining 0.6m | total 11m29s
+    [us_pow-seed42] Epoch 18/30 | train loss 0.4885 | val Macro-F1 0.2066 | best so far 0.2732 (epoch 6) | this epoch 2.6s | est. remaining 0.5m | total 11m32s
+    [us_pow-seed42] Epoch 19/30 | train loss 0.4885 | val Macro-F1 0.1641 | best so far 0.2732 (epoch 6) | this epoch 2.6s | est. remaining 0.5m | total 11m34s
+    [us_pow-seed42] Epoch 20/30 | train loss 0.4886 | val Macro-F1 0.1786 | best so far 0.2732 (epoch 6) | this epoch 2.6s | est. remaining 0.4m | total 11m37s
+    [us_pow-seed42] Epoch 21/30 | train loss 0.4885 | val Macro-F1 0.1786 | best so far 0.2732 (epoch 6) | this epoch 2.7s | est. remaining 0.4m | total 11m40s
+    [us_pow-seed42] Epoch 22/30 | train loss 0.4884 | val Macro-F1 0.2732 | best so far 0.2732 (epoch 6) | this epoch 2.6s | est. remaining 0.3m | total 11m42s
+    [us_pow-seed42] Epoch 23/30 | train loss 0.4884 | val Macro-F1 0.2343 | best so far 0.2732 (epoch 6) | this epoch 2.6s | est. remaining 0.3m | total 11m45s
+    [us_pow-seed42] Epoch 24/30 | train loss 0.4884 | val Macro-F1 0.2116 | best so far 0.2732 (epoch 6) | this epoch 2.6s | est. remaining 0.3m | total 11m47s
+    [us_pow-seed42] Epoch 25/30 | train loss 0.4884 | val Macro-F1 0.1786 | best so far 0.2732 (epoch 6) | this epoch 2.6s | est. remaining 0.2m | total 11m50s
+    [us_pow-seed42] Epoch 26/30 | train loss 0.4885 | val Macro-F1 0.1786 | best so far 0.2732 (epoch 6) | this epoch 2.6s | est. remaining 0.2m | total 11m52s
+    [us_pow-seed42] Epoch 27/30 | train loss 0.4884 | val Macro-F1 0.1641 | best so far 0.2732 (epoch 6) | this epoch 2.6s | est. remaining 0.1m | total 11m55s
+    [us_pow-seed42] Epoch 28/30 | train loss 0.4884 | val Macro-F1 0.1568 | best so far 0.2732 (epoch 6) | this epoch 2.6s | est. remaining 0.1m | total 11m57s
+    [us_pow-seed42] Epoch 29/30 | train loss 0.4884 | val Macro-F1 0.1786 | best so far 0.2732 (epoch 6) | this epoch 2.6s | est. remaining 0.0m | total 12m00s
+    [us_pow-seed42] Epoch 30/30 | train loss 0.4884 | val Macro-F1 0.1641 | best so far 0.2732 (epoch 6) | this epoch 2.6s | est. remaining 0.0m | total 12m03s
+  Note: as in the Chinese script, permutation importance uses the model at the end of epoch 30 (no rollback to the best epoch)
+  Validation predicted-class distribution of the epoch-30 model: down 0.0% | hold 0.0% | up 100.0% -> single class only (nothing learned)
+
+  [us_pow-seed42] Permutation importance: baseline validation Macro-F1 = 0.1641 (6,280 validation sequences)
+    Feature  1/19 roc_5              F1 after shuffling 0.1641 | importance +0.0000 | removed
+    Feature  2/19 dayofyear_sin      F1 after shuffling 0.1641 | importance +0.0000 | removed
+    Feature  3/19 ma10               F1 after shuffling 0.1641 | importance +0.0000 | removed
+    Feature  4/19 macd_signal        F1 after shuffling 0.1641 | importance +0.0000 | removed
+    Feature  5/19 dayofyear_cos      F1 after shuffling 0.1641 | importance +0.0000 | removed
+    Feature  6/19 macd               F1 after shuffling 0.1641 | importance +0.0000 | removed
+    Feature  7/19 dayofweek_cos      F1 after shuffling 0.1641 | importance +0.0000 | removed
+    Feature  8/19 high_low_range     F1 after shuffling 0.1641 | importance +0.0000 | removed
+    Feature  9/19 close_to_ma20      F1 after shuffling 0.1641 | importance +0.0000 | removed
+    Feature 10/19 momentum_5         F1 after shuffling 0.1641 | importance +0.0000 | removed
+    Feature 11/19 roc_20             F1 after shuffling 0.1641 | importance +0.0000 | removed
+    Feature 12/19 rsi                F1 after shuffling 0.1641 | importance +0.0000 | removed
+    Feature 13/19 year               F1 after shuffling 0.1641 | importance +0.0000 | removed
+    Feature 14/19 month              F1 after shuffling 0.1641 | importance +0.0000 | removed
+    Feature 15/19 day                F1 after shuffling 0.1641 | importance +0.0000 | removed
+    Feature 16/19 dayofweek          F1 after shuffling 0.1641 | importance +0.0000 | removed
+    Feature 17/19 quarter            F1 after shuffling 0.1641 | importance +0.0000 | removed
+    Feature 18/19 dayofyear          F1 after shuffling 0.1641 | importance +0.0000 | removed
+    Feature 19/19 weekofyear         F1 after shuffling 0.1641 | importance +0.0000 | removed
+
+  [us_pow-seed42] 0 kept: []
+  Time for this run 1.3m, total 12m04s
+
+##########################################################################################
+Run 8/9: dataset us_pow, seed 0, total 12m04s
+##########################################################################################
+  Training probe model (30 epochs, same as China)
+    [us_pow-seed0] Epoch  1/30 | train loss 0.4905 | val Macro-F1 0.1568 | best so far 0.1568 (epoch 1) | this epoch 2.6s | est. remaining 1.2m | total 12m06s
+    [us_pow-seed0] Epoch  2/30 | train loss 0.4893 | val Macro-F1 0.2098 | best so far 0.2098 (epoch 2) | this epoch 2.6s | est. remaining 1.2m | total 12m09s
+    [us_pow-seed0] Epoch  3/30 | train loss 0.4892 | val Macro-F1 0.1568 | best so far 0.2098 (epoch 2) | this epoch 2.6s | est. remaining 1.2m | total 12m12s
+    [us_pow-seed0] Epoch  4/30 | train loss 0.4888 | val Macro-F1 0.1786 | best so far 0.2098 (epoch 2) | this epoch 2.6s | est. remaining 1.1m | total 12m14s
+    [us_pow-seed0] Epoch  5/30 | train loss 0.4890 | val Macro-F1 0.1641 | best so far 0.2098 (epoch 2) | this epoch 2.6s | est. remaining 1.1m | total 12m17s
+    [us_pow-seed0] Epoch  6/30 | train loss 0.4889 | val Macro-F1 0.2186 | best so far 0.2186 (epoch 6) | this epoch 2.6s | est. remaining 1.0m | total 12m19s
+    [us_pow-seed0] Epoch  7/30 | train loss 0.4887 | val Macro-F1 0.2302 | best so far 0.2302 (epoch 7) | this epoch 2.6s | est. remaining 1.0m | total 12m22s
+    [us_pow-seed0] Epoch  8/30 | train loss 0.4887 | val Macro-F1 0.1641 | best so far 0.2302 (epoch 7) | this epoch 2.6s | est. remaining 0.9m | total 12m25s
+    [us_pow-seed0] Epoch  9/30 | train loss 0.4888 | val Macro-F1 0.1568 | best so far 0.2302 (epoch 7) | this epoch 2.6s | est. remaining 0.9m | total 12m27s
+    [us_pow-seed0] Epoch 10/30 | train loss 0.4887 | val Macro-F1 0.2732 | best so far 0.2732 (epoch 10) | this epoch 2.6s | est. remaining 0.9m | total 12m30s
+    [us_pow-seed0] Epoch 11/30 | train loss 0.4887 | val Macro-F1 0.1568 | best so far 0.2732 (epoch 10) | this epoch 2.6s | est. remaining 0.8m | total 12m32s
+    [us_pow-seed0] Epoch 12/30 | train loss 0.4886 | val Macro-F1 0.1786 | best so far 0.2732 (epoch 10) | this epoch 2.6s | est. remaining 0.8m | total 12m35s
+    [us_pow-seed0] Epoch 13/30 | train loss 0.4886 | val Macro-F1 0.2527 | best so far 0.2732 (epoch 10) | this epoch 2.6s | est. remaining 0.7m | total 12m37s
+    [us_pow-seed0] Epoch 14/30 | train loss 0.4885 | val Macro-F1 0.1786 | best so far 0.2732 (epoch 10) | this epoch 2.6s | est. remaining 0.7m | total 12m40s
+    [us_pow-seed0] Epoch 15/30 | train loss 0.4886 | val Macro-F1 0.1568 | best so far 0.2732 (epoch 10) | this epoch 2.6s | est. remaining 0.6m | total 12m42s
+    [us_pow-seed0] Epoch 16/30 | train loss 0.4885 | val Macro-F1 0.1786 | best so far 0.2732 (epoch 10) | this epoch 2.6s | est. remaining 0.6m | total 12m45s
+    [us_pow-seed0] Epoch 17/30 | train loss 0.4885 | val Macro-F1 0.1568 | best so far 0.2732 (epoch 10) | this epoch 2.6s | est. remaining 0.6m | total 12m48s
+    [us_pow-seed0] Epoch 18/30 | train loss 0.4886 | val Macro-F1 0.1786 | best so far 0.2732 (epoch 10) | this epoch 2.6s | est. remaining 0.5m | total 12m50s
+    [us_pow-seed0] Epoch 19/30 | train loss 0.4885 | val Macro-F1 0.1568 | best so far 0.2732 (epoch 10) | this epoch 2.6s | est. remaining 0.5m | total 12m53s
+    [us_pow-seed0] Epoch 20/30 | train loss 0.4884 | val Macro-F1 0.1641 | best so far 0.2732 (epoch 10) | this epoch 2.6s | est. remaining 0.4m | total 12m55s
+    [us_pow-seed0] Epoch 21/30 | train loss 0.4885 | val Macro-F1 0.1568 | best so far 0.2732 (epoch 10) | this epoch 2.6s | est. remaining 0.4m | total 12m58s
+    [us_pow-seed0] Epoch 22/30 | train loss 0.4885 | val Macro-F1 0.1568 | best so far 0.2732 (epoch 10) | this epoch 2.6s | est. remaining 0.3m | total 13m00s
+    [us_pow-seed0] Epoch 23/30 | train loss 0.4885 | val Macro-F1 0.1641 | best so far 0.2732 (epoch 10) | this epoch 2.6s | est. remaining 0.3m | total 13m03s
+    [us_pow-seed0] Epoch 24/30 | train loss 0.4885 | val Macro-F1 0.2706 | best so far 0.2732 (epoch 10) | this epoch 2.6s | est. remaining 0.3m | total 13m06s
+    [us_pow-seed0] Epoch 25/30 | train loss 0.4884 | val Macro-F1 0.1786 | best so far 0.2732 (epoch 10) | this epoch 2.6s | est. remaining 0.2m | total 13m08s
+    [us_pow-seed0] Epoch 26/30 | train loss 0.4884 | val Macro-F1 0.1568 | best so far 0.2732 (epoch 10) | this epoch 2.6s | est. remaining 0.2m | total 13m11s
+    [us_pow-seed0] Epoch 27/30 | train loss 0.4884 | val Macro-F1 0.1786 | best so far 0.2732 (epoch 10) | this epoch 2.6s | est. remaining 0.1m | total 13m13s
+    [us_pow-seed0] Epoch 28/30 | train loss 0.4885 | val Macro-F1 0.1786 | best so far 0.2732 (epoch 10) | this epoch 2.6s | est. remaining 0.1m | total 13m16s
+    [us_pow-seed0] Epoch 29/30 | train loss 0.4885 | val Macro-F1 0.1568 | best so far 0.2732 (epoch 10) | this epoch 2.7s | est. remaining 0.0m | total 13m19s
+    [us_pow-seed0] Epoch 30/30 | train loss 0.4884 | val Macro-F1 0.2057 | best so far 0.2732 (epoch 10) | this epoch 2.6s | est. remaining 0.0m | total 13m21s
+  Note: as in the Chinese script, permutation importance uses the model at the end of epoch 30 (no rollback to the best epoch)
+  Validation predicted-class distribution of the epoch-30 model: down 10.9% | hold 0.0% | up 89.1% -> multiple classes
+
+  [us_pow-seed0] Permutation importance: baseline validation Macro-F1 = 0.2057 (6,280 validation sequences)
+    Feature  1/19 roc_5              F1 after shuffling 0.2055 | importance +0.0002 | kept
+    Feature  2/19 dayofyear_sin      F1 after shuffling 0.2058 | importance -0.0001 | removed
+    Feature  3/19 ma10               F1 after shuffling 0.2057 | importance +0.0000 | removed
+    Feature  4/19 macd_signal        F1 after shuffling 0.2056 | importance +0.0001 | kept
+    Feature  5/19 dayofyear_cos      F1 after shuffling 0.2057 | importance +0.0000 | removed
+    Feature  6/19 macd               F1 after shuffling 0.2057 | importance +0.0000 | kept
+    Feature  7/19 dayofweek_cos      F1 after shuffling 0.2055 | importance +0.0002 | kept
+    Feature  8/19 high_low_range     F1 after shuffling 0.2056 | importance +0.0001 | kept
+    Feature  9/19 close_to_ma20      F1 after shuffling 0.2057 | importance -0.0000 | removed
+    Feature 10/19 momentum_5         F1 after shuffling 0.2059 | importance -0.0001 | removed
+    Feature 11/19 roc_20             F1 after shuffling 0.2058 | importance -0.0001 | removed
+    Feature 12/19 rsi                F1 after shuffling 0.2057 | importance +0.0000 | kept
+    Feature 13/19 year               F1 after shuffling 0.2057 | importance +0.0000 | removed
+    Feature 14/19 month              F1 after shuffling 0.2080 | importance -0.0023 | removed
+    Feature 15/19 day                F1 after shuffling 0.2056 | importance +0.0001 | kept
+    Feature 16/19 dayofweek          F1 after shuffling 0.2059 | importance -0.0002 | removed
+    Feature 17/19 quarter            F1 after shuffling 0.2056 | importance +0.0001 | kept
+    Feature 18/19 dayofyear          F1 after shuffling 0.2135 | importance -0.0078 | removed
+    Feature 19/19 weekofyear         F1 after shuffling 0.2029 | importance +0.0028 | kept
+
+  [us_pow-seed0] 9 kept: ['roc_5', 'macd_signal', 'macd', 'dayofweek_cos', 'high_low_range', 'rsi', 'day', 'quarter', 'weekofyear']
+  Time for this run 1.3m, total 13m22s
+
+##########################################################################################
+Run 9/9: dataset us_pow, seed 123, total 13m22s
+##########################################################################################
+  Training probe model (30 epochs, same as China)
+    [us_pow-seed123] Epoch  1/30 | train loss 0.4910 | val Macro-F1 0.1568 | best so far 0.1568 (epoch 1) | this epoch 2.5s | est. remaining 1.2m | total 13m25s
+    [us_pow-seed123] Epoch  2/30 | train loss 0.4892 | val Macro-F1 0.1641 | best so far 0.1641 (epoch 2) | this epoch 2.5s | est. remaining 1.2m | total 13m28s
+    [us_pow-seed123] Epoch  3/30 | train loss 0.4892 | val Macro-F1 0.2446 | best so far 0.2446 (epoch 3) | this epoch 2.5s | est. remaining 1.1m | total 13m30s
+    [us_pow-seed123] Epoch  4/30 | train loss 0.4890 | val Macro-F1 0.1937 | best so far 0.2446 (epoch 3) | this epoch 2.6s | est. remaining 1.1m | total 13m33s
+    [us_pow-seed123] Epoch  5/30 | train loss 0.4890 | val Macro-F1 0.1568 | best so far 0.2446 (epoch 3) | this epoch 2.6s | est. remaining 1.1m | total 13m35s
+    [us_pow-seed123] Epoch  6/30 | train loss 0.4890 | val Macro-F1 0.1786 | best so far 0.2446 (epoch 3) | this epoch 2.5s | est. remaining 1.0m | total 13m38s
+    [us_pow-seed123] Epoch  7/30 | train loss 0.4888 | val Macro-F1 0.1786 | best so far 0.2446 (epoch 3) | this epoch 2.5s | est. remaining 1.0m | total 13m40s
+    [us_pow-seed123] Epoch  8/30 | train loss 0.4888 | val Macro-F1 0.1641 | best so far 0.2446 (epoch 3) | this epoch 2.5s | est. remaining 0.9m | total 13m43s
+    [us_pow-seed123] Epoch  9/30 | train loss 0.4886 | val Macro-F1 0.1641 | best so far 0.2446 (epoch 3) | this epoch 2.6s | est. remaining 0.9m | total 13m45s
+    [us_pow-seed123] Epoch 10/30 | train loss 0.4887 | val Macro-F1 0.1786 | best so far 0.2446 (epoch 3) | this epoch 2.6s | est. remaining 0.9m | total 13m48s
+    [us_pow-seed123] Epoch 11/30 | train loss 0.4887 | val Macro-F1 0.1568 | best so far 0.2446 (epoch 3) | this epoch 2.5s | est. remaining 0.8m | total 13m51s
+    [us_pow-seed123] Epoch 12/30 | train loss 0.4886 | val Macro-F1 0.1641 | best so far 0.2446 (epoch 3) | this epoch 2.5s | est. remaining 0.8m | total 13m53s
+    [us_pow-seed123] Epoch 13/30 | train loss 0.4886 | val Macro-F1 0.1641 | best so far 0.2446 (epoch 3) | this epoch 2.6s | est. remaining 0.7m | total 13m56s
+    [us_pow-seed123] Epoch 14/30 | train loss 0.4886 | val Macro-F1 0.1786 | best so far 0.2446 (epoch 3) | this epoch 2.5s | est. remaining 0.7m | total 13m58s
+    [us_pow-seed123] Epoch 15/30 | train loss 0.4886 | val Macro-F1 0.1786 | best so far 0.2446 (epoch 3) | this epoch 2.6s | est. remaining 0.6m | total 14m01s
+    [us_pow-seed123] Epoch 16/30 | train loss 0.4885 | val Macro-F1 0.1786 | best so far 0.2446 (epoch 3) | this epoch 2.5s | est. remaining 0.6m | total 14m03s
+    [us_pow-seed123] Epoch 17/30 | train loss 0.4886 | val Macro-F1 0.1641 | best so far 0.2446 (epoch 3) | this epoch 2.6s | est. remaining 0.6m | total 14m06s
+    [us_pow-seed123] Epoch 18/30 | train loss 0.4885 | val Macro-F1 0.1568 | best so far 0.2446 (epoch 3) | this epoch 2.5s | est. remaining 0.5m | total 14m09s
+    [us_pow-seed123] Epoch 19/30 | train loss 0.4885 | val Macro-F1 0.1786 | best so far 0.2446 (epoch 3) | this epoch 2.5s | est. remaining 0.5m | total 14m11s
+    [us_pow-seed123] Epoch 20/30 | train loss 0.4884 | val Macro-F1 0.2433 | best so far 0.2446 (epoch 3) | this epoch 2.6s | est. remaining 0.4m | total 14m14s
+    [us_pow-seed123] Epoch 21/30 | train loss 0.4885 | val Macro-F1 0.1641 | best so far 0.2446 (epoch 3) | this epoch 2.5s | est. remaining 0.4m | total 14m16s
+    [us_pow-seed123] Epoch 22/30 | train loss 0.4885 | val Macro-F1 0.1641 | best so far 0.2446 (epoch 3) | this epoch 2.5s | est. remaining 0.3m | total 14m19s
+    [us_pow-seed123] Epoch 23/30 | train loss 0.4884 | val Macro-F1 0.1568 | best so far 0.2446 (epoch 3) | this epoch 2.5s | est. remaining 0.3m | total 14m21s
+    [us_pow-seed123] Epoch 24/30 | train loss 0.4885 | val Macro-F1 0.1641 | best so far 0.2446 (epoch 3) | this epoch 2.5s | est. remaining 0.3m | total 14m24s
+    [us_pow-seed123] Epoch 25/30 | train loss 0.4885 | val Macro-F1 0.1568 | best so far 0.2446 (epoch 3) | this epoch 2.6s | est. remaining 0.2m | total 14m26s
+    [us_pow-seed123] Epoch 26/30 | train loss 0.4884 | val Macro-F1 0.1786 | best so far 0.2446 (epoch 3) | this epoch 2.6s | est. remaining 0.2m | total 14m29s
+    [us_pow-seed123] Epoch 27/30 | train loss 0.4884 | val Macro-F1 0.1568 | best so far 0.2446 (epoch 3) | this epoch 2.6s | est. remaining 0.1m | total 14m32s
+    [us_pow-seed123] Epoch 28/30 | train loss 0.4883 | val Macro-F1 0.1568 | best so far 0.2446 (epoch 3) | this epoch 2.6s | est. remaining 0.1m | total 14m34s
+    [us_pow-seed123] Epoch 29/30 | train loss 0.4884 | val Macro-F1 0.1641 | best so far 0.2446 (epoch 3) | this epoch 2.6s | est. remaining 0.0m | total 14m37s
+    [us_pow-seed123] Epoch 30/30 | train loss 0.4884 | val Macro-F1 0.1786 | best so far 0.2446 (epoch 3) | this epoch 2.6s | est. remaining 0.0m | total 14m39s
+  Note: as in the Chinese script, permutation importance uses the model at the end of epoch 30 (no rollback to the best epoch)
+  Validation predicted-class distribution of the epoch-30 model: down 100.0% | hold 0.0% | up 0.0% -> single class only (nothing learned)
+
+  [us_pow-seed123] Permutation importance: baseline validation Macro-F1 = 0.1786 (6,280 validation sequences)
+    Feature  1/19 roc_5              F1 after shuffling 0.1786 | importance +0.0000 | removed
+    Feature  2/19 dayofyear_sin      F1 after shuffling 0.1786 | importance +0.0000 | removed
+    Feature  3/19 ma10               F1 after shuffling 0.1786 | importance +0.0000 | removed
+    Feature  4/19 macd_signal        F1 after shuffling 0.1786 | importance +0.0000 | removed
+    Feature  5/19 dayofyear_cos      F1 after shuffling 0.1786 | importance +0.0000 | removed
+    Feature  6/19 macd               F1 after shuffling 0.1786 | importance +0.0000 | removed
+    Feature  7/19 dayofweek_cos      F1 after shuffling 0.1786 | importance +0.0000 | removed
+    Feature  8/19 high_low_range     F1 after shuffling 0.1786 | importance +0.0000 | removed
+    Feature  9/19 close_to_ma20      F1 after shuffling 0.1786 | importance +0.0000 | removed
+    Feature 10/19 momentum_5         F1 after shuffling 0.1786 | importance +0.0000 | removed
+    Feature 11/19 roc_20             F1 after shuffling 0.1786 | importance +0.0000 | removed
+    Feature 12/19 rsi                F1 after shuffling 0.1786 | importance +0.0000 | removed
+    Feature 13/19 year               F1 after shuffling 0.1786 | importance +0.0000 | removed
+    Feature 14/19 month              F1 after shuffling 0.1786 | importance +0.0000 | removed
+    Feature 15/19 day                F1 after shuffling 0.1786 | importance +0.0000 | removed
+    Feature 16/19 dayofweek          F1 after shuffling 0.1786 | importance +0.0000 | removed
+    Feature 17/19 quarter            F1 after shuffling 0.1786 | importance +0.0000 | removed
+    Feature 18/19 dayofyear          F1 after shuffling 0.1786 | importance +0.0000 | removed
+    Feature 19/19 weekofyear         F1 after shuffling 0.1786 | importance +0.0000 | removed
+
+  [us_pow-seed123] 0 kept: []
+  Time for this run 1.3m, total 14m41s
+
+==========================================================================================
+stage6_cell_B_V2 diagnostic summary, total time 14m41s
+==========================================================================================
+ dataset  seed  baseline_val_macro_f1  pred_down  pred_hold  pred_up  collapsed  n_stage1  n_kept overlap_with_cn_final12
+cn_power    42                 0.3632      0.503      0.302    0.195      False        22      18                    9/12
+cn_power     0                 0.2973      0.195      0.779    0.026      False        22      18                   11/12
+cn_power   123                 0.3723      0.409      0.405    0.186      False        22      19                   10/12
+  us_med    42                 0.1635      1.000      0.000    0.000       True        22       0                        
+  us_med     0                 0.1797      0.000      1.000    0.000       True        22       0                        
+  us_med   123                 0.1562      0.000      0.000    1.000       True        22       0                        
+  us_pow    42                 0.1641      0.000      0.000    1.000       True        19       0                        
+  us_pow     0                 0.2057      0.109      0.000    0.891      False        19       9                        
+  us_pow   123                 0.1786      1.000      0.000    0.000       True        19       0                        
+  cn_power-seed42 kept: [dayofyear_sin, dayofweek_sin, dayofyear_cos, close_open_range, close, roc_5, high_low_range, roc_10, atr, macd, turnover_rate, volatility_5, year, month, day, dayofweek, dayofyear, weekofyear]
+  cn_power-seed0 kept: [dayofyear_cos, close_open_range, close, roc_5, high_low_range, amount, roc_10, macd_signal, atr, macd, turnover_rate, volatility_5, year, month, day, dayofweek, quarter, dayofyear]
+  cn_power-seed123 kept: [dayofweek_sin, dayofyear_cos, close_open_range, close, roc_5, high_low_range, amount, roc_10, macd_signal, atr, macd, turnover_rate, volatility_5, year, day, dayofweek, quarter, dayofyear, weekofyear]
+  us_med-seed42 kept: []
+  us_med-seed0 kept: []
+  us_med-seed123 kept: []
+  us_pow-seed42 kept: []
+  us_pow-seed0 kept: [roc_5, macd_signal, macd, dayofweek_cos, high_low_range, rsi, day, quarter, weekofyear]
+  us_pow-seed123 kept: []
+
+Output files: ./stage6/stage6_cell_B_data_screening_V3/diagnosis_summary.csv, permutation_importance_<dataset>_seed<seed>.csv
+
+
+
+
