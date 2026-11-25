@@ -1,0 +1,626 @@
+Input directories: XAI_cn/ (Chinese data and seed-42 models), xai_cell_J_V2/ (new-seed models and original results for 6 combinations), ./stage5/cell_B_retrain_med2_V2/ (new-seed models and original results for Medical-2 BiLSTM and LSTM), ./stage5/cell_A_bootstrap_V4/ (seed-42 per-sample predictions)
+Output directory: ./stage6/stage6_cell_K_data_cnmultiseed_V7/
+cuDNN disabled (cuDNN cannot be initialized on the server); using PyTorch native CUDA RNN kernels
+Input file check passed (61 files)
+Device: cuda
+Seeds: [42, 123, 777, 0, 2024]; IG samples 500, IG integration steps 64
+Original results read: J_V2 70 rows, of which 30 kept (6 combinations); stage5 10 rows, of which 10 kept (Medical-2 BiLSTM, LSTM); 40 rows after merging
+Merge check of original results passed: 40 targets (dataset + model + seed) each appear once, all required fields present
+Check rules: Macro-F1 difference <= 0.0005; changes in correct and agreeing sample counts <= near-boundary sample count (logit margin < 0.001)
+
+====================================================================================================
+Combination 1/8: Medical-1 / GRU, total 0h00m00s
+====================================================================================================
+Step 1: data preparation and checks
+Medical-1: data directory XAI_cn/datasets/processed/dataset1_A_grade; train (38820, 60, 13), test (6583, 60, 13)
+Step 2: load the seed-42 model (dropout=0 inference copy)
+Seed-42 model: XAI_cn/models_XAI/rnn_enhanced_dataset2/gru_dataset1_SELECTED_13_seed42.pt | input 13, hidden 64, layers 2
+Fixed target-class distribution: {0: 131, 1: 204, 2: 165}
+Step 2b: per-sample cross-backend check of seed 42 (GPU native kernels vs CPU; then vs the per-sample predictions saved by stage5)
+  GPU native vs CPU: max single-logit difference 5.96e-07; max change in between-class logit differences 9.54e-07 (99.9th percentile 6.56e-07), must be below MARGIN_EPS 0.001 -> passed (time 0.9s)
+  Note: this is the difference between two non-cuDNN backends, supporting evidence only; it does not directly represent the difference between the original cuDNN and native kernels
+  Sample IDs vs stage5: 0 samples differ in stock code + trade date; true labels identical per sample True
+  this cell CPU vs stage5 (CPU reproduction): 0 predictions differ; outside the near-boundary region (margin >= 0.001): 0, max margin among differing samples 0.00e+00 -> passed
+  this cell GPU vs stage5 (cross-environment): 0 predictions differ; outside the near-boundary region (margin >= 0.001): 0, max margin among differing samples 0.00e+00 -> passed
+  this cell GPU vs this cell CPU: 0 predictions differ; outside the near-boundary region (margin >= 0.001): 0, max margin among differing samples 0.00e+00 -> passed
+  Seed-42 per-sample cross-backend check: passed
+------------------------------------------------------------
+Medical-1 / GRU / seed 42 (1/5), total 0h00m02s
+Model: XAI_cn/models_XAI/rnn_enhanced_dataset2/gru_dataset1_SELECTED_13_seed42.pt
+Count check: Macro-F1 0.413236 (original 0.413231, difference +0.000005) -> passed
+  Accuracy 0.423211 (original 0.423211), change in correct samples +0, near-boundary samples of this model 25 (min logit margin 3.61e-06) -> passed
+  Prediction agreement with seed 42 1.000000 (original 1.000000), change in agreeing samples +0, near-boundary samples of the two models combined 25 -> passed; count check for this model passed
+  Note: seed-42 weights and data are identical; the difference from the original results (change in correct samples +0) may come from the computing environment (cuDNN vs native kernels, software versions); the specific samples cannot be identified
+IG done (3.2s)
+Stability: prediction agreement 1.0000; feature ρ 1.0000 (original 1.0000); temporal ρ 1.0000 (original 1.0000)
+Recency: last 10 days 0.5686, first 10 days 0.0603, ratio 9.4227 (original 9.8618), top-5 feature overlap 1.00
+------------------------------------------------------------
+Medical-1 / GRU / seed 123 (2/5), total 0h00m05s
+Model: xai_cell_J_V2/models/Medical-1_GRU_seed123.pt
+Count check: Macro-F1 0.406507 (original 0.406507, difference +0.000000) -> passed
+  Accuracy 0.419414 (original 0.419414), change in correct samples +0, near-boundary samples of this model 32 (min logit margin 2.26e-06) -> passed
+  Prediction agreement with seed 42 0.826523 (original 0.826675), change in agreeing samples -1, near-boundary samples of the two models combined 57 -> passed; count check for this model passed
+IG done (3.1s)
+Stability: prediction agreement 0.8265; feature ρ 0.9560 (original 0.9560); temporal ρ 0.9774 (original 0.9793)
+Recency: last 10 days 0.6147, first 10 days 0.0477, ratio 12.8953 (original 13.5953), top-5 feature overlap 1.00
+------------------------------------------------------------
+Medical-1 / GRU / seed 777 (3/5), total 0h00m08s
+Model: xai_cell_J_V2/models/Medical-1_GRU_seed777.pt
+Count check: Macro-F1 0.412111 (original 0.412111, difference +0.000000) -> passed
+  Accuracy 0.422452 (original 0.422452), change in correct samples +0, near-boundary samples of this model 26 (min logit margin 1.82e-05) -> passed
+  Prediction agreement with seed 42 0.860094 (original 0.860246), change in agreeing samples -1, near-boundary samples of the two models combined 51 -> passed; count check for this model passed
+IG done (3.1s)
+Stability: prediction agreement 0.8601; feature ρ 0.9670 (original 0.9670); temporal ρ 0.9640 (original 0.9647)
+Recency: last 10 days 0.5050, first 10 days 0.0666, ratio 7.5882 (original 7.8540), top-5 feature overlap 0.80
+------------------------------------------------------------
+Medical-1 / GRU / seed 0 (4/5), total 0h00m12s
+Model: xai_cell_J_V2/models/Medical-1_GRU_seed0.pt
+Count check: Macro-F1 0.411643 (original 0.411806, difference -0.000163) -> passed
+  Accuracy 0.425946 (original 0.426098), change in correct samples -1, near-boundary samples of this model 16 (min logit margin 1.32e-05) -> passed
+  Prediction agreement with seed 42 0.863892 (original 0.864196), change in agreeing samples -2, near-boundary samples of the two models combined 41 -> passed; count check for this model passed
+IG done (3.1s)
+Stability: prediction agreement 0.8639; feature ρ 0.9780 (original 0.9780); temporal ρ 0.9462 (original 0.9455)
+Recency: last 10 days 0.5688, first 10 days 0.0667, ratio 8.5276 (original 8.8980), top-5 feature overlap 1.00
+------------------------------------------------------------
+Medical-1 / GRU / seed 2024 (5/5), total 0h00m15s
+Model: xai_cell_J_V2/models/Medical-1_GRU_seed2024.pt
+Count check: Macro-F1 0.403811 (original 0.404107, difference -0.000296) -> passed
+  Accuracy 0.416224 (original 0.416527), change in correct samples -2, near-boundary samples of this model 28 (min logit margin 1.30e-06) -> passed
+  Prediction agreement with seed 42 0.804496 (original 0.804800), change in agreeing samples -2, near-boundary samples of the two models combined 53 -> passed; count check for this model passed
+IG done (3.1s)
+Stability: prediction agreement 0.8045; feature ρ 0.8407 (original 0.8407); temporal ρ 0.9254 (original 0.9159)
+Recency: last 10 days 0.5099, first 10 days 0.0802, ratio 6.3612 (original 6.6281), top-5 feature overlap 1.00
+
+====================================================================================================
+Combination 2/8: Medical-1 / BiLSTM, total 0h00m18s
+====================================================================================================
+Step 2: load the seed-42 model (dropout=0 inference copy)
+Seed-42 model: XAI_cn/models_XAI/rnn_enhanced_dataset2/bilstm_dataset1_SELECTED_13_seed42.pt | input 13, hidden 64, layers 2
+Fixed target-class distribution: {0: 145, 1: 176, 2: 179}
+Step 2b: per-sample cross-backend check of seed 42 (GPU native kernels vs CPU; then vs the per-sample predictions saved by stage5)
+  GPU native vs CPU: max single-logit difference 5.96e-07; max change in between-class logit differences 1.04e-06 (99.9th percentile 5.96e-07), must be below MARGIN_EPS 0.001 -> passed (time 1.4s)
+  Note: this is the difference between two non-cuDNN backends, supporting evidence only; it does not directly represent the difference between the original cuDNN and native kernels
+  Sample IDs vs stage5: 0 samples differ in stock code + trade date; true labels identical per sample True
+  this cell CPU vs stage5 (CPU reproduction): 0 predictions differ; outside the near-boundary region (margin >= 0.001): 0, max margin among differing samples 0.00e+00 -> passed
+  this cell GPU vs stage5 (cross-environment): 0 predictions differ; outside the near-boundary region (margin >= 0.001): 0, max margin among differing samples 0.00e+00 -> passed
+  this cell GPU vs this cell CPU: 0 predictions differ; outside the near-boundary region (margin >= 0.001): 0, max margin among differing samples 0.00e+00 -> passed
+  Seed-42 per-sample cross-backend check: passed
+------------------------------------------------------------
+Medical-1 / BiLSTM / seed 42 (1/5), total 0h00m20s
+Model: XAI_cn/models_XAI/rnn_enhanced_dataset2/bilstm_dataset1_SELECTED_13_seed42.pt
+Count check: Macro-F1 0.403513 (original 0.403506, difference +0.000007) -> passed
+  Accuracy 0.407261 (original 0.407261), change in correct samples +0, near-boundary samples of this model 20 (min logit margin 1.81e-04) -> passed
+  Prediction agreement with seed 42 1.000000 (original 1.000000), change in agreeing samples +0, near-boundary samples of the two models combined 20 -> passed; count check for this model passed
+  Note: seed-42 weights and data are identical; the difference from the original results (change in correct samples +0) may come from the computing environment (cuDNN vs native kernels, software versions); the specific samples cannot be identified
+IG done (5.6s)
+Stability: prediction agreement 1.0000; feature ρ 1.0000 (original 1.0000); temporal ρ 1.0000 (original 1.0000)
+Recency: last 10 days 0.5698, first 10 days 0.0683, ratio 8.3447 (original 8.6265), top-5 feature overlap 1.00
+------------------------------------------------------------
+Medical-1 / BiLSTM / seed 123 (2/5), total 0h00m25s
+Model: xai_cell_J_V2/models/Medical-1_BiLSTM_seed123.pt
+Count check: Macro-F1 0.395272 (original 0.395408, difference -0.000136) -> passed
+  Accuracy 0.400122 (original 0.400273), change in correct samples -1, near-boundary samples of this model 21 (min logit margin 3.61e-05) -> passed
+  Prediction agreement with seed 42 0.696491 (original 0.696491), change in agreeing samples +0, near-boundary samples of the two models combined 41 -> passed; count check for this model passed
+IG done (5.6s)
+Stability: prediction agreement 0.6965; feature ρ 0.9396 (original 0.9396); temporal ρ 0.8226 (original 0.8620)
+Recency: last 10 days 0.4235, first 10 days 0.0778, ratio 5.4420 (original 6.0507), top-5 feature overlap 0.80
+------------------------------------------------------------
+Medical-1 / BiLSTM / seed 777 (3/5), total 0h00m31s
+Model: xai_cell_J_V2/models/Medical-1_BiLSTM_seed777.pt
+Count check: Macro-F1 0.397020 (original 0.396895, difference +0.000126) -> passed
+  Accuracy 0.407565 (original 0.407413), change in correct samples +1, near-boundary samples of this model 33 (min logit margin 1.45e-05) -> passed
+  Prediction agreement with seed 42 0.692845 (original 0.692845), change in agreeing samples +0, near-boundary samples of the two models combined 53 -> passed; count check for this model passed
+IG done (5.6s)
+Stability: prediction agreement 0.6928; feature ρ 0.8407 (original 0.8187); temporal ρ 0.8942 (original 0.9310)
+Recency: last 10 days 0.6626, first 10 days 0.0383, ratio 17.2813 (original 18.5338), top-5 feature overlap 0.80
+------------------------------------------------------------
+Medical-1 / BiLSTM / seed 0 (4/5), total 0h00m37s
+Model: xai_cell_J_V2/models/Medical-1_BiLSTM_seed0.pt
+Count check: Macro-F1 0.400145 (original 0.400283, difference -0.000138) -> passed
+  Accuracy 0.403312 (original 0.403463), change in correct samples -1, near-boundary samples of this model 36 (min logit margin 1.08e-05) -> passed
+  Prediction agreement with seed 42 0.685402 (original 0.686009), change in agreeing samples -4, near-boundary samples of the two models combined 56 -> passed; count check for this model passed
+IG done (5.6s)
+Stability: prediction agreement 0.6854; feature ρ 0.8791 (original 0.8791); temporal ρ 0.8398 (original 0.8744)
+Recency: last 10 days 0.7411, first 10 days 0.0150, ratio 49.3205 (original 51.2125), top-5 feature overlap 0.80
+------------------------------------------------------------
+Medical-1 / BiLSTM / seed 2024 (5/5), total 0h00m42s
+Model: xai_cell_J_V2/models/Medical-1_BiLSTM_seed2024.pt
+Count check: Macro-F1 0.400450 (original 0.400617, difference -0.000167) -> passed
+  Accuracy 0.404527 (original 0.404679), change in correct samples -1, near-boundary samples of this model 46 (min logit margin 3.81e-06) -> passed
+  Prediction agreement with seed 42 0.707276 (original 0.707124), change in agreeing samples +1, near-boundary samples of the two models combined 66 -> passed; count check for this model passed
+IG done (5.5s)
+Stability: prediction agreement 0.7073; feature ρ 0.9451 (original 0.9451); temporal ρ 0.8964 (original 0.9337)
+Recency: last 10 days 0.5948, first 10 days 0.0503, ratio 11.8209 (original 12.0294), top-5 feature overlap 0.80
+
+====================================================================================================
+Combination 3/8: Medical-1 / LSTM, total 0h00m48s
+====================================================================================================
+Step 2: load the seed-42 model (dropout=0 inference copy)
+Seed-42 model: XAI_cn/models_XAI/lstm_enhanced/lstm_dataset1_SELECTED_13_seed42.pt | input 13, hidden 64, layers 2
+Fixed target-class distribution: {0: 112, 1: 230, 2: 158}
+Step 2b: per-sample cross-backend check of seed 42 (GPU native kernels vs CPU; then vs the per-sample predictions saved by stage5)
+  GPU native vs CPU: max single-logit difference 6.56e-07; max change in between-class logit differences 1.04e-06 (99.9th percentile 5.36e-07), must be below MARGIN_EPS 0.001 -> passed (time 0.3s)
+  Note: this is the difference between two non-cuDNN backends, supporting evidence only; it does not directly represent the difference between the original cuDNN and native kernels
+  Sample IDs vs stage5: 0 samples differ in stock code + trade date; true labels identical per sample True
+  this cell CPU vs stage5 (CPU reproduction): 0 predictions differ; outside the near-boundary region (margin >= 0.001): 0, max margin among differing samples 0.00e+00 -> passed
+  this cell GPU vs stage5 (cross-environment): 0 predictions differ; outside the near-boundary region (margin >= 0.001): 0, max margin among differing samples 0.00e+00 -> passed
+  this cell GPU vs this cell CPU: 0 predictions differ; outside the near-boundary region (margin >= 0.001): 0, max margin among differing samples 0.00e+00 -> passed
+  Seed-42 per-sample cross-backend check: passed
+------------------------------------------------------------
+Medical-1 / LSTM / seed 42 (1/5), total 0h00m48s
+Model: XAI_cn/models_XAI/lstm_enhanced/lstm_dataset1_SELECTED_13_seed42.pt
+Count check: Macro-F1 0.413009 (original 0.412939, difference +0.000070) -> passed
+  Accuracy 0.427617 (original 0.427617), change in correct samples +0, near-boundary samples of this model 23 (min logit margin 4.61e-05) -> passed
+  Prediction agreement with seed 42 1.000000 (original 1.000000), change in agreeing samples +0, near-boundary samples of the two models combined 23 -> passed; count check for this model passed
+  Note: seed-42 weights and data are identical; the difference from the original results (change in correct samples +0) may come from the computing environment (cuDNN vs native kernels, software versions); the specific samples cannot be identified
+IG done (3.0s)
+Stability: prediction agreement 1.0000; feature ρ 1.0000 (original 1.0000); temporal ρ 1.0000 (original 1.0000)
+Recency: last 10 days 0.4859, first 10 days 0.0837, ratio 5.8065 (original 6.7793), top-5 feature overlap 1.00
+------------------------------------------------------------
+Medical-1 / LSTM / seed 123 (2/5), total 0h00m51s
+Model: xai_cell_J_V2/models/Medical-1_LSTM_seed123.pt
+Count check: Macro-F1 0.405228 (original 0.405228, difference +0.000000) -> passed
+  Accuracy 0.427313 (original 0.427313), change in correct samples +0, near-boundary samples of this model 24 (min logit margin 3.52e-05) -> passed
+  Prediction agreement with seed 42 0.774267 (original 0.774571), change in agreeing samples -2, near-boundary samples of the two models combined 47 -> passed; count check for this model passed
+IG done (3.0s)
+Stability: prediction agreement 0.7743; feature ρ 0.9011 (original 0.9066); temporal ρ 0.9416 (original 0.9723)
+Recency: last 10 days 0.5629, first 10 days 0.0697, ratio 8.0761 (original 9.6590), top-5 feature overlap 1.00
+------------------------------------------------------------
+Medical-1 / LSTM / seed 777 (3/5), total 0h00m54s
+Model: xai_cell_J_V2/models/Medical-1_LSTM_seed777.pt
+Count check: Macro-F1 0.401979 (original 0.401634, difference +0.000346) -> passed
+  Accuracy 0.414249 (original 0.413945), change in correct samples +2, near-boundary samples of this model 63 (min logit margin 8.61e-06) -> passed
+  Prediction agreement with seed 42 0.733860 (original 0.734164), change in agreeing samples -2, near-boundary samples of the two models combined 86 -> passed; count check for this model passed
+IG done (3.0s)
+Stability: prediction agreement 0.7339; feature ρ 0.7912 (original 0.7857); temporal ρ 0.8972 (original 0.9091)
+Recency: last 10 days 0.5850, first 10 days 0.0382, ratio 15.3082 (original 16.0820), top-5 feature overlap 0.80
+------------------------------------------------------------
+Medical-1 / LSTM / seed 0 (4/5), total 0h00m58s
+Model: xai_cell_J_V2/models/Medical-1_LSTM_seed0.pt
+Count check: Macro-F1 0.407789 (original 0.407789, difference +0.000000) -> passed
+  Accuracy 0.419717 (original 0.419717), change in correct samples +0, near-boundary samples of this model 33 (min logit margin 1.65e-05) -> passed
+  Prediction agreement with seed 42 0.792800 (original 0.793103), change in agreeing samples -2, near-boundary samples of the two models combined 56 -> passed; count check for this model passed
+IG done (3.0s)
+Stability: prediction agreement 0.7928; feature ρ 0.9505 (original 0.9286); temporal ρ 0.8922 (original 0.9021)
+Recency: last 10 days 0.6555, first 10 days 0.0292, ratio 22.4118 (original 24.5452), top-5 feature overlap 1.00
+------------------------------------------------------------
+Medical-1 / LSTM / seed 2024 (5/5), total 0h01m01s
+Model: xai_cell_J_V2/models/Medical-1_LSTM_seed2024.pt
+Count check: Macro-F1 0.404890 (original 0.405054, difference -0.000164) -> passed
+  Accuracy 0.427313 (original 0.427465), change in correct samples -1, near-boundary samples of this model 21 (min logit margin 4.99e-05) -> passed
+  Prediction agreement with seed 42 0.755583 (original 0.755734), change in agreeing samples -1, near-boundary samples of the two models combined 44 -> passed; count check for this model passed
+IG done (3.0s)
+Stability: prediction agreement 0.7556; feature ρ 0.8077 (original 0.8022); temporal ρ 0.9077 (original 0.9095)
+Recency: last 10 days 0.5109, first 10 days 0.0697, ratio 7.3303 (original 8.3453), top-5 feature overlap 1.00
+
+====================================================================================================
+Combination 4/8: Medical-2 / BiLSTM, total 0h01m04s
+====================================================================================================
+Step 1: data preparation and checks
+Medical-2: data directory XAI_cn/datasets/processed/dataset2_AB_grade; train (138900, 60, 14), test (21647, 60, 14)
+Step 2: load the seed-42 model (dropout=0 inference copy)
+Seed-42 model: XAI_cn/models_XAI/rnn_enhanced_dataset2/bilstm_dataset2_SELECTED_14_seed42.pt | input 14, hidden 128, layers 2
+Fixed target-class distribution: {0: 136, 1: 234, 2: 130}
+Step 2b: per-sample cross-backend check of seed 42 (GPU native kernels vs CPU; then vs the per-sample predictions saved by stage5)
+  GPU native vs CPU: max single-logit difference 4.77e-07; max change in between-class logit differences 8.34e-07 (99.9th percentile 6.56e-07), must be below MARGIN_EPS 0.001 -> passed (time 7.4s)
+  Note: this is the difference between two non-cuDNN backends, supporting evidence only; it does not directly represent the difference between the original cuDNN and native kernels
+  Sample IDs vs stage5: 0 samples differ in stock code + trade date; true labels identical per sample True
+  this cell CPU vs stage5 (CPU reproduction): 0 predictions differ; outside the near-boundary region (margin >= 0.001): 0, max margin among differing samples 0.00e+00 -> passed
+  this cell GPU vs stage5 (cross-environment): 0 predictions differ; outside the near-boundary region (margin >= 0.001): 0, max margin among differing samples 0.00e+00 -> passed
+  this cell GPU vs this cell CPU: 0 predictions differ; outside the near-boundary region (margin >= 0.001): 0, max margin among differing samples 0.00e+00 -> passed
+  Seed-42 per-sample cross-backend check: passed
+------------------------------------------------------------
+Medical-2 / BiLSTM / seed 42 (1/5), total 0h01m15s
+Model: XAI_cn/models_XAI/rnn_enhanced_dataset2/bilstm_dataset2_SELECTED_14_seed42.pt
+Count check: Macro-F1 0.419881 (original 0.419881, difference +0.000000) -> passed
+  Accuracy 0.437474 (original 0.437474), change in correct samples +0, near-boundary samples of this model 247 (min logit margin 1.24e-05) -> passed
+  Prediction agreement with seed 42 1.000000 (original 1.000000), change in agreeing samples +0, near-boundary samples of the two models combined 247 -> passed; count check for this model passed
+  Note: seed-42 weights and data are identical; the difference from the original results (change in correct samples +0) may come from the computing environment (cuDNN vs native kernels, software versions); the specific samples cannot be identified
+IG done (5.9s)
+Stability: prediction agreement 1.0000; feature ρ 1.0000 (original 1.0000); temporal ρ 1.0000 (original 1.0000)
+Recency: last 10 days 0.6330, first 10 days 0.0427, ratio 14.8169 (original 18.4587), top-5 feature overlap 1.00
+------------------------------------------------------------
+Medical-2 / BiLSTM / seed 123 (2/5), total 0h01m21s
+Model: ./stage5/cell_B_retrain_med2_V2/models/Medical-2_BiLSTM_seed123.pt
+Count check: Macro-F1 0.414169 (original 0.414169, difference +0.000000) -> passed
+  Accuracy 0.429852 (original 0.429852), change in correct samples +0, near-boundary samples of this model 206 (min logit margin 1.12e-05) -> passed
+  Prediction agreement with seed 42 0.807548 (original 0.807548), change in agreeing samples +0, near-boundary samples of the two models combined 453 -> passed; count check for this model passed
+IG done (5.8s)
+Stability: prediction agreement 0.8075; feature ρ 0.9780 (original 0.9824); temporal ρ 0.9968 (original 0.9998)
+Recency: last 10 days 0.6290, first 10 days 0.0390, ratio 16.1316 (original 17.0241), top-5 feature overlap 0.80
+------------------------------------------------------------
+Medical-2 / BiLSTM / seed 777 (3/5), total 0h01m27s
+Model: ./stage5/cell_B_retrain_med2_V2/models/Medical-2_BiLSTM_seed777.pt
+Count check: Macro-F1 0.383952 (original 0.383952, difference +0.000000) -> passed
+  Accuracy 0.401026 (original 0.401026), change in correct samples +0, near-boundary samples of this model 920 (min logit margin 6.85e-07) -> passed
+  Prediction agreement with seed 42 0.657135 (original 0.657135), change in agreeing samples +0, near-boundary samples of the two models combined 1167 -> passed; count check for this model passed
+IG done (5.8s)
+Stability: prediction agreement 0.6571; feature ρ 0.9033 (original 0.9033); temporal ρ 0.9933 (original 0.9994)
+Recency: last 10 days 0.7182, first 10 days 0.0081, ratio 88.2763 (original 100.9728), top-5 feature overlap 0.80
+------------------------------------------------------------
+Medical-2 / BiLSTM / seed 0 (4/5), total 0h01m34s
+Model: ./stage5/cell_B_retrain_med2_V2/models/Medical-2_BiLSTM_seed0.pt
+Count check: Macro-F1 0.410881 (original 0.410881, difference +0.000000) -> passed
+  Accuracy 0.422414 (original 0.422414), change in correct samples +0, near-boundary samples of this model 105 (min logit margin 1.16e-05) -> passed
+  Prediction agreement with seed 42 0.777567 (original 0.777567), change in agreeing samples +0, near-boundary samples of the two models combined 352 -> passed; count check for this model passed
+IG done (5.7s)
+Stability: prediction agreement 0.7776; feature ρ 0.6879 (original 0.6879); temporal ρ 0.9926 (original 0.9993)
+Recency: last 10 days 0.5954, first 10 days 0.0289, ratio 20.6284 (original 22.8074), top-5 feature overlap 1.00
+------------------------------------------------------------
+Medical-2 / BiLSTM / seed 2024 (5/5), total 0h01m41s
+Model: ./stage5/cell_B_retrain_med2_V2/models/Medical-2_BiLSTM_seed2024.pt
+Count check: Macro-F1 0.412326 (original 0.412326, difference +0.000000) -> passed
+  Accuracy 0.426017 (original 0.426017), change in correct samples +0, near-boundary samples of this model 313 (min logit margin 6.85e-06) -> passed
+  Prediction agreement with seed 42 0.794383 (original 0.794383), change in agreeing samples +0, near-boundary samples of the two models combined 560 -> passed; count check for this model passed
+IG done (5.7s)
+Stability: prediction agreement 0.7944; feature ρ 0.9429 (original 0.9429); temporal ρ 0.9933 (original 0.9994)
+Recency: last 10 days 0.8525, first 10 days 0.0011, ratio 767.1335 (original 936.2878), top-5 feature overlap 0.80
+
+====================================================================================================
+Combination 5/8: Medical-2 / LSTM, total 0h01m47s
+====================================================================================================
+Step 2: load the seed-42 model (dropout=0 inference copy)
+Seed-42 model: XAI_cn/models_XAI/lstm_enhanced/lstm_dataset2_SELECTED_14_seed42.pt | input 14, hidden 128, layers 2
+Fixed target-class distribution: {0: 131, 1: 225, 2: 144}
+Step 2b: per-sample cross-backend check of seed 42 (GPU native kernels vs CPU; then vs the per-sample predictions saved by stage5)
+  GPU native vs CPU: max single-logit difference 4.77e-07; max change in between-class logit differences 7.15e-07 (99.9th percentile 4.77e-07), must be below MARGIN_EPS 0.001 -> passed (time 2.8s)
+  Note: this is the difference between two non-cuDNN backends, supporting evidence only; it does not directly represent the difference between the original cuDNN and native kernels
+  Sample IDs vs stage5: 0 samples differ in stock code + trade date; true labels identical per sample True
+  this cell CPU vs stage5 (CPU reproduction): 0 predictions differ; outside the near-boundary region (margin >= 0.001): 0, max margin among differing samples 0.00e+00 -> passed
+  this cell GPU vs stage5 (cross-environment): 0 predictions differ; outside the near-boundary region (margin >= 0.001): 0, max margin among differing samples 0.00e+00 -> passed
+  this cell GPU vs this cell CPU: 0 predictions differ; outside the near-boundary region (margin >= 0.001): 0, max margin among differing samples 0.00e+00 -> passed
+  Seed-42 per-sample cross-backend check: passed
+------------------------------------------------------------
+Medical-2 / LSTM / seed 42 (1/5), total 0h01m50s
+Model: XAI_cn/models_XAI/lstm_enhanced/lstm_dataset2_SELECTED_14_seed42.pt
+Count check: Macro-F1 0.412332 (original 0.412332, difference +0.000000) -> passed
+  Accuracy 0.427357 (original 0.427357), change in correct samples +0, near-boundary samples of this model 87 (min logit margin 3.76e-06) -> passed
+  Prediction agreement with seed 42 1.000000 (original 1.000000), change in agreeing samples +0, near-boundary samples of the two models combined 87 -> passed; count check for this model passed
+  Note: seed-42 weights and data are identical; the difference from the original results (change in correct samples +0) may come from the computing environment (cuDNN vs native kernels, software versions); the specific samples cannot be identified
+IG done (3.1s)
+Stability: prediction agreement 1.0000; feature ρ 1.0000 (original 1.0000); temporal ρ 1.0000 (original 1.0000)
+Recency: last 10 days 0.6587, first 10 days 0.0267, ratio 24.7050 (original 24.7050), top-5 feature overlap 1.00
+------------------------------------------------------------
+Medical-2 / LSTM / seed 123 (2/5), total 0h01m53s
+Model: ./stage5/cell_B_retrain_med2_V2/models/Medical-2_LSTM_seed123.pt
+Count check: Macro-F1 0.400512 (original 0.400512, difference +0.000000) -> passed
+  Accuracy 0.417009 (original 0.417009), change in correct samples +0, near-boundary samples of this model 159 (min logit margin 4.05e-06) -> passed
+  Prediction agreement with seed 42 0.775950 (original 0.775950), change in agreeing samples +0, near-boundary samples of the two models combined 246 -> passed; count check for this model passed
+IG done (3.1s)
+Stability: prediction agreement 0.7760; feature ρ 0.7538 (original 0.7538); temporal ρ 0.9997 (original 0.9997)
+Recency: last 10 days 0.7263, first 10 days 0.0105, ratio 69.4147 (original 69.4147), top-5 feature overlap 1.00
+------------------------------------------------------------
+Medical-2 / LSTM / seed 777 (3/5), total 0h01m57s
+Model: ./stage5/cell_B_retrain_med2_V2/models/Medical-2_LSTM_seed777.pt
+Count check: Macro-F1 0.402272 (original 0.402272, difference +0.000000) -> passed
+  Accuracy 0.407401 (original 0.407401), change in correct samples +0, near-boundary samples of this model 261 (min logit margin 1.05e-06) -> passed
+  Prediction agreement with seed 42 0.725597 (original 0.725597), change in agreeing samples +0, near-boundary samples of the two models combined 348 -> passed; count check for this model passed
+IG done (3.1s)
+Stability: prediction agreement 0.7256; feature ρ 0.7538 (original 0.7538); temporal ρ 0.8941 (original 0.8941)
+Recency: last 10 days 0.5889, first 10 days 0.0706, ratio 8.3425 (original 8.3425), top-5 feature overlap 0.80
+------------------------------------------------------------
+Medical-2 / LSTM / seed 0 (4/5), total 0h02m00s
+Model: ./stage5/cell_B_retrain_med2_V2/models/Medical-2_LSTM_seed0.pt
+Count check: Macro-F1 0.405170 (original 0.405170, difference +0.000000) -> passed
+  Accuracy 0.413776 (original 0.413776), change in correct samples +0, near-boundary samples of this model 92 (min logit margin 5.26e-06) -> passed
+  Prediction agreement with seed 42 0.795768 (original 0.795768), change in agreeing samples +0, near-boundary samples of the two models combined 179 -> passed; count check for this model passed
+IG done (3.1s)
+Stability: prediction agreement 0.7958; feature ρ 0.8813 (original 0.8813); temporal ρ 0.9418 (original 0.9418)
+Recency: last 10 days 0.6903, first 10 days 0.0353, ratio 19.5609 (original 19.5609), top-5 feature overlap 1.00
+------------------------------------------------------------
+Medical-2 / LSTM / seed 2024 (5/5), total 0h02m04s
+Model: ./stage5/cell_B_retrain_med2_V2/models/Medical-2_LSTM_seed2024.pt
+Count check: Macro-F1 0.399089 (original 0.399089, difference +0.000000) -> passed
+  Accuracy 0.409895 (original 0.409895), change in correct samples +0, near-boundary samples of this model 503 (min logit margin 2.12e-06) -> passed
+  Prediction agreement with seed 42 0.732018 (original 0.732018), change in agreeing samples +0, near-boundary samples of the two models combined 590 -> passed; count check for this model passed
+IG done (3.1s)
+Stability: prediction agreement 0.7320; feature ρ 0.8110 (original 0.8110); temporal ρ 0.9993 (original 0.9993)
+Recency: last 10 days 0.6841, first 10 days 0.0214, ratio 31.9703 (original 31.9703), top-5 feature overlap 1.00
+
+====================================================================================================
+Combination 6/8: Power / GRU, total 0h02m07s
+====================================================================================================
+Step 1: data preparation and checks
+Power: data directory XAI_cn/e3/datasets/processed/dataset2_AB_grade; train (74093, 60, 12), test (8543, 60, 12)
+Step 2: load the seed-42 model (dropout=0 inference copy)
+Seed-42 model: XAI_cn/e3/models_XAI/rnn_enhanced_dataset2/gru_dataset2_SELECTED_12_seed42.pt | input 12, hidden 128, layers 2
+Fixed target-class distribution: {0: 144, 1: 195, 2: 161}
+Step 2b: per-sample cross-backend check of seed 42 (GPU native kernels vs CPU; then vs the per-sample predictions saved by stage5)
+  GPU native vs CPU: max single-logit difference 1.04e-06; max change in between-class logit differences 1.55e-06 (99.9th percentile 7.95e-07), must be below MARGIN_EPS 0.001 -> passed (time 1.1s)
+  Note: this is the difference between two non-cuDNN backends, supporting evidence only; it does not directly represent the difference between the original cuDNN and native kernels
+  Sample IDs vs stage5: 0 samples differ in stock code + trade date; true labels identical per sample True
+  this cell CPU vs stage5 (CPU reproduction): 0 predictions differ; outside the near-boundary region (margin >= 0.001): 0, max margin among differing samples 0.00e+00 -> passed
+  this cell GPU vs stage5 (cross-environment): 0 predictions differ; outside the near-boundary region (margin >= 0.001): 0, max margin among differing samples 0.00e+00 -> passed
+  this cell GPU vs this cell CPU: 0 predictions differ; outside the near-boundary region (margin >= 0.001): 0, max margin among differing samples 0.00e+00 -> passed
+  Seed-42 per-sample cross-backend check: passed
+------------------------------------------------------------
+Power / GRU / seed 42 (1/5), total 0h02m10s
+Model: XAI_cn/e3/models_XAI/rnn_enhanced_dataset2/gru_dataset2_SELECTED_12_seed42.pt
+Count check: Macro-F1 0.410313 (original 0.410313, difference +0.000000) -> passed
+  Accuracy 0.416598 (original 0.416598), change in correct samples +0, near-boundary samples of this model 61 (min logit margin 1.87e-05) -> passed
+  Prediction agreement with seed 42 1.000000 (original 1.000000), change in agreeing samples +0, near-boundary samples of the two models combined 61 -> passed; count check for this model passed
+  Note: seed-42 weights and data are identical; the difference from the original results (change in correct samples +0) may come from the computing environment (cuDNN vs native kernels, software versions); the specific samples cannot be identified
+IG done (3.3s)
+Stability: prediction agreement 1.0000; feature ρ 1.0000 (original 1.0000); temporal ρ 1.0000 (original 1.0000)
+Recency: last 10 days 0.6134, first 10 days 0.0496, ratio 12.3741 (original 14.0288), top-5 feature overlap 1.00
+------------------------------------------------------------
+Power / GRU / seed 123 (2/5), total 0h02m14s
+Model: xai_cell_J_V2/models/Power_GRU_seed123.pt
+Count check: Macro-F1 0.416288 (original 0.416288, difference +0.000000) -> passed
+  Accuracy 0.422685 (original 0.422685), change in correct samples +0, near-boundary samples of this model 64 (min logit margin 1.84e-05) -> passed
+  Prediction agreement with seed 42 0.842093 (original 0.842093), change in agreeing samples +0, near-boundary samples of the two models combined 125 -> passed; count check for this model passed
+IG done (3.3s)
+Stability: prediction agreement 0.8421; feature ρ 0.9580 (original 0.9580); temporal ρ 0.9954 (original 0.9853)
+Recency: last 10 days 0.6598, first 10 days 0.0441, ratio 14.9680 (original 17.0783), top-5 feature overlap 0.80
+------------------------------------------------------------
+Power / GRU / seed 777 (3/5), total 0h02m17s
+Model: xai_cell_J_V2/models/Power_GRU_seed777.pt
+Count check: Macro-F1 0.411274 (original 0.411380, difference -0.000107) -> passed
+  Accuracy 0.414257 (original 0.414374), change in correct samples -1, near-boundary samples of this model 50 (min logit margin 4.12e-05) -> passed
+  Prediction agreement with seed 42 0.844434 (original 0.844551), change in agreeing samples -1, near-boundary samples of the two models combined 111 -> passed; count check for this model passed
+IG done (3.4s)
+Stability: prediction agreement 0.8444; feature ρ 0.9161 (original 0.9161); temporal ρ 0.9944 (original 0.9917)
+Recency: last 10 days 0.6922, first 10 days 0.0416, ratio 16.6505 (original 18.2973), top-5 feature overlap 0.60
+------------------------------------------------------------
+Power / GRU / seed 0 (4/5), total 0h02m20s
+Model: xai_cell_J_V2/models/Power_GRU_seed0.pt
+Count check: Macro-F1 0.408294 (original 0.408294, difference +0.000000) -> passed
+  Accuracy 0.409926 (original 0.409926), change in correct samples +0, near-boundary samples of this model 45 (min logit margin 7.88e-05) -> passed
+  Prediction agreement with seed 42 0.789067 (original 0.789067), change in agreeing samples +0, near-boundary samples of the two models combined 106 -> passed; count check for this model passed
+IG done (3.3s)
+Stability: prediction agreement 0.7891; feature ρ 0.9091 (original 0.9091); temporal ρ 0.8670 (original 0.8709)
+Recency: last 10 days 0.6134, first 10 days 0.0655, ratio 9.3628 (original 9.7280), top-5 feature overlap 0.60
+------------------------------------------------------------
+Power / GRU / seed 2024 (5/5), total 0h02m24s
+Model: xai_cell_J_V2/models/Power_GRU_seed2024.pt
+Count check: Macro-F1 0.407613 (original 0.407613, difference +0.000000) -> passed
+  Accuracy 0.412501 (original 0.412501), change in correct samples +0, near-boundary samples of this model 61 (min logit margin 2.41e-05) -> passed
+  Prediction agreement with seed 42 0.853681 (original 0.853681), change in agreeing samples +0, near-boundary samples of the two models combined 122 -> passed; count check for this model passed
+IG done (3.3s)
+Stability: prediction agreement 0.8537; feature ρ 0.9441 (original 0.9231); temporal ρ 0.9965 (original 0.9987)
+Recency: last 10 days 0.6775, first 10 days 0.0438, ratio 15.4618 (original 19.2706), top-5 feature overlap 0.80
+
+====================================================================================================
+Combination 7/8: Power / BiLSTM, total 0h02m27s
+====================================================================================================
+Step 2: load the seed-42 model (dropout=0 inference copy)
+Seed-42 model: XAI_cn/e3/models_XAI/rnn_enhanced_dataset2/bilstm_dataset2_SELECTED_12_seed42.pt | input 12, hidden 128, layers 2
+Fixed target-class distribution: {0: 135, 1: 193, 2: 172}
+Step 2b: per-sample cross-backend check of seed 42 (GPU native kernels vs CPU; then vs the per-sample predictions saved by stage5)
+  GPU native vs CPU: max single-logit difference 1.43e-06; max change in between-class logit differences 2.15e-06 (99.9th percentile 7.75e-07), must be below MARGIN_EPS 0.001 -> passed (time 2.1s)
+  Note: this is the difference between two non-cuDNN backends, supporting evidence only; it does not directly represent the difference between the original cuDNN and native kernels
+  Sample IDs vs stage5: 0 samples differ in stock code + trade date; true labels identical per sample True
+  this cell CPU vs stage5 (CPU reproduction): 0 predictions differ; outside the near-boundary region (margin >= 0.001): 0, max margin among differing samples 0.00e+00 -> passed
+  this cell GPU vs stage5 (cross-environment): 0 predictions differ; outside the near-boundary region (margin >= 0.001): 0, max margin among differing samples 0.00e+00 -> passed
+  this cell GPU vs this cell CPU: 0 predictions differ; outside the near-boundary region (margin >= 0.001): 0, max margin among differing samples 0.00e+00 -> passed
+  Seed-42 per-sample cross-backend check: passed
+------------------------------------------------------------
+Power / BiLSTM / seed 42 (1/5), total 0h02m30s
+Model: XAI_cn/e3/models_XAI/rnn_enhanced_dataset2/bilstm_dataset2_SELECTED_12_seed42.pt
+Count check: Macro-F1 0.411858 (original 0.412120, difference -0.000261) -> passed
+  Accuracy 0.422919 (original 0.423153), change in correct samples -2, near-boundary samples of this model 30 (min logit margin 1.66e-05) -> passed
+  Prediction agreement with seed 42 1.000000 (original 1.000000), change in agreeing samples +0, near-boundary samples of the two models combined 30 -> passed; count check for this model passed
+  Note: seed-42 weights and data are identical; the difference from the original results (change in correct samples -2) may come from the computing environment (cuDNN vs native kernels, software versions); the specific samples cannot be identified
+IG done (5.9s)
+Stability: prediction agreement 1.0000; feature ρ 1.0000 (original 1.0000); temporal ρ 1.0000 (original 1.0000)
+Recency: last 10 days 0.5460, first 10 days 0.0530, ratio 10.2937 (original 11.4003), top-5 feature overlap 1.00
+------------------------------------------------------------
+Power / BiLSTM / seed 123 (2/5), total 0h02m35s
+Model: xai_cell_J_V2/models/Power_BiLSTM_seed123.pt
+Count check: Macro-F1 0.402816 (original 0.402935, difference -0.000119) -> passed
+  Accuracy 0.411565 (original 0.411682), change in correct samples -1, near-boundary samples of this model 56 (min logit margin 3.28e-05) -> passed
+  Prediction agreement with seed 42 0.809083 (original 0.809201), change in agreeing samples -1, near-boundary samples of the two models combined 86 -> passed; count check for this model passed
+IG done (5.8s)
+Stability: prediction agreement 0.8091; feature ρ 0.9301 (original 0.9091); temporal ρ 0.9958 (original 0.9837)
+Recency: last 10 days 0.6933, first 10 days 0.0245, ratio 28.3150 (original 30.9178), top-5 feature overlap 1.00
+------------------------------------------------------------
+Power / BiLSTM / seed 777 (3/5), total 0h02m41s
+Model: xai_cell_J_V2/models/Power_BiLSTM_seed777.pt
+Count check: Macro-F1 0.398882 (original 0.399027, difference -0.000145) -> passed
+  Accuracy 0.409458 (original 0.409575), change in correct samples -1, near-boundary samples of this model 30 (min logit margin 8.17e-06) -> passed
+  Prediction agreement with seed 42 0.793515 (original 0.793632), change in agreeing samples -1, near-boundary samples of the two models combined 60 -> passed; count check for this model passed
+IG done (5.6s)
+Stability: prediction agreement 0.7935; feature ρ 0.9161 (original 0.9021); temporal ρ 0.9712 (original 0.9752)
+Recency: last 10 days 0.6210, first 10 days 0.0438, ratio 14.1876 (original 14.8533), top-5 feature overlap 1.00
+------------------------------------------------------------
+Power / BiLSTM / seed 0 (4/5), total 0h02m47s
+Model: xai_cell_J_V2/models/Power_BiLSTM_seed0.pt
+Count check: Macro-F1 0.415792 (original 0.415923, difference -0.000131) -> passed
+  Accuracy 0.425846 (original 0.425963), change in correct samples -1, near-boundary samples of this model 53 (min logit margin 6.44e-06) -> passed
+  Prediction agreement with seed 42 0.846190 (original 0.846073), change in agreeing samples +1, near-boundary samples of the two models combined 83 -> passed; count check for this model passed
+IG done (5.8s)
+Stability: prediction agreement 0.8462; feature ρ 0.8462 (original 0.7972); temporal ρ 0.9785 (original 0.9745)
+Recency: last 10 days 0.5481, first 10 days 0.0655, ratio 8.3616 (original 8.6069), top-5 feature overlap 1.00
+------------------------------------------------------------
+Power / BiLSTM / seed 2024 (5/5), total 0h02m53s
+Model: xai_cell_J_V2/models/Power_BiLSTM_seed2024.pt
+Count check: Macro-F1 0.410690 (original 0.410690, difference +0.000000) -> passed
+  Accuracy 0.414374 (original 0.414374), change in correct samples +0, near-boundary samples of this model 37 (min logit margin 1.99e-05) -> passed
+  Prediction agreement with seed 42 0.817746 (original 0.817980), change in agreeing samples -2, near-boundary samples of the two models combined 67 -> passed; count check for this model passed
+IG done (5.9s)
+Stability: prediction agreement 0.8177; feature ρ 0.9021 (original 0.8392); temporal ρ 0.9957 (original 0.9872)
+Recency: last 10 days 0.6352, first 10 days 0.0272, ratio 23.3799 (original 26.4296), top-5 feature overlap 1.00
+
+====================================================================================================
+Combination 8/8: Power / LSTM, total 0h02m59s
+====================================================================================================
+Step 2: load the seed-42 model (dropout=0 inference copy)
+Seed-42 model: XAI_cn/e3/models_XAI/lstm_enhanced/lstm_dataset2_SELECTED_12_seed42.pt | input 12, hidden 96, layers 2
+Fixed target-class distribution: {0: 156, 1: 196, 2: 148}
+Step 2b: per-sample cross-backend check of seed 42 (GPU native kernels vs CPU; then vs the per-sample predictions saved by stage5)
+  GPU native vs CPU: max single-logit difference 8.34e-07; max change in between-class logit differences 1.49e-06 (99.9th percentile 1.07e-06), must be below MARGIN_EPS 0.001 -> passed (time 0.6s)
+  Note: this is the difference between two non-cuDNN backends, supporting evidence only; it does not directly represent the difference between the original cuDNN and native kernels
+  Sample IDs vs stage5: 0 samples differ in stock code + trade date; true labels identical per sample True
+  this cell CPU vs stage5 (CPU reproduction): 0 predictions differ; outside the near-boundary region (margin >= 0.001): 0, max margin among differing samples 0.00e+00 -> passed
+  this cell GPU vs stage5 (cross-environment): 0 predictions differ; outside the near-boundary region (margin >= 0.001): 0, max margin among differing samples 0.00e+00 -> passed
+  this cell GPU vs this cell CPU: 0 predictions differ; outside the near-boundary region (margin >= 0.001): 0, max margin among differing samples 0.00e+00 -> passed
+  Seed-42 per-sample cross-backend check: passed
+------------------------------------------------------------
+Power / LSTM / seed 42 (1/5), total 0h03m00s
+Model: XAI_cn/e3/models_XAI/lstm_enhanced/lstm_dataset2_SELECTED_12_seed42.pt
+Count check: Macro-F1 0.402068 (original 0.402199, difference -0.000132) -> passed
+  Accuracy 0.410160 (original 0.410277), change in correct samples -1, near-boundary samples of this model 33 (min logit margin 1.98e-05) -> passed
+  Prediction agreement with seed 42 1.000000 (original 1.000000), change in agreeing samples +0, near-boundary samples of the two models combined 33 -> passed; count check for this model passed
+  Note: seed-42 weights and data are identical; the difference from the original results (change in correct samples -1) may come from the computing environment (cuDNN vs native kernels, software versions); the specific samples cannot be identified
+IG done (3.2s)
+Stability: prediction agreement 1.0000; feature ρ 1.0000 (original 1.0000); temporal ρ 1.0000 (original 1.0000)
+Recency: last 10 days 0.5342, first 10 days 0.0633, ratio 8.4386 (original 8.9281), top-5 feature overlap 1.00
+------------------------------------------------------------
+Power / LSTM / seed 123 (2/5), total 0h03m03s
+Model: xai_cell_J_V2/models/Power_LSTM_seed123.pt
+Count check: Macro-F1 0.398492 (original 0.398600, difference -0.000108) -> passed
+  Accuracy 0.406415 (original 0.406532), change in correct samples -1, near-boundary samples of this model 36 (min logit margin 3.76e-06) -> passed
+  Prediction agreement with seed 42 0.766710 (original 0.766710), change in agreeing samples +0, near-boundary samples of the two models combined 69 -> passed; count check for this model passed
+IG done (3.2s)
+Stability: prediction agreement 0.7667; feature ρ 0.6503 (original 0.6503); temporal ρ 0.9698 (original 0.9649)
+Recency: last 10 days 0.6699, first 10 days 0.0341, ratio 19.6415 (original 21.2981), top-5 feature overlap 0.60
+------------------------------------------------------------
+Power / LSTM / seed 777 (3/5), total 0h03m07s
+Model: xai_cell_J_V2/models/Power_LSTM_seed777.pt
+Count check: Macro-F1 0.405007 (original 0.405007, difference +0.000000) -> passed
+  Accuracy 0.406649 (original 0.406649), change in correct samples +0, near-boundary samples of this model 34 (min logit margin 1.62e-05) -> passed
+  Prediction agreement with seed 42 0.794686 (original 0.794803), change in agreeing samples -1, near-boundary samples of the two models combined 67 -> passed; count check for this model passed
+IG done (3.1s)
+Stability: prediction agreement 0.7947; feature ρ 0.8042 (original 0.7902); temporal ρ 0.8732 (original 0.8669)
+Recency: last 10 days 0.5608, first 10 days 0.0773, ratio 7.2580 (original 7.6197), top-5 feature overlap 0.80
+------------------------------------------------------------
+Power / LSTM / seed 0 (4/5), total 0h03m10s
+Model: xai_cell_J_V2/models/Power_LSTM_seed0.pt
+Count check: Macro-F1 0.415091 (original 0.415091, difference +0.000000) -> passed
+  Accuracy 0.421632 (original 0.421632), change in correct samples +0, near-boundary samples of this model 36 (min logit margin 1.72e-05) -> passed
+  Prediction agreement with seed 42 0.795739 (original 0.795856), change in agreeing samples -1, near-boundary samples of the two models combined 69 -> passed; count check for this model passed
+IG done (3.1s)
+Stability: prediction agreement 0.7957; feature ρ 0.8601 (original 0.8601); temporal ρ 0.9823 (original 0.9843)
+Recency: last 10 days 0.5374, first 10 days 0.0572, ratio 9.3899 (original 9.8073), top-5 feature overlap 0.80
+------------------------------------------------------------
+Power / LSTM / seed 2024 (5/5), total 0h03m13s
+Model: xai_cell_J_V2/models/Power_LSTM_seed2024.pt
+Count check: Macro-F1 0.410957 (original 0.410931, difference +0.000026) -> passed
+  Accuracy 0.419759 (original 0.419759), change in correct samples +0, near-boundary samples of this model 47 (min logit margin 4.30e-05) -> passed
+  Prediction agreement with seed 42 0.814585 (original 0.814468), change in agreeing samples +1, near-boundary samples of the two models combined 80 -> passed; count check for this model passed
+IG done (3.1s)
+Stability: prediction agreement 0.8146; feature ρ 0.7203 (original 0.6993); temporal ρ 0.9901 (original 0.9896)
+Recency: last 10 days 0.6140, first 10 days 0.0428, ratio 14.3506 (original 14.8851), top-5 feature overlap 0.80
+
+====================================================================================================
+Step 3: summary
+Detail rows: 40 (expected 40); summary rows: 8 (expected 8)
+Check B count check (Macro-F1, correct samples, agreeing samples) passed: 40/40
+
+Check B per-model details:
+  Dataset  Model  Seed  MacroF1_New  MacroF1_Old  Delta_Correct_N  Delta_Agree_N  Near_Boundary_N_Model  Near_Boundary_N_Pair  Min_Logit_Margin  Match
+Medical-1    GRU    42     0.413236     0.413231                0              0                     25                    25          0.000004   True
+Medical-1    GRU   123     0.406507     0.406507                0             -1                     32                    57          0.000002   True
+Medical-1    GRU   777     0.412111     0.412111                0             -1                     26                    51          0.000018   True
+Medical-1    GRU     0     0.411643     0.411806               -1             -2                     16                    41          0.000013   True
+Medical-1    GRU  2024     0.403811     0.404107               -2             -2                     28                    53          0.000001   True
+Medical-1 BiLSTM    42     0.403513     0.403506                0              0                     20                    20          0.000181   True
+Medical-1 BiLSTM   123     0.395272     0.395408               -1              0                     21                    41          0.000036   True
+Medical-1 BiLSTM   777     0.397020     0.396895                1              0                     33                    53          0.000015   True
+Medical-1 BiLSTM     0     0.400145     0.400283               -1             -4                     36                    56          0.000011   True
+Medical-1 BiLSTM  2024     0.400450     0.400617               -1              1                     46                    66          0.000004   True
+Medical-1   LSTM    42     0.413009     0.412939                0              0                     23                    23          0.000046   True
+Medical-1   LSTM   123     0.405228     0.405228                0             -2                     24                    47          0.000035   True
+Medical-1   LSTM   777     0.401979     0.401634                2             -2                     63                    86          0.000009   True
+Medical-1   LSTM     0     0.407789     0.407789                0             -2                     33                    56          0.000017   True
+Medical-1   LSTM  2024     0.404890     0.405054               -1             -1                     21                    44          0.000050   True
+Medical-2 BiLSTM    42     0.419881     0.419881                0              0                    247                   247          0.000012   True
+Medical-2 BiLSTM   123     0.414169     0.414169                0              0                    206                   453          0.000011   True
+Medical-2 BiLSTM   777     0.383952     0.383952                0              0                    920                  1167          0.000001   True
+Medical-2 BiLSTM     0     0.410881     0.410881                0              0                    105                   352          0.000012   True
+Medical-2 BiLSTM  2024     0.412326     0.412326                0              0                    313                   560          0.000007   True
+Medical-2   LSTM    42     0.412332     0.412332                0              0                     87                    87          0.000004   True
+Medical-2   LSTM   123     0.400512     0.400512                0              0                    159                   246          0.000004   True
+Medical-2   LSTM   777     0.402272     0.402272                0              0                    261                   348          0.000001   True
+Medical-2   LSTM     0     0.405170     0.405170                0              0                     92                   179          0.000005   True
+Medical-2   LSTM  2024     0.399089     0.399089                0              0                    503                   590          0.000002   True
+    Power    GRU    42     0.410313     0.410313                0              0                     61                    61          0.000019   True
+    Power    GRU   123     0.416288     0.416288                0              0                     64                   125          0.000018   True
+    Power    GRU   777     0.411274     0.411380               -1             -1                     50                   111          0.000041   True
+    Power    GRU     0     0.408294     0.408294                0              0                     45                   106          0.000079   True
+    Power    GRU  2024     0.407613     0.407613                0              0                     61                   122          0.000024   True
+    Power BiLSTM    42     0.411858     0.412120               -2              0                     30                    30          0.000017   True
+    Power BiLSTM   123     0.402816     0.402935               -1             -1                     56                    86          0.000033   True
+    Power BiLSTM   777     0.398882     0.399027               -1             -1                     30                    60          0.000008   True
+    Power BiLSTM     0     0.415792     0.415923               -1              1                     53                    83          0.000006   True
+    Power BiLSTM  2024     0.410690     0.410690                0             -2                     37                    67          0.000020   True
+    Power   LSTM    42     0.402068     0.402199               -1              0                     33                    33          0.000020   True
+    Power   LSTM   123     0.398492     0.398600               -1              0                     36                    69          0.000004   True
+    Power   LSTM   777     0.405007     0.405007                0             -1                     34                    67          0.000016   True
+    Power   LSTM     0     0.415091     0.415091                0             -1                     36                    69          0.000017   True
+    Power   LSTM  2024     0.410957     0.410931                0              1                     47                    80          0.000043   True
+Seed-42 models (identical weights and data; differences may come from the computing environment) whose Macro-F1 differs from the original results: 5/8; with a change in correct samples: 2/8
+
+Check C per-sample cross-backend check of seed 42 passed: 8/8
+  Dataset  Model  N_Test  Max_Logit_Diff_GPU_vs_CPU  Max_Pairwise_Diff_GPU_vs_CPU  Q999_Pairwise_Diff_GPU_vs_CPU  N_ID_Mismatch_Stage5A  Label_Match_Stage5A  N_Diff_CPU_vs_Stage5A  N_Diff_CPU_vs_Stage5A_Outside  N_Diff_GPU_vs_Stage5A  N_Diff_GPU_vs_Stage5A_Outside  N_Diff_GPU_vs_CPU  N_Diff_GPU_vs_CPU_Outside  Near_Boundary_N_Seed42  Pass_Eps  Pass_Stage5A  Match
+Medical-1    GRU    6583                   5.96e-07                      9.54e-07                       6.56e-07                      0                 True                      0                              0                      0                              0                  0                          0                      25      True          True   True
+Medical-1 BiLSTM    6583                   5.96e-07                      1.04e-06                       5.96e-07                      0                 True                      0                              0                      0                              0                  0                          0                      20      True          True   True
+Medical-1   LSTM    6583                   6.56e-07                      1.04e-06                       5.36e-07                      0                 True                      0                              0                      0                              0                  0                          0                      23      True          True   True
+Medical-2 BiLSTM   21647                   4.77e-07                      8.34e-07                       6.56e-07                      0                 True                      0                              0                      0                              0                  0                          0                     247      True          True   True
+Medical-2   LSTM   21647                   4.77e-07                      7.15e-07                       4.77e-07                      0                 True                      0                              0                      0                              0                  0                          0                      87      True          True   True
+    Power    GRU    8543                   1.04e-06                      1.55e-06                       7.95e-07                      0                 True                      0                              0                      0                              0                  0                          0                      61      True          True   True
+    Power BiLSTM    8543                   1.43e-06                      2.15e-06                       7.75e-07                      0                 True                      0                              0                      0                              0                  0                          0                      30      True          True   True
+    Power   LSTM    8543                   8.34e-07                      1.49e-06                       1.07e-06                      0                 True                      0                              0                      0                              0                  0                          0                      33      True          True   True
+Max change in between-class logit differences between GPU native and CPU (all seed-42 models): 2.15e-06, MARGIN_EPS 0.001
+
+Corrected summary (new seeds relative to seed 42; columns without prefix are corrected, Old_ columns are original results):
+  Dataset  Model  MacroF1_Mean  MacroF1_SD  Feature_Spearman_vs_42_Mean_4Seeds  Old_Feature_Spearman_Mean_4Seeds  Feature_Spearman_vs_42_Min_4Seeds  Temporal_Spearman_vs_42_Mean_4Seeds  Old_Temporal_Spearman_Mean_4Seeds  Temporal_Spearman_vs_42_Min_4Seeds  Prediction_Agreement_vs_42_Mean_4Seeds  Top5_Overlap_vs_42_Mean_4Seeds  All_Seeds_Last10_gt_First10
+Medical-1    GRU        0.4095      0.0041                              0.9354                            0.9354                             0.8407                               0.9532                             0.9513                              0.9254                                  0.8388                          0.9500                         True
+Medical-1 BiLSTM        0.3993      0.0032                              0.9011                            0.8956                             0.8407                               0.8632                             0.9003                              0.8226                                  0.6955                          0.8000                         True
+Medical-1   LSTM        0.4066      0.0041                              0.8626                            0.8558                             0.7912                               0.9097                             0.9233                              0.8922                                  0.7641                          0.9500                         True
+Medical-2 BiLSTM        0.4082      0.0140                              0.8780                            0.8791                             0.6879                               0.9940                             0.9995                              0.9926                                  0.7592                          0.8500                         True
+Medical-2   LSTM        0.4039      0.0052                              0.8000                            0.8000                             0.7538                               0.9587                             0.9587                              0.8941                                  0.7573                          0.9500                         True
+    Power    GRU        0.4108      0.0034                              0.9318                            0.9266                             0.9091                               0.9633                             0.9616                              0.8670                                  0.8323                          0.7000                         True
+    Power BiLSTM        0.4080      0.0069                              0.8986                            0.8619                             0.8462                               0.9853                             0.9801                              0.9712                                  0.8166                          1.0000                         True
+    Power   LSTM        0.4063      0.0067                              0.7587                            0.7500                             0.6503                               0.9538                             0.9514                              0.8732                                  0.7929                          0.7500                         True
+
+Per-seed details:
+  Dataset  Model  Seed  MacroF1  Prediction_Agreement_vs_42  Feature_Spearman_vs_42  Old_Feature_Spearman_vs_42  Temporal_Spearman_vs_42  Old_Temporal_Spearman_vs_42  IG_Last10_to_First10  Old_IG_Last10_to_First10
+Medical-1    GRU    42   0.4132                      1.0000                  1.0000                      1.0000                   1.0000                       1.0000                9.4227                    9.8618
+Medical-1    GRU   123   0.4065                      0.8265                  0.9560                      0.9560                   0.9774                       0.9793               12.8953                   13.5953
+Medical-1    GRU   777   0.4121                      0.8601                  0.9670                      0.9670                   0.9640                       0.9647                7.5882                    7.8540
+Medical-1    GRU     0   0.4116                      0.8639                  0.9780                      0.9780                   0.9462                       0.9455                8.5276                    8.8980
+Medical-1    GRU  2024   0.4038                      0.8045                  0.8407                      0.8407                   0.9254                       0.9159                6.3612                    6.6281
+Medical-1 BiLSTM    42   0.4035                      1.0000                  1.0000                      1.0000                   1.0000                       1.0000                8.3447                    8.6265
+Medical-1 BiLSTM   123   0.3953                      0.6965                  0.9396                      0.9396                   0.8226                       0.8620                5.4420                    6.0507
+Medical-1 BiLSTM   777   0.3970                      0.6928                  0.8407                      0.8187                   0.8942                       0.9310               17.2813                   18.5338
+Medical-1 BiLSTM     0   0.4001                      0.6854                  0.8791                      0.8791                   0.8398                       0.8744               49.3205                   51.2125
+Medical-1 BiLSTM  2024   0.4005                      0.7073                  0.9451                      0.9451                   0.8964                       0.9337               11.8209                   12.0294
+Medical-1   LSTM    42   0.4130                      1.0000                  1.0000                      1.0000                   1.0000                       1.0000                5.8065                    6.7793
+Medical-1   LSTM   123   0.4052                      0.7743                  0.9011                      0.9066                   0.9416                       0.9723                8.0761                    9.6590
+Medical-1   LSTM   777   0.4020                      0.7339                  0.7912                      0.7857                   0.8972                       0.9091               15.3082                   16.0820
+Medical-1   LSTM     0   0.4078                      0.7928                  0.9505                      0.9286                   0.8922                       0.9021               22.4118                   24.5452
+Medical-1   LSTM  2024   0.4049                      0.7556                  0.8077                      0.8022                   0.9077                       0.9095                7.3303                    8.3453
+Medical-2 BiLSTM    42   0.4199                      1.0000                  1.0000                      1.0000                   1.0000                       1.0000               14.8169                   18.4587
+Medical-2 BiLSTM   123   0.4142                      0.8075                  0.9780                      0.9824                   0.9968                       0.9998               16.1316                   17.0241
+Medical-2 BiLSTM   777   0.3840                      0.6571                  0.9033                      0.9033                   0.9933                       0.9994               88.2763                  100.9728
+Medical-2 BiLSTM     0   0.4109                      0.7776                  0.6879                      0.6879                   0.9926                       0.9993               20.6284                   22.8074
+Medical-2 BiLSTM  2024   0.4123                      0.7944                  0.9429                      0.9429                   0.9933                       0.9994              767.1335                  936.2878
+Medical-2   LSTM    42   0.4123                      1.0000                  1.0000                      1.0000                   1.0000                       1.0000               24.7050                   24.7050
+Medical-2   LSTM   123   0.4005                      0.7760                  0.7538                      0.7538                   0.9997                       0.9997               69.4147                   69.4147
+Medical-2   LSTM   777   0.4023                      0.7256                  0.7538                      0.7538                   0.8941                       0.8941                8.3425                    8.3425
+Medical-2   LSTM     0   0.4052                      0.7958                  0.8813                      0.8813                   0.9418                       0.9418               19.5609                   19.5609
+Medical-2   LSTM  2024   0.3991                      0.7320                  0.8110                      0.8110                   0.9993                       0.9993               31.9703                   31.9703
+    Power    GRU    42   0.4103                      1.0000                  1.0000                      1.0000                   1.0000                       1.0000               12.3741                   14.0288
+    Power    GRU   123   0.4163                      0.8421                  0.9580                      0.9580                   0.9954                       0.9853               14.9680                   17.0783
+    Power    GRU   777   0.4113                      0.8444                  0.9161                      0.9161                   0.9944                       0.9917               16.6505                   18.2973
+    Power    GRU     0   0.4083                      0.7891                  0.9091                      0.9091                   0.8670                       0.8709                9.3628                    9.7280
+    Power    GRU  2024   0.4076                      0.8537                  0.9441                      0.9231                   0.9965                       0.9987               15.4618                   19.2706
+    Power BiLSTM    42   0.4119                      1.0000                  1.0000                      1.0000                   1.0000                       1.0000               10.2937                   11.4003
+    Power BiLSTM   123   0.4028                      0.8091                  0.9301                      0.9091                   0.9958                       0.9837               28.3150                   30.9178
+    Power BiLSTM   777   0.3989                      0.7935                  0.9161                      0.9021                   0.9712                       0.9752               14.1876                   14.8533
+    Power BiLSTM     0   0.4158                      0.8462                  0.8462                      0.7972                   0.9785                       0.9745                8.3616                    8.6069
+    Power BiLSTM  2024   0.4107                      0.8177                  0.9021                      0.8392                   0.9957                       0.9872               23.3799                   26.4296
+    Power   LSTM    42   0.4021                      1.0000                  1.0000                      1.0000                   1.0000                       1.0000                8.4386                    8.9281
+    Power   LSTM   123   0.3985                      0.7667                  0.6503                      0.6503                   0.9698                       0.9649               19.6415                   21.2981
+    Power   LSTM   777   0.4050                      0.7947                  0.8042                      0.7902                   0.8732                       0.8669                7.2580                    7.6197
+    Power   LSTM     0   0.4151                      0.7957                  0.8601                      0.8601                   0.9823                       0.9843                9.3899                    9.8073
+    Power   LSTM  2024   0.4110                      0.8146                  0.7203                      0.6993                   0.9901                       0.9896               14.3506                   14.8851
+
+Combinations with last 10 days > first 10 days for all seeds: 8/8
+Output files: ./stage6/stage6_cell_K_data_cnmultiseed_V7/multiseed_detail_corrected.csv, multiseed_summary_corrected.csv, prediction_check_vs_original.csv, seed42_backend_check.csv, ig_feature_all_seeds_corrected.csv, ig_timestep_all_seeds_corrected.csv
+Checks A, B and C all passed (count check and seed-42 cross-backend check passed; the original results did not save per-sample predictions, so this is not described as strict reproduction)
+stage6_cell_K_data_cnmultiseed_V7 finished, total time 0h03m16s
+
+
+

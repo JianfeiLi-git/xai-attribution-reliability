@@ -1,0 +1,396 @@
+Input directories: ./stage6/stage6_cell_A_data_preprocessing_V1/, ./stage6/stage6_cell_C_data_training_V2/
+Output directory: ./stage6/stage6_cell_I_data_labelrandom_V2/
+cuDNN disabled (cuDNN cannot be initialized on the server); using PyTorch native CUDA RNN kernels
+Input file check passed (19 files)
+US-Med: 22 features: ['roc_5', 'close_to_ma20', 'low', 'rsi', 'high_low_range', 'roc_20', 'dayofyear_sin', 'bb_position', 'macd', 'roc_10', 'bb_width', 'macd_signal', 'dayofweek_sin', 'dayofyear_cos', 'dayofweek_cos', 'year', 'month', 'day', 'dayofweek', 'quarter', 'dayofyear', 'weekofyear']
+US-Pow: 19 features: ['roc_5', 'dayofyear_sin', 'ma10', 'macd_signal', 'dayofyear_cos', 'macd', 'dayofweek_cos', 'high_low_range', 'close_to_ma20', 'momentum_5', 'roc_20', 'rsi', 'year', 'month', 'day', 'dayofweek', 'quarter', 'dayofyear', 'weekofyear']
+Device: cuda
+Task: label randomization test
+Dependencies: raw data + fixed model files; results of other cells are not read
+Scope: 2 U.S. datasets x 3 RNNs = 6 models
+Principles: same architecture as the original model; training and validation labels shuffled separately; test set keeps true labels
+IG comparison: same samples, same training-set mean baseline, same fixed target
+Note: this cell uses a common test retraining protocol and does not reuse the original optimization hyperparameters
+--------------------
+Dataset: US-Med
+Step 1: data preparation and checks
+US-Med: data directory ./stage6/stage6_cell_A_data_preprocessing_V1/us_med
+US-Med: train (63061, 60, 22), validation (6280, 60, 22), test (5720, 60, 22)
+Number of features: 22
+Features: roc_5, close_to_ma20, low, rsi, high_low_range, roc_20, dayofyear_sin, bb_position, macd, roc_10, bb_width, macd_signal, dayofweek_sin, dayofyear_cos, dayofweek_cos, year, month, day, dayofweek, quarter, dayofyear, weekofyear
+Training samples: 63061, validation samples: 6280, test samples: 5720
+Training missing values: 0, validation missing values: 0, test missing values: 0
+Training label distribution: {0: 21008, 1: 21004, 2: 21049}
+Validation label distribution: {0: 2041, 1: 2318, 2: 1921}
+Test label distribution: {0: 2013, 1: 1718, 2: 1989}
+Data check: passed
+--------------------
+US-Med / GRU
+Step 2: load the original model and check its architecture
+US-Med-GRU: ./stage6/stage6_cell_C_data_training_V2/us_med/gru_seed42_selected.pth | input dim 22, hidden dim 128, layers 2
+Architecture: input dim 22, hidden dim 128, layers 2, directions unidirectional
+Model check: test Macro-F1 0.251911, accuracy 0.366434
+Model check: passed
+Step 3: generate random labels
+Original training label distribution: {0: 21008, 1: 21004, 2: 21049}
+Shuffled training label distribution: {0: 21008, 1: 21004, 2: 21049}
+Original validation label distribution: {0: 2041, 1: 2318, 2: 1921}
+Shuffled validation label distribution: {0: 2041, 1: 2318, 2: 1921}
+Share of training labels whose position changed: 0.665435
+Share of validation labels whose position changed: 0.656847
+Step 4: retrain the model with random labels
+Training protocol: batch 256, learning rate 0.001, weight decay 1e-05, at most 20 epochs, early-stopping patience 5
+Epoch 01/20: train loss 1.099685, randomized val loss 1.098902, randomized val accuracy 0.325000, total 0.2m
+Epoch 02/20: train loss 1.098722, randomized val loss 1.099506, randomized val accuracy 0.305892, total 0.3m
+Epoch 03/20: train loss 1.098753, randomized val loss 1.098936, randomized val accuracy 0.305892, total 0.4m
+Epoch 04/20: train loss 1.098697, randomized val loss 1.098854, randomized val accuracy 0.305892, total 0.6m
+Epoch 05/20: train loss 1.098632, randomized val loss 1.098859, randomized val accuracy 0.305892, total 0.7m
+Epoch 06/20: train loss 1.098773, randomized val loss 1.098593, randomized val accuracy 0.369108, total 0.9m
+Epoch 07/20: train loss 1.098631, randomized val loss 1.098348, randomized val accuracy 0.369108, total 1.0m
+Epoch 08/20: train loss 1.098650, randomized val loss 1.098439, randomized val accuracy 0.369108, total 1.1m
+Epoch 09/20: train loss 1.098648, randomized val loss 1.098405, randomized val accuracy 0.369108, total 1.3m
+Epoch 10/20: train loss 1.098636, randomized val loss 1.098766, randomized val accuracy 0.305892, total 1.4m
+Epoch 11/20: train loss 1.098648, randomized val loss 1.098726, randomized val accuracy 0.305892, total 1.6m
+Epoch 12/20: train loss 1.098644, randomized val loss 1.098952, randomized val accuracy 0.325000, total 1.7m
+Early stopping: no improvement for 5 consecutive epochs
+Epochs actually trained: 12
+Lowest randomized val loss: 1.098348
+Step 5: check predictive ability on the true test labels
+Original model: Macro-F1 0.251911, accuracy 0.366434, mean true-class probability 0.343086
+Random-label model: Macro-F1 0.153984, accuracy 0.300350, mean true-class probability 0.333270
+Change: ΔF1 -0.097927, Δaccuracy -0.066084
+Step 6: IG comparison between the original and random-label models
+IG fixed samples: 200
+IG integration steps: 32
+Fixed target-class distribution: {1: 26, 2: 174}
+Attribution correlations: map ρ nan (p=nan), feature ρ nan (p=nan), temporal ρ nan (p=nan)
+Original model IG features top 5:
+1. dayofyear | 0.00254429
+2. day | 0.00187951
+3. high_low_range | 0.00093770
+4. weekofyear | 0.00087623
+5. low | 0.00082597
+Random-label model IG features top 5:
+1. roc_5 | 0.00000000
+2. quarter | 0.00000000
+3. dayofweek | 0.00000000
+4. day | 0.00000000
+5. month | 0.00000000
+Final results for the current model:
+Dataset Model  RandomLabel_MacroF1  RandomLabel_Accuracy  Map_Spearman  Feature_Spearman  Temporal_Spearman
+ US-Med   GRU             0.153984               0.30035           NaN               NaN                NaN
+Label randomization: done
+--------------------
+US-Med / BiLSTM
+Step 2: load the original model and check its architecture
+US-Med-BiLSTM: ./stage6/stage6_cell_C_data_training_V2/us_med/bilstm_seed42_selected.pth | input dim 22, hidden dim 128, layers 2
+Architecture: input dim 22, hidden dim 128, layers 2, directions bidirectional
+Model check: test Macro-F1 0.336737, accuracy 0.365559
+Model check: passed
+Step 3: generate random labels
+Original training label distribution: {0: 21008, 1: 21004, 2: 21049}
+Shuffled training label distribution: {0: 21008, 1: 21004, 2: 21049}
+Original validation label distribution: {0: 2041, 1: 2318, 2: 1921}
+Shuffled validation label distribution: {0: 2041, 1: 2318, 2: 1921}
+Share of training labels whose position changed: 0.665435
+Share of validation labels whose position changed: 0.656847
+Step 4: retrain the model with random labels
+Training protocol: batch 256, learning rate 0.001, weight decay 1e-05, at most 20 epochs, early-stopping patience 5
+Epoch 01/20: train loss 1.099177, randomized val loss 1.100813, randomized val accuracy 0.305892, total 2.0m
+Epoch 02/20: train loss 1.098812, randomized val loss 1.098162, randomized val accuracy 0.369108, total 2.3m
+Epoch 03/20: train loss 1.098668, randomized val loss 1.100093, randomized val accuracy 0.305892, total 2.5m
+Epoch 04/20: train loss 1.098723, randomized val loss 1.098865, randomized val accuracy 0.325000, total 2.8m
+Epoch 05/20: train loss 1.098687, randomized val loss 1.098465, randomized val accuracy 0.325000, total 3.0m
+Epoch 06/20: train loss 1.098707, randomized val loss 1.098951, randomized val accuracy 0.325000, total 3.3m
+Epoch 07/20: train loss 1.098696, randomized val loss 1.099470, randomized val accuracy 0.325000, total 3.5m
+Early stopping: no improvement for 5 consecutive epochs
+Epochs actually trained: 7
+Lowest randomized val loss: 1.098162
+Step 5: check predictive ability on the true test labels
+Original model: Macro-F1 0.336737, accuracy 0.365559, mean true-class probability 0.343342
+Random-label model: Macro-F1 0.153984, accuracy 0.300350, mean true-class probability 0.333186
+Change: ΔF1 -0.182753, Δaccuracy -0.065210
+Step 6: IG comparison between the original and random-label models
+IG fixed samples: 200
+IG integration steps: 32
+Fixed target-class distribution: {0: 97, 1: 11, 2: 92}
+Attribution correlations: map ρ 0.553447 (p=8.48903e-107), feature ρ 0.607002 (p=0.00273922), temporal ρ 0.996777 (p=2.94628e-65)
+Original model IG features top 5:
+1. dayofyear | 0.00270439
+2. high_low_range | 0.00228150
+3. day | 0.00172308
+4. month | 0.00163469
+5. macd | 0.00106460
+Random-label model IG features top 5:
+1. dayofyear | 0.00000217
+2. weekofyear | 0.00000023
+3. day | 0.00000017
+4. macd_signal | 0.00000008
+5. macd | 0.00000006
+Final results for the current model:
+Dataset  Model  RandomLabel_MacroF1  RandomLabel_Accuracy  Map_Spearman  Feature_Spearman  Temporal_Spearman
+ US-Med BiLSTM             0.153984               0.30035      0.553447          0.607002           0.996777
+Label randomization: done
+--------------------
+US-Med / LSTM
+Step 2: load the original model and check its architecture
+US-Med-LSTM: ./stage6/stage6_cell_C_data_training_V2/us_med/lstm_seed42_selected.pth | input dim 22, hidden dim 128, layers 2
+Architecture: input dim 22, hidden dim 128, layers 2, directions unidirectional
+Model check: test Macro-F1 0.301719, accuracy 0.352972
+Model check: passed
+Step 3: generate random labels
+Original training label distribution: {0: 21008, 1: 21004, 2: 21049}
+Shuffled training label distribution: {0: 21008, 1: 21004, 2: 21049}
+Original validation label distribution: {0: 2041, 1: 2318, 2: 1921}
+Shuffled validation label distribution: {0: 2041, 1: 2318, 2: 1921}
+Share of training labels whose position changed: 0.665435
+Share of validation labels whose position changed: 0.656847
+Step 4: retrain the model with random labels
+Training protocol: batch 256, learning rate 0.001, weight decay 1e-05, at most 20 epochs, early-stopping patience 5
+Epoch 01/20: train loss 1.098915, randomized val loss 1.098726, randomized val accuracy 0.305892, total 3.7m
+Epoch 02/20: train loss 1.098868, randomized val loss 1.097802, randomized val accuracy 0.325000, total 3.9m
+Epoch 03/20: train loss 1.098782, randomized val loss 1.098524, randomized val accuracy 0.305892, total 4.0m
+Epoch 04/20: train loss 1.098716, randomized val loss 1.099125, randomized val accuracy 0.305892, total 4.1m
+Epoch 05/20: train loss 1.098735, randomized val loss 1.098608, randomized val accuracy 0.325000, total 4.3m
+Epoch 06/20: train loss 1.098684, randomized val loss 1.098510, randomized val accuracy 0.305892, total 4.4m
+Epoch 07/20: train loss 1.098693, randomized val loss 1.100232, randomized val accuracy 0.305892, total 4.5m
+Early stopping: no improvement for 5 consecutive epochs
+Epochs actually trained: 7
+Lowest randomized val loss: 1.097802
+Step 5: check predictive ability on the true test labels
+Original model: Macro-F1 0.301719, accuracy 0.352972, mean true-class probability 0.344733
+Random-label model: Macro-F1 0.173542, accuracy 0.351923, mean true-class probability 0.333192
+Change: ΔF1 -0.128177, Δaccuracy -0.001049
+Step 6: IG comparison between the original and random-label models
+IG fixed samples: 200
+IG integration steps: 32
+Fixed target-class distribution: {0: 111, 1: 5, 2: 84}
+Attribution correlations: map ρ 0.559364 (p=1.56447e-109), feature ρ 0.448899 (p=0.0361145), temporal ρ 0.867185 (p=3.28441e-19)
+Original model IG features top 5:
+1. dayofyear | 0.00500820
+2. weekofyear | 0.00312194
+3. high_low_range | 0.00175728
+4. day | 0.00113641
+5. bb_width | 0.00079406
+Random-label model IG features top 5:
+1. dayofyear | 0.00000005
+2. weekofyear | 0.00000001
+3. macd | 0.00000000
+4. macd_signal | 0.00000000
+5. day | 0.00000000
+Final results for the current model:
+Dataset Model  RandomLabel_MacroF1  RandomLabel_Accuracy  Map_Spearman  Feature_Spearman  Temporal_Spearman
+ US-Med  LSTM             0.173542              0.351923      0.559364          0.448899           0.867185
+Label randomization: done
+--------------------
+Dataset: US-Pow
+Step 1: data preparation and checks
+US-Pow: data directory ./stage6/stage6_cell_A_data_preprocessing_V1/us_pow
+US-Pow: train (63799, 60, 19), validation (6280, 60, 19), test (5720, 60, 19)
+Number of features: 19
+Features: roc_5, dayofyear_sin, ma10, macd_signal, dayofyear_cos, macd, dayofweek_cos, high_low_range, close_to_ma20, momentum_5, roc_20, rsi, year, month, day, dayofweek, quarter, dayofyear, weekofyear
+Training samples: 63799, validation samples: 6280, test samples: 5720
+Training missing values: 0, validation missing values: 0, test missing values: 0
+Training label distribution: {0: 21301, 1: 21218, 2: 21280}
+Validation label distribution: {0: 2298, 1: 1932, 2: 2050}
+Test label distribution: {0: 1969, 1: 1701, 2: 2050}
+Data check: passed
+--------------------
+US-Pow / GRU
+Step 2: load the original model and check its architecture
+US-Pow-GRU: ./stage6/stage6_cell_C_data_training_V2/us_pow/gru_seed42_selected.pth | input dim 19, hidden dim 64, layers 2
+Architecture: input dim 19, hidden dim 64, layers 2, directions unidirectional
+Model check: test Macro-F1 0.288881, accuracy 0.361538
+Model check: passed
+Step 3: generate random labels
+Original training label distribution: {0: 21301, 1: 21218, 2: 21280}
+Shuffled training label distribution: {0: 21301, 1: 21218, 2: 21280}
+Original validation label distribution: {0: 2298, 1: 1932, 2: 2050}
+Shuffled validation label distribution: {0: 2298, 1: 1932, 2: 2050}
+Share of training labels whose position changed: 0.667377
+Share of validation labels whose position changed: 0.665764
+Step 4: retrain the model with random labels
+Training protocol: batch 256, learning rate 0.001, weight decay 1e-05, at most 20 epochs, early-stopping patience 5
+Epoch 01/20: train loss 1.099172, randomized val loss 1.099248, randomized val accuracy 0.326433, total 4.7m
+Epoch 02/20: train loss 1.098852, randomized val loss 1.100471, randomized val accuracy 0.320860, total 4.9m
+Epoch 03/20: train loss 1.098833, randomized val loss 1.097078, randomized val accuracy 0.365924, total 5.0m
+Epoch 04/20: train loss 1.098835, randomized val loss 1.100587, randomized val accuracy 0.326433, total 5.2m
+Epoch 05/20: train loss 1.098768, randomized val loss 1.097653, randomized val accuracy 0.365924, total 5.3m
+Epoch 06/20: train loss 1.098716, randomized val loss 1.098700, randomized val accuracy 0.308599, total 5.4m
+Epoch 07/20: train loss 1.098735, randomized val loss 1.098790, randomized val accuracy 0.326433, total 5.6m
+Epoch 08/20: train loss 1.098696, randomized val loss 1.097558, randomized val accuracy 0.365924, total 5.7m
+Early stopping: no improvement for 5 consecutive epochs
+Epochs actually trained: 8
+Lowest randomized val loss: 1.097078
+Step 5: check predictive ability on the true test labels
+Original model: Macro-F1 0.288881, accuracy 0.361538, mean true-class probability 0.338955
+Random-label model: Macro-F1 0.170720, accuracy 0.344231, mean true-class probability 0.333794
+Change: ΔF1 -0.118161, Δaccuracy -0.017308
+Step 6: IG comparison between the original and random-label models
+IG fixed samples: 200
+IG integration steps: 32
+Fixed target-class distribution: {0: 3, 1: 69, 2: 128}
+Attribution correlations: map ρ 0.480983 (p=4.69636e-67), feature ρ 0.757895 (p=0.000170426), temporal ρ 0.979050 (p=8.68914e-42)
+Original model IG features top 5:
+1. dayofyear | 0.00421191
+2. high_low_range | 0.00269177
+3. day | 0.00242641
+4. weekofyear | 0.00177206
+5. momentum_5 | 0.00120472
+Random-label model IG features top 5:
+1. dayofyear | 0.00002294
+2. weekofyear | 0.00000077
+3. day | 0.00000072
+4. month | 0.00000060
+5. quarter | 0.00000014
+Final results for the current model:
+Dataset Model  RandomLabel_MacroF1  RandomLabel_Accuracy  Map_Spearman  Feature_Spearman  Temporal_Spearman
+ US-Pow   GRU              0.17072              0.344231      0.480983          0.757895            0.97905
+Label randomization: done
+--------------------
+US-Pow / BiLSTM
+Step 2: load the original model and check its architecture
+US-Pow-BiLSTM: ./stage6/stage6_cell_C_data_training_V2/us_pow/bilstm_seed42_selected.pth | input dim 19, hidden dim 128, layers 2
+Architecture: input dim 19, hidden dim 128, layers 2, directions bidirectional
+Model check: test Macro-F1 0.333694, accuracy 0.361014
+Model check: passed
+Step 3: generate random labels
+Original training label distribution: {0: 21301, 1: 21218, 2: 21280}
+Shuffled training label distribution: {0: 21301, 1: 21218, 2: 21280}
+Original validation label distribution: {0: 2298, 1: 1932, 2: 2050}
+Shuffled validation label distribution: {0: 2298, 1: 1932, 2: 2050}
+Share of training labels whose position changed: 0.667377
+Share of validation labels whose position changed: 0.665764
+Step 4: retrain the model with random labels
+Training protocol: batch 256, learning rate 0.001, weight decay 1e-05, at most 20 epochs, early-stopping patience 5
+Epoch 01/20: train loss 1.098876, randomized val loss 1.098518, randomized val accuracy 0.326433, total 6.0m
+Epoch 02/20: train loss 1.098806, randomized val loss 1.098971, randomized val accuracy 0.307643, total 6.3m
+Epoch 03/20: train loss 1.098743, randomized val loss 1.097648, randomized val accuracy 0.365924, total 6.5m
+Epoch 04/20: train loss 1.098730, randomized val loss 1.098616, randomized val accuracy 0.307643, total 6.8m
+Epoch 05/20: train loss 1.098690, randomized val loss 1.098605, randomized val accuracy 0.326433, total 7.0m
+Epoch 06/20: train loss 1.098682, randomized val loss 1.098222, randomized val accuracy 0.326433, total 7.3m
+Epoch 07/20: train loss 1.098716, randomized val loss 1.098524, randomized val accuracy 0.326433, total 7.6m
+Epoch 08/20: train loss 1.098671, randomized val loss 1.098230, randomized val accuracy 0.365924, total 7.8m
+Early stopping: no improvement for 5 consecutive epochs
+Epochs actually trained: 8
+Lowest randomized val loss: 1.097648
+Step 5: check predictive ability on the true test labels
+Original model: Macro-F1 0.333694, accuracy 0.361014, mean true-class probability 0.338293
+Random-label model: Macro-F1 0.170720, accuracy 0.344231, mean true-class probability 0.333558
+Change: ΔF1 -0.162974, Δaccuracy -0.016783
+Step 6: IG comparison between the original and random-label models
+IG fixed samples: 200
+IG integration steps: 32
+Fixed target-class distribution: {0: 70, 1: 35, 2: 95}
+Attribution correlations: map ρ 0.466454 (p=1.17782e-62), feature ρ 0.280702 (p=0.244393), temporal ρ 0.886524 (p=4.51995e-21)
+Original model IG features top 5:
+1. dayofyear | 0.00318515
+2. weekofyear | 0.00180261
+3. high_low_range | 0.00147580
+4. momentum_5 | 0.00058909
+5. roc_5 | 0.00048250
+Random-label model IG features top 5:
+1. dayofyear | 0.00000001
+2. weekofyear | 0.00000000
+3. day | 0.00000000
+4. month | 0.00000000
+5. year | 0.00000000
+Final results for the current model:
+Dataset  Model  RandomLabel_MacroF1  RandomLabel_Accuracy  Map_Spearman  Feature_Spearman  Temporal_Spearman
+ US-Pow BiLSTM              0.17072              0.344231      0.466454          0.280702           0.886524
+Label randomization: done
+--------------------
+US-Pow / LSTM
+Step 2: load the original model and check its architecture
+US-Pow-LSTM: ./stage6/stage6_cell_C_data_training_V2/us_pow/lstm_seed42_selected.pth | input dim 19, hidden dim 128, layers 2
+Architecture: input dim 19, hidden dim 128, layers 2, directions unidirectional
+Model check: test Macro-F1 0.333218, accuracy 0.362238
+Model check: passed
+Step 3: generate random labels
+Original training label distribution: {0: 21301, 1: 21218, 2: 21280}
+Shuffled training label distribution: {0: 21301, 1: 21218, 2: 21280}
+Original validation label distribution: {0: 2298, 1: 1932, 2: 2050}
+Shuffled validation label distribution: {0: 2298, 1: 1932, 2: 2050}
+Share of training labels whose position changed: 0.667377
+Share of validation labels whose position changed: 0.665764
+Step 4: retrain the model with random labels
+Training protocol: batch 256, learning rate 0.001, weight decay 1e-05, at most 20 epochs, early-stopping patience 5
+Epoch 01/20: train loss 1.098989, randomized val loss 1.099944, randomized val accuracy 0.307643, total 8.0m
+Epoch 02/20: train loss 1.098723, randomized val loss 1.098134, randomized val accuracy 0.365924, total 8.1m
+Epoch 03/20: train loss 1.098799, randomized val loss 1.098617, randomized val accuracy 0.307643, total 8.3m
+Epoch 04/20: train loss 1.098683, randomized val loss 1.100234, randomized val accuracy 0.326433, total 8.4m
+Epoch 05/20: train loss 1.098731, randomized val loss 1.097941, randomized val accuracy 0.365924, total 8.6m
+Epoch 06/20: train loss 1.098711, randomized val loss 1.098346, randomized val accuracy 0.365924, total 8.7m
+Epoch 07/20: train loss 1.098760, randomized val loss 1.097958, randomized val accuracy 0.365924, total 8.8m
+Epoch 08/20: train loss 1.098683, randomized val loss 1.099135, randomized val accuracy 0.307643, total 9.0m
+Epoch 09/20: train loss 1.098709, randomized val loss 1.098143, randomized val accuracy 0.365924, total 9.1m
+Epoch 10/20: train loss 1.098659, randomized val loss 1.098254, randomized val accuracy 0.326433, total 9.3m
+Early stopping: no improvement for 5 consecutive epochs
+Epochs actually trained: 10
+Lowest randomized val loss: 1.097941
+Step 5: check predictive ability on the true test labels
+Original model: Macro-F1 0.333218, accuracy 0.362238, mean true-class probability 0.342212
+Random-label model: Macro-F1 0.170720, accuracy 0.344231, mean true-class probability 0.333131
+Change: ΔF1 -0.162498, Δaccuracy -0.018007
+Step 6: IG comparison between the original and random-label models
+IG fixed samples: 200
+IG integration steps: 32
+Fixed target-class distribution: {0: 99, 1: 26, 2: 75}
+Attribution correlations: map ρ 0.456715 (p=8.01056e-60), feature ρ 0.336842 (p=0.158483), temporal ρ 0.818727 (p=1.33849e-15)
+Original model IG features top 5:
+1. dayofyear | 0.00959192
+2. weekofyear | 0.00283557
+3. high_low_range | 0.00199986
+4. momentum_5 | 0.00082761
+5. day | 0.00066304
+Random-label model IG features top 5:
+1. dayofyear | 0.00000004
+2. weekofyear | 0.00000000
+3. month | 0.00000000
+4. day | 0.00000000
+5. quarter | 0.00000000
+Final results for the current model:
+Dataset Model  RandomLabel_MacroF1  RandomLabel_Accuracy  Map_Spearman  Feature_Spearman  Temporal_Spearman
+ US-Pow  LSTM              0.17072              0.344231      0.456715          0.336842           0.818727
+Label randomization: done
+--------------------
+Step 7: save results and produce the final summary
+Label randomization result rows: 6
+Training history rows: 52
+Error records: 0
+--------------------
+Final summary 1: performance of random-label models on the true test labels
+Dataset  Model  Original_MacroF1  RandomLabel_MacroF1  Delta_MacroF1  Original_Accuracy  RandomLabel_Accuracy  Delta_Accuracy
+ US-Med BiLSTM          0.336737             0.153984      -0.182753           0.365559              0.300350       -0.065210
+ US-Med    GRU          0.251911             0.153984      -0.097927           0.366434              0.300350       -0.066084
+ US-Med   LSTM          0.301719             0.173542      -0.128177           0.352972              0.351923       -0.001049
+ US-Pow BiLSTM          0.333694             0.170720      -0.162974           0.361014              0.344231       -0.016783
+ US-Pow    GRU          0.288881             0.170720      -0.118161           0.361538              0.344231       -0.017308
+ US-Pow   LSTM          0.333218             0.170720      -0.162498           0.362238              0.344231       -0.018007
+--------------------
+Final summary 2: attribution correlations between original and random-label models
+Dataset  Model  Map_Spearman         Map_p  Feature_Spearman  Feature_p  Temporal_Spearman   Temporal_p
+ US-Med BiLSTM      0.553447 8.489031e-107          0.607002   0.002739           0.996777 2.946281e-65
+ US-Med    GRU           NaN           NaN               NaN        NaN                NaN          NaN
+ US-Med   LSTM      0.559364 1.564468e-109          0.448899   0.036114           0.867185 3.284407e-19
+ US-Pow BiLSTM      0.466454  1.177822e-62          0.280702   0.244393           0.886524 4.519952e-21
+ US-Pow    GRU      0.480983  4.696356e-67          0.757895   0.000170           0.979050 8.689143e-42
+ US-Pow   LSTM      0.456715  8.010555e-60          0.336842   0.158483           0.818727 1.338488e-15
+--------------------
+Final summary 3: cross-model statistics
+              Metric     Mean      Min      Max
+ RandomLabel_MacroF1 0.165612 0.153984 0.173542
+RandomLabel_Accuracy 0.330886 0.300350 0.351923
+        Map_Spearman 0.503393 0.456715 0.559364
+    Feature_Spearman 0.486268 0.280702 0.757895
+   Temporal_Spearman 0.909653 0.818727 0.996777
+--------------------
+Final summary 4: errors
+Errors: 0, all steps completed
+--------------------
+stage6_cell_I_data_labelrandom_V2 finished
+Results directory: ./stage6/stage6_cell_I_data_labelrandom_V2/
+
+
+
+

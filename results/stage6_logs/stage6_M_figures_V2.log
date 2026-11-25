@@ -1,0 +1,131 @@
+Input directories: 0924/xai_cell_A_V9/, 0924/xai_cell_B_V6/, 0924/xai_cell_D_V1/, 0924/xai_cell_E_V2/, 0924/xai_cell_F_V1/, ./stage6/stage6_cell_E_data_attribution_V2/, ./stage6/stage6_cell_F_data_kernelshap_V4/, ./stage6/stage6_cell_G_data_temporal_V2/, ./stage6/stage6_cell_H_data_robustness_V4/, ./stage6/stage6_cell_I_data_labelrandom_V2/, ./stage6/stage6_cell_L_data_crossmarket_V5/
+Output directory: ./stage6/stage6_cell_M_data_figures_V2/
+Input file check passed (23 files)
+  cn_param: 0924/xai_cell_A_V9/A1_parameter_randomization_sanity.csv
+  cn_occl: 0924/xai_cell_A_V9/A3_temporal_occlusion.csv
+  cn_agree: 0924/xai_cell_B_V6/B2_ig_vs_kernelshap.csv
+  cn_faith: 0924/xai_cell_B_V6/B3_paired_faithfulness_summary.csv
+  cn_noise: 0924/xai_cell_D_V1/D2_input_noise_robustness_summary.csv
+  cn_label: 0924/xai_cell_E_V2/E1_label_randomization_sanity.csv
+  cn_block: 0924/xai_cell_F_V1/F4_temporal_block_mass.csv
+  cn_tsum: 0924/xai_cell_F_V1/F5_temporal_method_summary.csv
+  us_param: ./stage6/stage6_cell_E_data_attribution_V2/A1_parameter_randomization_sanity.csv
+  us_occl: ./stage6/stage6_cell_E_data_attribution_V2/A3_temporal_occlusion.csv
+  us_agree: ./stage6/stage6_cell_F_data_kernelshap_V4/B2_ig_vs_kernelshap.csv
+  us_faith: ./stage6/stage6_cell_F_data_kernelshap_V4/B3_paired_faithfulness_summary.csv
+  us_noise: ./stage6/stage6_cell_H_data_robustness_V4/D2_input_noise_robustness_summary.csv
+  us_label: ./stage6/stage6_cell_I_data_labelrandom_V2/E1_label_randomization_sanity.csv
+  us_block: ./stage6/stage6_cell_G_data_temporal_V2/F4_temporal_block_mass.csv
+  us_tsum: ./stage6/stage6_cell_G_data_temporal_V2/F5_temporal_method_summary.csv
+  cn_fdet: 0924/xai_cell_B_V6/B3_paired_faithfulness_detail.csv
+  us_fdet: ./stage6/stage6_cell_F_data_kernelshap_V4/B3_paired_faithfulness_detail.csv
+  L3: ./stage6/stage6_cell_L_data_crossmarket_V5/L3_agreement_faithfulness_by_combo.csv
+  L3a: ./stage6/stage6_cell_L_data_crossmarket_V5/L3_agreement_faithfulness_association.csv
+  L4: ./stage6/stage6_cell_L_data_crossmarket_V5/L4_stability_gap_by_combo.csv
+  L4x: ./stage6/stage6_cell_L_data_crossmarket_V5/L4_stability_gap_by_combo_exclude_flagged.csv
+  L5: ./stage6/stage6_cell_L_data_crossmarket_V5/L5_seed_performance_vs_agreement.csv
+
+====================================================================================================
+Step 1: read and check, total 0h00m00s
+====================================================================================================
+  IG vs KernelSHAP feature agreement: China 9 rows + U.S. 6 rows, check passed
+  Top-k perturbation test: China 27 rows + U.S. 18 rows, check passed
+  temporal agreement summary: China 9 rows + U.S. 6 rows, check passed
+  10-day block attribution mass: China 54 rows + U.S. 36 rows, check passed
+  temporal occlusion: China 54 rows + U.S. 36 rows, check passed
+  parameter randomization: China 36 rows + U.S. 24 rows, check passed
+  Final parameter-randomization stage check passed: each of the 15 combinations has Original and a unique final stage; final stage is exactly the last row of that combination in the file for 15/15
+    Medical-1 GRU: 4 stages, final stage Randomize_FC_RNN_L0_to_L1
+    Medical-1 BiLSTM: 4 stages, final stage Randomize_FC_RNN_L0_to_L1
+    Medical-1 LSTM: 4 stages, final stage Randomize_FC_RNN_L0_to_L1
+    Medical-2 GRU: 4 stages, final stage Randomize_FC_RNN_L0_to_L1
+    Medical-2 BiLSTM: 4 stages, final stage Randomize_FC_RNN_L0_to_L1
+    Medical-2 LSTM: 4 stages, final stage Randomize_FC_RNN_L0_to_L1
+    Power GRU: 4 stages, final stage Randomize_FC_RNN_L0_to_L1
+    Power BiLSTM: 4 stages, final stage Randomize_FC_RNN_L0_to_L1
+    Power LSTM: 4 stages, final stage Randomize_FC_RNN_L0_to_L1
+    US-Med GRU: 4 stages, final stage Randomize_FC_RNN_L0_to_L1
+    US-Med BiLSTM: 4 stages, final stage Randomize_FC_RNN_L0_to_L1
+    US-Med LSTM: 4 stages, final stage Randomize_FC_RNN_L0_to_L1
+    US-Pow GRU: 4 stages, final stage Randomize_FC_RNN_L0_to_L1
+    US-Pow BiLSTM: 4 stages, final stage Randomize_FC_RNN_L0_to_L1
+    US-Pow LSTM: 4 stages, final stage Randomize_FC_RNN_L0_to_L1
+  label randomization: China 9 rows + U.S. 6 rows, check passed
+  k=1 perturbation details: 750 rows, Random-1 identical to Top-1 57 times; sensitivity ranges recomputed for 15 combinations
+  input noise: China 27 rows + U.S. 18 rows, check passed
+  L3: 45 rows
+  L3a: 9 rows
+  L4: 15 rows
+  L4x: 15 rows
+  L5: 60 rows
+
+====================================================================================================
+Step 2: Figure 2 (feature-attribution agreement and perturbation test), total 0h00m00s
+====================================================================================================
+The PostScript backend does not support transparency; partially transparent artists will be rendered opaque.
+  Saved: ./stage6/stage6_cell_M_data_figures_V2/Figure2_feature_consistency_behavioral_relevance.png/.jpeg/.tiff/.eps
+  Figure 2 data: feature ρ range 0.7857–0.9790; mean extra drop > 0: 44/45; 2.5th percentile > 0: 21/45
+    Mean extra drop <= 0: US-Pow GRU k=1, -0.0081
+
+====================================================================================================
+Step 3: Figure 3 (temporal attribution and recency validation), total 0h00m03s
+====================================================================================================
+    Color scale widened from [0.5, 0.9] to [0.45, 0.90] (data range 0.4821–0.8852)
+The PostScript backend does not support transparency; partially transparent artists will be rendered opaque.
+  Saved: ./stage6/stage6_cell_M_data_figures_V2/Figure3_temporal_recency_validation.png/.jpeg/.tiff/.eps
+  Figure 3 data: temporal ρ range 0.4821–0.8852; KernelSHAP peak in the last block 14/15; same IG and KernelSHAP peak block 15/15; occlusion peak in the last block 13/15
+    Occlusion peak not in the last block: US-Med GRU, peak block 1
+    Occlusion peak not in the last block: US-Pow LSTM, peak block 5
+  Mean by block (15 combinations):
+ Block  IG_Mean  IG_SD  KernelSHAP_Mean  KernelSHAP_SD  Probability_Drop_Mean  Probability_Drop_SD
+     1   0.0752 0.0442           0.0577         0.0533                 0.0068               0.0060
+     2   0.0810 0.0482           0.0555         0.0582                 0.0067               0.0054
+     3   0.0882 0.0412           0.0604         0.0551                 0.0086               0.0071
+     4   0.1077 0.0306           0.0627         0.0407                 0.0109               0.0081
+     5   0.1621 0.0288           0.1351         0.0351                 0.0162               0.0108
+     6   0.4857 0.1595           0.6286         0.2125                 0.0502               0.0294
+
+====================================================================================================
+Step 4: Figure 4 (randomization tests and input-noise robustness), total 0h00m07s
+====================================================================================================
+  Saved: ./stage6/stage6_cell_M_data_figures_V2/Figure4_sanity_robustness.png/.jpeg/.tiff/.eps
+  Figure 4 data: final-stage parameter-randomization feature ρ range 0.0813–0.6868; label-randomization mean ρ (excluding n/a): map 0.3857, feature 0.2477, temporal 0.5125; rows marked n/a: US-Med | GRU
+  Input noise (mean over 15 combinations):
+ Noise_Percent_SD     Map  Feature  Temporal  PredictionAgreement
+          0.50000 0.99999  1.00000   0.99974              0.99717
+          1.00000 0.99998  0.99988   0.99939              0.99443
+          2.00000 0.99993  0.99988   0.99823              0.98861
+
+====================================================================================================
+Step 5: Figure 5 (explanation agreement and perturbation extra drop, k = [3, 5]), total 0h00m15s
+====================================================================================================
+  k=3: 15 points drawn; lower-tail criterion positive 11, non-positive 4, undetermined 0; Spearman r = 0.354
+  k=5: 15 points drawn; lower-tail criterion positive 10, non-positive 5, undetermined 0; Spearman r = 0.221
+The PostScript backend does not support transparency; partially transparent artists will be rendered opaque.
+  Saved: ./stage6/stage6_cell_M_data_figures_V2/Figure5_agreement_vs_behavioral_relevance.png/.jpeg/.tiff/.eps
+  k=1 sensitivity means match the L results (max difference 9.71e-17)
+The PostScript backend does not support transparency; partially transparent artists will be rendered opaque.
+  Saved: ./stage6/stage6_cell_M_data_figures_V2/FigureS1_k1_identical_draw_sensitivity.png/.jpeg/.tiff/.eps
+  Supplementary Figure S1: lower-tail criterion positive under the original definition 0/15; after removing identical repetitions 12/15; identical repetitions in total 57
+
+====================================================================================================
+Step 6: Figure 6 (input-noise stability and cross-seed stability), total 0h00m18s
+====================================================================================================
+The PostScript backend does not support transparency; partially transparent artists will be rendered opaque.
+  Saved: ./stage6/stage6_cell_M_data_figures_V2/Figure6_noise_vs_seed_stability.png/.jpeg/.tiff/.eps
+  Figure 6: 14 main-analysis combinations (Medical-2 GRU excluded); combinations marked †: US-Med GRU†, US-Pow GRU†
+
+====================================================================================================
+Step 7: Figure 7 (predictive performance and per-sample prediction agreement), total 0h00m21s
+====================================================================================================
+The PostScript backend does not support transparency; partially transparent artists will be rendered opaque.
+  Saved: ./stage6/stage6_cell_M_data_figures_V2/Figure7_performance_vs_prediction_agreement.png/.jpeg/.tiff/.eps
+  Figure 7: 14 combinations (2 open); 56 seed models (6 x); China seed median |ΔMacro-F1| 0.0069, prediction agreement 0.6571–0.8639
+
+====================================================================================================
+Step 8: output checks, total 0h00m23s
+====================================================================================================
+All 28 figure files generated: Figure2_feature_consistency_behavioral_relevance, Figure3_temporal_recency_validation, Figure4_sanity_robustness, Figure5_agreement_vs_behavioral_relevance, Figure6_noise_vs_seed_stability, Figure7_performance_vs_prediction_agreement, FigureS1_k1_identical_draw_sensitivity
+Caption notes: in Figure 6, † marks combinations containing seeds consistent with single-class prediction (Macro-F1 = 2·accuracy/(3·(1+accuracy)), a necessary condition; prediction distributions not saved, not confirmed); error bars in Figure 5 and Supplementary Figure S1 are Monte Carlo 2.5%–97.5% ranges, not confidence intervals
+stage6_cell_M_data_figures_V2 finished, total time 0h00m23s
+

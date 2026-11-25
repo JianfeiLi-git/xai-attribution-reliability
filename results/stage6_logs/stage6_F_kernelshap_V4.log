@@ -1,0 +1,282 @@
+Input directories: ./stage6/stage6_cell_A_data_preprocessing_V1/, ./stage6/stage6_cell_C_data_training_V2/, ./stage6/stage6_cell_E_data_attribution_V2/
+Output directory: ./stage6/stage6_cell_F_data_kernelshap_V4/
+cuDNN disabled (cuDNN cannot be initialized on the server); using PyTorch native CUDA RNN kernels
+Input file check passed (20 files)
+US-Med: 22 features: ['roc_5', 'close_to_ma20', 'low', 'rsi', 'high_low_range', 'roc_20', 'dayofyear_sin', 'bb_position', 'macd', 'roc_10', 'bb_width', 'macd_signal', 'dayofweek_sin', 'dayofyear_cos', 'dayofweek_cos', 'year', 'month', 'day', 'dayofweek', 'quarter', 'dayofyear', 'weekofyear']
+US-Pow: 19 features: ['roc_5', 'dayofyear_sin', 'ma10', 'macd_signal', 'dayofyear_cos', 'macd', 'dayofweek_cos', 'high_low_range', 'close_to_ma20', 'momentum_5', 'roc_20', 'rsi', 'year', 'month', 'day', 'dayofweek', 'quarter', 'dayofyear', 'weekofyear']
+Device: cuda
+Tasks: grouped KernelSHAP, IG-KernelSHAP agreement, Top-k paired perturbation test
+Grouped KernelSHAP: recomputed
+KernelSHAP explained samples: 50
+Training backgrounds per explained sample: 10
+Perturbation-test repetitions: 50
+Main metric: drop in the original predicted-class probability
+IG results from stage6_cell_E loaded: 123 rows, missing values 0
+--------------------
+Dataset: US-Med
+Step 1: data preparation and checks
+US-Med: data directory ./stage6/stage6_cell_A_data_preprocessing_V1/us_med
+US-Med: train (63061, 60, 22), validation (6280, 60, 22), test (5720, 60, 22)
+Number of features: 22
+Features: roc_5, close_to_ma20, low, rsi, high_low_range, roc_20, dayofyear_sin, bb_position, macd, roc_10, bb_width, macd_signal, dayofweek_sin, dayofyear_cos, dayofweek_cos, year, month, day, dayofweek, quarter, dayofyear, weekofyear
+Training samples: 63061, validation samples: 6280, test samples: 5720
+Training missing values: 0, validation missing values: 0, test missing values: 0
+Data check: passed
+--------------------
+US-Med / GRU
+Step 2: load and check models
+US-Med-GRU: ./stage6/stage6_cell_C_data_training_V2/us_med/gru_seed42_selected.pth
+Model check: test Macro-F1 0.251911, accuracy 0.366434
+Step 3: grouped KernelSHAP
+  KernelSHAP progress: 10/50
+  KernelSHAP progress: 20/50
+  KernelSHAP progress: 30/50
+  KernelSHAP progress: 40/50
+  KernelSHAP progress: 50/50
+Detail rows: 1100, summary rows: 22, missing values: 0
+KernelSHAP top 5:
+       Feature  KernelSHAP_Importance  KernelSHAP_SignedMean  KernelSHAP_Rank
+     dayofyear               0.014525               0.006681              1.0
+           low               0.013695               0.010290              2.0
+high_low_range               0.011502               0.009851              3.0
+      bb_width               0.009489               0.006461              4.0
+    weekofyear               0.007157               0.001499              5.0
+IG vs KernelSHAP:
+Dataset Model  N_Features  IG_vs_KernelSHAP_rho      p_value
+ US-Med   GRU          22               0.90175 1.003046e-08
+Grouped KernelSHAP: done
+Step 4: Top-k paired perturbation test
+ K  TopK_Delta_OriginalPredProb_Mean  RandomK_Delta_OriginalPredProb_Mean  Extra_Delta_OriginalPredProb_Mean  Extra_Delta_OriginalPredProb_SD  Extra_Delta_OriginalPredProb_Q025  Extra_Delta_OriginalPredProb_Q975  Positive_ExtraProb_Rate  Extra_Delta_MacroF1_Mean                                    TopK_Features
+ 1                          0.007734                             0.001600                           0.006134                         0.002670                          -0.000640                           0.008474                     0.88                  0.013002                                        dayofyear
+ 3                          0.019761                             0.005190                           0.014571                         0.004216                           0.005522                           0.020310                     1.00                  0.002032                     dayofyear|low|high_low_range
+ 5                          0.029814                             0.007917                           0.021897                         0.004878                           0.011579                           0.029313                     1.00                 -0.008058 dayofyear|low|high_low_range|bb_width|weekofyear
+Paired perturbation test: done
+--------------------
+US-Med / BiLSTM
+Step 2: load and check models
+US-Med-BiLSTM: ./stage6/stage6_cell_C_data_training_V2/us_med/bilstm_seed42_selected.pth
+Model check: test Macro-F1 0.336737, accuracy 0.365559
+Step 3: grouped KernelSHAP
+  KernelSHAP progress: 10/50
+  KernelSHAP progress: 20/50
+  KernelSHAP progress: 30/50
+  KernelSHAP progress: 40/50
+  KernelSHAP progress: 50/50
+Detail rows: 1100, summary rows: 22, missing values: 0
+KernelSHAP top 5:
+       Feature  KernelSHAP_Importance  KernelSHAP_SignedMean  KernelSHAP_Rank
+     dayofyear               0.026319               0.013411              1.0
+high_low_range               0.025829               0.021659              2.0
+         month               0.022337              -0.007259              3.0
+          macd               0.014656               0.007403              4.0
+      bb_width               0.013281               0.009631              5.0
+IG vs KernelSHAP:
+Dataset  Model  N_Features  IG_vs_KernelSHAP_rho      p_value
+ US-Med BiLSTM          22              0.871259 1.313049e-07
+Grouped KernelSHAP: done
+Step 4: Top-k paired perturbation test
+ K  TopK_Delta_OriginalPredProb_Mean  RandomK_Delta_OriginalPredProb_Mean  Extra_Delta_OriginalPredProb_Mean  Extra_Delta_OriginalPredProb_SD  Extra_Delta_OriginalPredProb_Q025  Extra_Delta_OriginalPredProb_Q975  Positive_ExtraProb_Rate  Extra_Delta_MacroF1_Mean                                TopK_Features
+ 1                          0.009206                             0.002063                           0.007143                         0.003831                           0.000000                           0.010649                      0.9                  0.004830                                    dayofyear
+ 3                          0.017969                             0.006290                           0.011679                         0.007240                          -0.004150                           0.020437                      0.9                  0.005164               dayofyear|high_low_range|month
+ 5                          0.033008                             0.008808                           0.024200                         0.008469                           0.005155                           0.034626                      1.0                  0.002164 dayofyear|high_low_range|month|macd|bb_width
+Paired perturbation test: done
+--------------------
+US-Med / LSTM
+Step 2: load and check models
+US-Med-LSTM: ./stage6/stage6_cell_C_data_training_V2/us_med/lstm_seed42_selected.pth
+Model check: test Macro-F1 0.301719, accuracy 0.352972
+Step 3: grouped KernelSHAP
+  KernelSHAP progress: 10/50
+  KernelSHAP progress: 20/50
+  KernelSHAP progress: 30/50
+  KernelSHAP progress: 40/50
+  KernelSHAP progress: 50/50
+Detail rows: 1100, summary rows: 22, missing values: 0
+KernelSHAP top 5:
+       Feature  KernelSHAP_Importance  KernelSHAP_SignedMean  KernelSHAP_Rank
+     dayofyear               0.039358               0.010063              1.0
+    weekofyear               0.031828              -0.000735              2.0
+high_low_range               0.019563               0.014306              3.0
+      bb_width               0.010810               0.006479              4.0
+         month               0.008573              -0.001014              5.0
+IG vs KernelSHAP:
+Dataset Model  N_Features  IG_vs_KernelSHAP_rho      p_value
+ US-Med  LSTM          22              0.929983 3.819912e-10
+Grouped KernelSHAP: done
+Step 4: Top-k paired perturbation test
+ K  TopK_Delta_OriginalPredProb_Mean  RandomK_Delta_OriginalPredProb_Mean  Extra_Delta_OriginalPredProb_Mean  Extra_Delta_OriginalPredProb_SD  Extra_Delta_OriginalPredProb_Q025  Extra_Delta_OriginalPredProb_Q975  Positive_ExtraProb_Rate  Extra_Delta_MacroF1_Mean                                      TopK_Features
+ 1                          0.020271                             0.003221                           0.017050                         0.006461                           0.000000                           0.021088                     0.92                 -0.022494                                          dayofyear
+ 3                          0.019993                             0.010065                           0.009928                         0.009157                          -0.008063                           0.020302                     0.82                  0.000833                dayofyear|weekofyear|high_low_range
+ 5                          0.026517                             0.011689                           0.014828                         0.009193                          -0.003234                           0.025268                     0.96                 -0.005290 dayofyear|weekofyear|high_low_range|bb_width|month
+Paired perturbation test: done
+--------------------
+Dataset: US-Pow
+Step 1: data preparation and checks
+US-Pow: data directory ./stage6/stage6_cell_A_data_preprocessing_V1/us_pow
+US-Pow: train (63799, 60, 19), validation (6280, 60, 19), test (5720, 60, 19)
+Number of features: 19
+Features: roc_5, dayofyear_sin, ma10, macd_signal, dayofyear_cos, macd, dayofweek_cos, high_low_range, close_to_ma20, momentum_5, roc_20, rsi, year, month, day, dayofweek, quarter, dayofyear, weekofyear
+Training samples: 63799, validation samples: 6280, test samples: 5720
+Training missing values: 0, validation missing values: 0, test missing values: 0
+Data check: passed
+--------------------
+US-Pow / GRU
+Step 2: load and check models
+US-Pow-GRU: ./stage6/stage6_cell_C_data_training_V2/us_pow/gru_seed42_selected.pth
+Model check: test Macro-F1 0.288881, accuracy 0.361538
+Step 3: grouped KernelSHAP
+  KernelSHAP progress: 10/50
+  KernelSHAP progress: 20/50
+  KernelSHAP progress: 30/50
+  KernelSHAP progress: 40/50
+  KernelSHAP progress: 50/50
+Detail rows: 950, summary rows: 19, missing values: 0
+KernelSHAP top 5:
+       Feature  KernelSHAP_Importance  KernelSHAP_SignedMean  KernelSHAP_Rank
+     dayofyear               0.037668              -0.016812              1.0
+high_low_range               0.025882               0.023376              2.0
+    weekofyear               0.019734               0.008567              3.0
+       quarter               0.010323               0.004503              4.0
+         month               0.009808               0.004192              5.0
+IG vs KernelSHAP:
+Dataset Model  N_Features  IG_vs_KernelSHAP_rho  p_value
+ US-Pow   GRU          19              0.854386 0.000003
+Grouped KernelSHAP: done
+Step 4: Top-k paired perturbation test
+ K  TopK_Delta_OriginalPredProb_Mean  RandomK_Delta_OriginalPredProb_Mean  Extra_Delta_OriginalPredProb_Mean  Extra_Delta_OriginalPredProb_SD  Extra_Delta_OriginalPredProb_Q025  Extra_Delta_OriginalPredProb_Q975  Positive_ExtraProb_Rate  Extra_Delta_MacroF1_Mean                                     TopK_Features
+ 1                         -0.006215                             0.001847                          -0.008062                          0.00530                          -0.025740                           0.000000                     0.00                 -0.003888                                         dayofyear
+ 3                          0.016011                             0.008291                           0.007720                          0.01160                          -0.017183                           0.023236                     0.80                  0.000955               dayofyear|high_low_range|weekofyear
+ 5                          0.024369                             0.015055                           0.009313                          0.01192                          -0.011208                           0.029153                     0.74                  0.004934 dayofyear|high_low_range|weekofyear|quarter|month
+Paired perturbation test: done
+--------------------
+US-Pow / BiLSTM
+Step 2: load and check models
+US-Pow-BiLSTM: ./stage6/stage6_cell_C_data_training_V2/us_pow/bilstm_seed42_selected.pth
+Model check: test Macro-F1 0.333694, accuracy 0.361014
+Step 3: grouped KernelSHAP
+  KernelSHAP progress: 10/50
+  KernelSHAP progress: 20/50
+  KernelSHAP progress: 30/50
+  KernelSHAP progress: 40/50
+  KernelSHAP progress: 50/50
+Detail rows: 950, summary rows: 19, missing values: 0
+KernelSHAP top 5:
+       Feature  KernelSHAP_Importance  KernelSHAP_SignedMean  KernelSHAP_Rank
+     dayofyear               0.026942               0.009554              1.0
+    weekofyear               0.015945               0.003473              2.0
+high_low_range               0.013124               0.008796              3.0
+ close_to_ma20               0.002348               0.001311              4.0
+        roc_20               0.002341               0.001527              5.0
+IG vs KernelSHAP:
+Dataset  Model  N_Features  IG_vs_KernelSHAP_rho      p_value
+ US-Pow BiLSTM          19              0.882456 5.757165e-07
+Grouped KernelSHAP: done
+Step 4: Top-k paired perturbation test
+ K  TopK_Delta_OriginalPredProb_Mean  RandomK_Delta_OriginalPredProb_Mean  Extra_Delta_OriginalPredProb_Mean  Extra_Delta_OriginalPredProb_SD  Extra_Delta_OriginalPredProb_Q025  Extra_Delta_OriginalPredProb_Q975  Positive_ExtraProb_Rate  Extra_Delta_MacroF1_Mean                                            TopK_Features
+ 1                          0.007589                             0.001797                           0.005792                         0.003056                          -0.003650                           0.008579                     0.88                 -0.003707                                                dayofyear
+ 3                          0.021592                             0.007084                           0.014509                         0.004807                           0.005539                           0.020918                     1.00                 -0.002748                      dayofyear|weekofyear|high_low_range
+ 5                          0.026740                             0.012210                           0.014531                         0.005456                           0.002276                           0.022084                     1.00                 -0.003211 dayofyear|weekofyear|high_low_range|close_to_ma20|roc_20
+Paired perturbation test: done
+--------------------
+US-Pow / LSTM
+Step 2: load and check models
+US-Pow-LSTM: ./stage6/stage6_cell_C_data_training_V2/us_pow/lstm_seed42_selected.pth
+Model check: test Macro-F1 0.333218, accuracy 0.362238
+Step 3: grouped KernelSHAP
+  KernelSHAP progress: 10/50
+  KernelSHAP progress: 20/50
+  KernelSHAP progress: 30/50
+  KernelSHAP progress: 40/50
+  KernelSHAP progress: 50/50
+Detail rows: 950, summary rows: 19, missing values: 0
+KernelSHAP top 5:
+       Feature  KernelSHAP_Importance  KernelSHAP_SignedMean  KernelSHAP_Rank
+     dayofyear               0.043083               0.033669              1.0
+    weekofyear               0.022761               0.006753              2.0
+high_low_range               0.011700               0.006387              3.0
+         month               0.004470              -0.001287              4.0
+           day               0.004392               0.002334              5.0
+IG vs KernelSHAP:
+Dataset Model  N_Features  IG_vs_KernelSHAP_rho      p_value
+ US-Pow  LSTM          19              0.898246 1.785698e-07
+Grouped KernelSHAP: done
+Step 4: Top-k paired perturbation test
+ K  TopK_Delta_OriginalPredProb_Mean  RandomK_Delta_OriginalPredProb_Mean  Extra_Delta_OriginalPredProb_Mean  Extra_Delta_OriginalPredProb_SD  Extra_Delta_OriginalPredProb_Q025  Extra_Delta_OriginalPredProb_Q975  Positive_ExtraProb_Rate  Extra_Delta_MacroF1_Mean                                 TopK_Features
+ 1                          0.035669                             0.004033                           0.031636                         0.009175                           0.000000                           0.036951                     0.94                  0.001307                                     dayofyear
+ 3                          0.045826                             0.016145                           0.029681                         0.014188                           0.006554                           0.045168                     1.00                  0.012306           dayofyear|weekofyear|high_low_range
+ 5                          0.046862                             0.023134                           0.023728                         0.013282                          -0.001614                           0.041410                     0.96                  0.009973 dayofyear|weekofyear|high_low_range|month|day
+Paired perturbation test: done
+--------------------
+Step 5: save results and produce the final summary
+Model check rows: 6
+KernelSHAP detail rows: 6150
+KernelSHAP summary rows: 123
+IG vs KernelSHAP rows: 6
+Perturbation-test summary rows: 18
+Perturbation-test detail rows: 900
+Error records: 0
+--------------------
+Final summary 1: IG vs KernelSHAP
+Dataset  Model  N_Features  IG_vs_KernelSHAP_rho      p_value
+ US-Med BiLSTM          22              0.871259 1.313049e-07
+ US-Med    GRU          22              0.901750 1.003046e-08
+ US-Med   LSTM          22              0.929983 3.819912e-10
+ US-Pow BiLSTM          19              0.882456 5.757165e-07
+ US-Pow    GRU          19              0.854386 3.217294e-06
+ US-Pow   LSTM          19              0.898246 1.785698e-07
+rho range: 0.854386 - 0.929983
+Combinations with positive correlation and p<0.05: 6/6
+--------------------
+Final summary 2: paired perturbation test (drop in original predicted-class probability)
+Dataset  Model  K  TopK_Delta_OriginalPredProb_Mean  RandomK_Delta_OriginalPredProb_Mean  Extra_Delta_OriginalPredProb_Mean  Extra_Delta_OriginalPredProb_SD  Extra_Delta_OriginalPredProb_Q025  Extra_Delta_OriginalPredProb_Q975  Positive_ExtraProb_Rate
+ US-Med BiLSTM  1                          0.009206                             0.002063                           0.007143                         0.003831                           0.000000                           0.010649                     0.90
+ US-Med BiLSTM  3                          0.017969                             0.006290                           0.011679                         0.007240                          -0.004150                           0.020437                     0.90
+ US-Med BiLSTM  5                          0.033008                             0.008808                           0.024200                         0.008469                           0.005155                           0.034626                     1.00
+ US-Med    GRU  1                          0.007734                             0.001600                           0.006134                         0.002670                          -0.000640                           0.008474                     0.88
+ US-Med    GRU  3                          0.019761                             0.005190                           0.014571                         0.004216                           0.005522                           0.020310                     1.00
+ US-Med    GRU  5                          0.029814                             0.007917                           0.021897                         0.004878                           0.011579                           0.029313                     1.00
+ US-Med   LSTM  1                          0.020271                             0.003221                           0.017050                         0.006461                           0.000000                           0.021088                     0.92
+ US-Med   LSTM  3                          0.019993                             0.010065                           0.009928                         0.009157                          -0.008063                           0.020302                     0.82
+ US-Med   LSTM  5                          0.026517                             0.011689                           0.014828                         0.009193                          -0.003234                           0.025268                     0.96
+ US-Pow BiLSTM  1                          0.007589                             0.001797                           0.005792                         0.003056                          -0.003650                           0.008579                     0.88
+ US-Pow BiLSTM  3                          0.021592                             0.007084                           0.014509                         0.004807                           0.005539                           0.020918                     1.00
+ US-Pow BiLSTM  5                          0.026740                             0.012210                           0.014531                         0.005456                           0.002276                           0.022084                     1.00
+ US-Pow    GRU  1                         -0.006215                             0.001847                          -0.008062                         0.005300                          -0.025740                           0.000000                     0.00
+ US-Pow    GRU  3                          0.016011                             0.008291                           0.007720                         0.011600                          -0.017183                           0.023236                     0.80
+ US-Pow    GRU  5                          0.024369                             0.015055                           0.009313                         0.011920                          -0.011208                           0.029153                     0.74
+ US-Pow   LSTM  1                          0.035669                             0.004033                           0.031636                         0.009175                           0.000000                           0.036951                     0.94
+ US-Pow   LSTM  3                          0.045826                             0.016145                           0.029681                         0.014188                           0.006554                           0.045168                     1.00
+ US-Pow   LSTM  5                          0.046862                             0.023134                           0.023728                         0.013282                          -0.001614                           0.041410                     0.96
+Comparisons with mean extra probability drop > 0: 17/18
+Comparisons with Monte Carlo 2.5th percentile > 0: 6/18
+Note: the percentiles describe the Monte Carlo stability over background and random-k repetitions, not confidence intervals based on independent samples.
+--------------------
+Final summary 3: secondary metric Macro-F1
+Dataset  Model  K  TopK_Delta_MacroF1_Mean  RandomK_Delta_MacroF1_Mean  Extra_Delta_MacroF1_Mean  Extra_Delta_MacroF1_Q025  Extra_Delta_MacroF1_Q975
+ US-Med BiLSTM  1                 0.004931                    0.000101                  0.004830                 -0.006358                  0.034536
+ US-Med BiLSTM  3                 0.007168                    0.002003                  0.005164                 -0.016798                  0.036164
+ US-Med BiLSTM  5                 0.003810                    0.001646                  0.002164                 -0.017912                  0.035140
+ US-Med    GRU  1                 0.014668                    0.001666                  0.013002                  0.000000                  0.024096
+ US-Med    GRU  3                 0.005435                    0.003404                  0.002032                 -0.015981                  0.019129
+ US-Med    GRU  5                -0.006489                    0.001569                 -0.008058                 -0.025577                  0.014914
+ US-Med   LSTM  1                -0.029877                   -0.007383                 -0.022494                 -0.042175                  0.017492
+ US-Med   LSTM  3                -0.016765                   -0.017598                  0.000833                 -0.031856                  0.046021
+ US-Med   LSTM  5                -0.026113                   -0.020823                 -0.005290                 -0.037808                  0.037988
+ US-Pow BiLSTM  1                -0.005224                   -0.001517                 -0.003707                 -0.016187                  0.007281
+ US-Pow BiLSTM  3                -0.006385                   -0.003637                 -0.002748                 -0.022049                  0.011630
+ US-Pow BiLSTM  5                -0.006868                   -0.003657                 -0.003211                 -0.018342                  0.016206
+ US-Pow    GRU  1                -0.002984                    0.000905                 -0.003888                 -0.013454                  0.001469
+ US-Pow    GRU  3                 0.005402                    0.004447                  0.000955                 -0.017931                  0.014444
+ US-Pow    GRU  5                 0.012140                    0.007206                  0.004934                 -0.007439                  0.019531
+ US-Pow   LSTM  1                 0.002196                    0.000889                  0.001307                 -0.015029                  0.010956
+ US-Pow   LSTM  3                 0.017335                    0.005029                  0.012306                 -0.008747                  0.029205
+ US-Pow   LSTM  5                 0.019596                    0.009623                  0.009973                 -0.016271                  0.034292
+--------------------
+Final summary 4: errors
+Errors: 0, all steps completed
+--------------------
+stage6_cell_F_data_kernelshap_V4 finished
+Results directory: ./stage6/stage6_cell_F_data_kernelshap_V4/
+
+
+

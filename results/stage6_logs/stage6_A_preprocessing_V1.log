@@ -1,0 +1,175 @@
+Input files: ./us_medical_features_full.csv, ./us_power_features_full.csv
+Output directory: ././stage6/stage6_cell_A_data_preprocessing_V1/
+
+==========================================================================================
+Feature composition (same as the Chinese datasets)
+==========================================================================================
+  Raw market features: 8
+  Cyclic time-encoding features: 6
+  Technical indicator features: 29
+  Total candidate features for first-stage screening: 43
+  Discrete time features (not screened, kept directly): 7
+
+##########################################################################################
+Dataset 1/2: us_med (./us_medical_features_full.csv), total 0m00s
+##########################################################################################
+  Read 78,661 rows x 55 columns, 20 stocks, 2010-02-04 to 2025-11-13
+
+[Step 1] Label alignment: us_med
+  Created pct_chg (return on day t); the first row of each stock has no previous row, 20 missing (skipped automatically during training)
+  Max difference between pct_chg(t+1) and old pct_chg_next(t): 0.00e+00 (should be 0)
+  Example (stock ABBV; close is the previous trading day's close, pct_chg is the same-day return):
+stock_code trade_date  close  pct_chg  pct_chg_next
+      ABBV 2013-01-14  33.85 0.709010      1.496040
+      ABBV 2013-01-15  34.09 1.496040      2.716763
+      ABBV 2013-01-16  34.60 2.716763      2.476083
+      ABBV 2013-01-17  35.54 2.476083      2.471170
+      ABBV 2013-01-18  36.42 2.471170     -2.411576
+
+==========================================================================================
+[Step 2] First-stage feature selection: us_med
+==========================================================================================
+  [Step 0] Target leakage check: passed
+  [Step 1] Training period: 2010-02-04 to 2022-12-30, 64,261 rows, 20 stocks
+  [Step 2] Prediction horizon T+1; 64,241 valid samples (20 rows removed)
+  [Step 3] Missing values before processing: 0
+  [Step 4] Multi-method feature importance
+    [1/6] LightGBM done (0.2s)
+    [2/6] XGBoost done (0.2s)
+    [3/6] Random Forest done (7.6s)
+    [4/6] F statistic done (0.0s)
+    [5/6] Mutual information done (11.9s)
+    [6/6] Pearson correlation done (0.0s)
+  [Step 5] Highly correlated feature pairs (|r|>0.9): 72
+  [Step 7] Adaptive Top-K = 20 (64,241 training samples)
+  Redundancy removal (|r|>0.95): 5 -> ['close', 'high', 'ma60', 'open', 'pre_close']
+  Finally selected: 15
+
+  Top 25 features:
+  Rank    Status      Feature                    Ensemble      
+  1     Kept      roc_5                 0.5084
+  2     Kept      close_to_ma20         0.4652
+  3     Kept      low                   0.4236
+  4     Kept      rsi                   0.3929
+  5     Kept      high_low_range        0.3753
+  6     Kept      roc_20                0.3687
+  7     Kept      dayofyear_sin         0.3575
+  8     Kept      bb_position           0.3396
+  9     Kept      macd                  0.3365
+  10    Redundant    ma60                  0.3042
+  11    Kept      roc_10                0.3040
+  12    Redundant    close                 0.3036
+  13    Redundant    high                  0.3032
+  14    Kept      bb_width              0.2934
+  15    Kept      macd_signal           0.2928
+  16    Kept      dayofweek_sin         0.2852
+  17    Kept      dayofyear_cos         0.2825
+  18    Redundant    open                  0.2762
+  19    Kept      dayofweek_cos         0.2752
+  20    Redundant    pre_close             0.2627
+  21    Not Top-K momentum_5            0.2534
+  22    Not Top-K month_sin             0.2384
+  23    Not Top-K ma5                   0.2370
+  24    Not Top-K bb_upper              0.2290
+  25    Not Top-K vol                   0.2283
+  First-stage time for this dataset 20.0s, total 0m20s
+
+  First-stage output features: 22 (15 selected + 7 discrete time)
+  Feature list: ['roc_5', 'close_to_ma20', 'low', 'rsi', 'high_low_range', 'roc_20', 'dayofyear_sin', 'bb_position', 'macd', 'roc_10', 'bb_width', 'macd_signal', 'dayofweek_sin', 'dayofyear_cos', 'dayofweek_cos', 'year', 'month', 'day', 'dayofweek', 'quarter', 'dayofyear', 'weekofyear']
+
+[Step 3] Split and standardization: us_med
+  Train:  64,261 rows  2010-02-04 to 2022-12-30
+  Validation:   7,480 rows  2023-01-03 to 2024-06-28
+  Test:   6,920 rows  2024-07-01 to 2025-11-13
+  Standardized 15 features, skipped 7 discrete time features
+  Saved: ././stage6/stage6_cell_A_data_preprocessing_V1/us_med/train_X.csv and 5 other files, ././stage6/stage6_cell_A_data_preprocessing_V1/scaler_us_med.pkl
+  Dataset us_med done, total 0m21s
+
+##########################################################################################
+Dataset 2/2: us_pow (./us_power_features_full.csv), total 0m21s
+##########################################################################################
+  Read 79,399 rows x 55 columns, 20 stocks, 2010-02-04 to 2025-11-13
+
+[Step 1] Label alignment: us_pow
+  Created pct_chg (return on day t); the first row of each stock has no previous row, 20 missing (skipped automatically during training)
+  Max difference between pct_chg(t+1) and old pct_chg_next(t): 0.00e+00 (should be 0)
+  Example (stock AEP; close is the previous trading day's close, pct_chg is the same-day return):
+stock_code trade_date  close   pct_chg  pct_chg_next
+       AEP 2010-02-05  33.75 -0.325926     -2.437574
+       AEP 2010-02-08  33.64 -2.437574      1.157831
+       AEP 2010-02-09  32.82  1.157831     -0.542169
+       AEP 2010-02-10  33.20 -0.542169      0.181708
+       AEP 2010-02-11  33.02  0.181708     -0.392987
+
+==========================================================================================
+[Step 2] First-stage feature selection: us_pow
+==========================================================================================
+  [Step 0] Target leakage check: passed
+  [Step 1] Training period: 2010-02-04 to 2022-12-30, 64,999 rows, 20 stocks
+  [Step 2] Prediction horizon T+1; 64,979 valid samples (20 rows removed)
+  [Step 3] Missing values before processing: 0
+  [Step 4] Multi-method feature importance
+    [1/6] LightGBM done (0.2s)
+    [2/6] XGBoost done (0.2s)
+    [3/6] Random Forest done (7.4s)
+    [4/6] F statistic done (0.0s)
+    [5/6] Mutual information done (12.2s)
+    [6/6] Pearson correlation done (0.0s)
+  [Step 5] Highly correlated feature pairs (|r|>0.9): 70
+  [Step 7] Adaptive Top-K = 20 (64,979 training samples)
+  Redundancy removal (|r|>0.95): 8 -> ['bb_upper', 'close', 'high', 'low', 'ma20', 'ma5', 'open', 'pre_close']
+  Finally selected: 12
+
+  Top 25 features:
+  Rank    Status      Feature                    Ensemble      
+  1     Kept      roc_5                 0.5861
+  2     Kept      dayofyear_sin         0.4940
+  3     Kept      ma10                  0.4040
+  4     Kept      macd_signal           0.4026
+  5     Kept      dayofyear_cos         0.3882
+  6     Redundant    close                 0.3799
+  7     Kept      macd                  0.3763
+  8     Kept      dayofweek_cos         0.3727
+  9     Kept      high_low_range        0.3409
+  10    Redundant    low                   0.3180
+  11    Redundant    high                  0.3090
+  12    Kept      close_to_ma20         0.2923
+  13    Redundant    pre_close             0.2882
+  14    Redundant    open                  0.2816
+  15    Kept      momentum_5            0.2792
+  16    Kept      roc_20                0.2785
+  17    Redundant    ma5                   0.2777
+  18    Kept      rsi                   0.2730
+  19    Redundant    ma20                  0.2297
+  20    Redundant    bb_upper              0.2283
+  21    Not Top-K bb_position           0.2157
+  22    Not Top-K bb_lower              0.2091
+  23    Not Top-K bb_width              0.2061
+  24    Not Top-K bb_middle             0.1990
+  25    Not Top-K roc_10                0.1975
+  First-stage time for this dataset 20.2s, total 0m42s
+
+  First-stage output features: 19 (12 selected + 7 discrete time)
+  Feature list: ['roc_5', 'dayofyear_sin', 'ma10', 'macd_signal', 'dayofyear_cos', 'macd', 'dayofweek_cos', 'high_low_range', 'close_to_ma20', 'momentum_5', 'roc_20', 'rsi', 'year', 'month', 'day', 'dayofweek', 'quarter', 'dayofyear', 'weekofyear']
+
+[Step 3] Split and standardization: us_pow
+  Train:  64,999 rows  2010-02-04 to 2022-12-30
+  Validation:   7,480 rows  2023-01-03 to 2024-06-28
+  Test:   6,920 rows  2024-07-01 to 2025-11-13
+  Standardized 12 features, skipped 7 discrete time features
+  Saved: ././stage6/stage6_cell_A_data_preprocessing_V1/us_pow/train_X.csv and 5 other files, ././stage6/stage6_cell_A_data_preprocessing_V1/scaler_us_pow.pkl
+  Dataset us_pow done, total 0m43s
+
+==========================================================================================
+cell_A finished, total time 0m43s
+==========================================================================================
+  us_med: 22 features; train 64,261 rows, validation 7,480 rows, test 6,920 rows
+    ['roc_5', 'close_to_ma20', 'low', 'rsi', 'high_low_range', 'roc_20', 'dayofyear_sin', 'bb_position', 'macd', 'roc_10', 'bb_width', 'macd_signal', 'dayofweek_sin', 'dayofyear_cos', 'dayofweek_cos', 'year', 'month', 'day', 'dayofweek', 'quarter', 'dayofyear', 'weekofyear']
+  us_pow: 19 features; train 64,999 rows, validation 7,480 rows, test 6,920 rows
+    ['roc_5', 'dayofyear_sin', 'ma10', 'macd_signal', 'dayofyear_cos', 'macd', 'dayofweek_cos', 'high_low_range', 'close_to_ma20', 'momentum_5', 'roc_20', 'rsi', 'year', 'month', 'day', 'dayofweek', 'quarter', 'dayofyear', 'weekofyear']
+
+Output files: ././stage6/stage6_cell_A_data_preprocessing_V1/feature_config.json, importance_*.csv, high_corr_pairs_*.csv, scaler_*.pkl, train/val/test X and y under us_med/ and us_pow/
+Next: cell_B uses these data for second-stage Transformer permutation-importance screening.
+
+
+
